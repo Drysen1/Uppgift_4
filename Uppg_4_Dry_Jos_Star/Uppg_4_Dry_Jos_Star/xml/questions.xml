@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<test>
+  <category type="Etik och regelverk">
+    <question id="1">
+      <text>Vad säger man först till en ny kund?</text>
+      <answer correct="yes" class="first">”Välkommen!”</answer>
+      <answer class="second">”Var vänlig sitt ner”</answer>
+      <answer class="third">”Tar detta lång tid?”</answer>
+      <input></input>
+    </question>
+    <question id="2">
+      <text>Vilka aktier är mest oetiska? (flera)</text>
+      <answer correct="yes" class="first">IS</answer>
+      <answer class="second">Svenska motståndsrörelsen</answer>
+      <answer correct="yes" class="third">Telia</answer>
+    </question>
+    <question id="3">
+      <text>Får en anställd låna pengar från en kund utan att denna vet om det?</text>
+      <answer correct="yes" class="first">Ja</answer>
+      <answer class="second">Nej</answer>
+      <answer class="third">Ibland</answer>
+    </question>
+    <question id="4">
+      <text>Vilka husdjur är tillåtna enligt bankens regelverk? (flera)</text>
+      <answer class="first">Hund</answer>
+      <answer correct="yes" class="second">Katt</answer>
+      <answer correct="yes" class="third">Fisk</answer>
+    </question>
+    <question id="5">
+      <text>Vid vilken ålder tar vi kunder på allvar?</text>
+      <answer class="first">18</answer>
+      <answer class="second">25</answer>
+      <answer correct="yes" class="third">38</answer>
+    </question>
+    <question id="6">
+      <text>Vilka ursäkter för att avsluta ett möte är godkända att använda gentemot kund? (flera)</text>
+      <answer class="first">”Jag behöver verkligen äta…nu!”</answer>
+      <answer correct="yes" class="second">”Ibland blir jag bara trött på för många dumma frågar, nu går jag!”</answer>
+      <answer correct="yes" class="third">”Känner du också lukten av rök?”</answer>
+    </question>
+    <question id="7">
+      <text>Använder vi oss av kartelliknande verksamhet?</text>
+      <answer correct="yes" class="first">Ja</answer>
+      <answer class="second">Nej</answer>
+      <answer class="third">Vid behov</answer>
+    </question>
+    <question id="8">
+      <text>Vilken klädkod gäller som anställd?</text>
+      <answer class="first">Kavaj och slips</answer>
+      <answer class="second">Kjol och blus</answer>
+      <answer correct="yes" class="third">Valfri</answer>
+    </question>
+    <question id="9">
+      <text>Är det ok att inte plocka upp efter sig i fikarummet? (flera)</text>
+      <answer correct="yes" class="first">Ja</answer>
+      <answer correct="yes" class="second">Ja, om någon inte ser</answer>
+      <answer class="third">Nej</answer>
+    </question>
+  </category>
+  <category type="Ekonomi – nationalekonomi, finansiell ekonomi och privatekonomi">
+    <question id="10">
+      <text>Hur många olika konton bör en kund ha?</text>
+      <answer class="first">1</answer>
+      <answer class="second">2</answer>
+      <answer correct="yes" class="third">10</answer>
+    </question>
+    <question id="11">
+      <text>Vilka färger är bäst lämpade till våra bankkort? (flera)</text>
+      <answer correct="yes" class="first">Röd</answer>
+      <answer correct="yes" class="second">Grön</answer>
+      <answer correct="yes" class="third">Svart</answer>
+    </question>
+    <question id="12">
+      <text>Vilket konto är bäst?</text>
+      <answer class="first">Privatkonto</answer>
+      <answer correct="yes" class="second">Servicekonto</answer>
+      <answer class="third">Framtidskonto</answer>
+    </question>
+    <question id="13">
+      <text>Vilken av följande produkter ger vi inte ut till barn?</text>
+      <answer class="first">Nyckelring med bankens logo</answer>
+      <answer class="second">Pennor</answer>
+      <answer correct="yes" class="third">Bankkort</answer>
+    </question>
+    <question id="14">
+      <text>Vilken sparform rekommenderar vi alltid?</text>
+      <answer class="first">Individuellt Pensionsspar (IPS)</answer>
+      <answer correct="yes" class="second">Kapitalförsäkring</answer>
+      <answer class="third">Aktier</answer>
+    </question>
+    <question id="15">
+      <text>Vad är viktigast när kunder vill ha fondsparande? (flera)</text>
+      <answer correct="yes" class="first">Rekommendera fond med högst förvaltningsavgift</answer>
+      <answer class="second">Att kunden själv får välja</answer>
+      <answer correct="yes" class="third">Att banken tjänar pengar utan att kunden förstår det</answer>
+    </question>
+    <question id="16">
+      <text>Vilket kreditkortföretag är bra?</text>
+      <answer correct="yes" class="first">VISA</answer>
+      <answer class="second">MasterCard</answer>
+      <answer class="third">RE:Remember</answer>
+    </question>
+    <question id="17">
+      <text>Hur många anställda har JE-Banken totalt?</text>
+      <answer correct="yes" class="first">22 356</answer>
+      <answer class="second">21 345</answer>
+      <answer class="third">23 045</answer>
+    </question>
+  </category>
+  <category type="Produkter och hantering av kundens affärer">
+    <question id="18">
+      <text>Vilken inkomstnivå är lämplig för ett lån på 2 miljoner?</text>
+      <answer class="first">30.000kr/mån</answer>
+      <answer class="second">25.000kr/mån</answer>
+      <answer correct="yes" class="third">15.000kr/mån</answer>
+    </question>
+    <question id="19">
+      <text>Vilken finansminister var bäst genom tiderna?</text>
+      <answer class="first">Gustaf Lagercrantz</answer>
+      <answer correct="yes" class="second">Felix Hamrin</answer>
+      <answer class="third">Ingemar Mudebo</answer>
+    </question>
+    <question id="20">
+      <text>Hur många länder har kreditbetyg C eller sämre i EU (Moodys)?</text>
+      <answer class="first">12</answer>
+      <answer correct="yes" class="second">15</answer>
+      <answer class="third">25</answer>
+    </question>
+    <question id="21">
+      <text>Vad gör vi som bank för att hantera låga räntor på bolån? (flera)</text>
+      <answer correct="yes" class="first">Lånar ut mer pengar</answer>
+      <answer correct="yes" class="second">Tar mindre säkerhet på lån</answer>
+      <answer class="third">Försöker höja värdet på bostäder</answer>
+    </question>
+    <question id="22">
+      <text>Vad utmärkte Anders Borg som finansminister? (flera)</text>
+      <answer class="first">Hans hår</answer>
+      <answer correct="yes" class="second">Hästsvans</answer>
+      <answer correct="yes" class="third">Hans ekonomiska kunnande</answer>
+    </question>
+    <question id="23">
+      <text>Vad händer med en familj som inte längre kan betala sina lån?</text>
+      <answer correct="yes" class="first">De måste betala ändå</answer>
+      <answer class="second">Kronofogden löser det</answer>
+      <answer class="third">Vi utarbetar en betalningsplan anpassad efter förutsättningar</answer>
+    </question>
+    <question id="24">
+      <text>Hur rekommenderas aktier och fonder av oss? (flera)</text>
+      <answer correct="yes" class="first">Vi gissar</answer>
+      <answer correct="yes" class="second">Vi rekommenderar samma som Swedbank</answer>
+      <answer class="third">Vi har kompetent, välavlönad personal som är väl insatta i finansvärlden</answer>
+    </question>
+    <question id="25">
+      <text>Vilket land jämför vi oss mest med?</text>
+      <answer class="first">USA</answer>
+      <answer class="second">Kina</answer>
+      <answer correct="yes" class="third">Grekland</answer>
+    </question>
+  </category>
+</test>
