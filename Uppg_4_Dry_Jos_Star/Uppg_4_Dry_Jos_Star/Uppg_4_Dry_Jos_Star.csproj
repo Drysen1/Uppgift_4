@@ -66,6 +66,8 @@
     <Content Include="fonts\lato-lig-webfont.ttf" />
     <Content Include="fonts\lato-lig-webfont.woff" />
     <Content Include="fonts\monofont.ttf" />
+    <Content Include="img\headimage_00.xcf" />
+    <Content Include="img\headimage_01.xcf" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -86,6 +88,13 @@
     <Content Include="fonts\specimen_files\specimen_stylesheet.css" />
     <Content Include="fonts\stylesheet.css" />
     <Content Include="Glyphicons.css" />
+    <Content Include="img\bankblå.png" />
+    <Content Include="img\bankguld.png" />
+    <Content Include="img\headimage.jpg" />
+    <Content Include="img\headimage_00.png" />
+    <Content Include="img\headimage_01.png" />
+    <Content Include="img\headimage_02.png" />
+    <Content Include="img\Nytt textdokument.txt" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -105,9 +114,7 @@
       <DependentUpon>SiteMaster.Master</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="img\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
