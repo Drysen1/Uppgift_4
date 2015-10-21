@@ -1,0 +1,638 @@
+/*****************************************************
+	GENERAL
+*****************************************************/
+* {
+	margin: 0em;
+	padding: 0em;
+	font-family: 'latolight', Helvetica, sans-serif;	
+}
+
+.DropDown{
+    font-size: 1.2em;
+    padding: 0.5em;
+    width: 150px;
+}
+
+.container {
+	width: 100%;
+	overflow: hidden;
+	position: relative;
+}
+
+#oddRow {
+	background-color: #F2F2F2; /*test olika gråa, möjligtvis mörka ner font color också för hela sidan*/
+    box-shadow: 0px 0px 7px #F2F2F2;
+}
+
+.content {
+	/*text-align: center;*/
+	margin: 0em auto;
+	width: 1200px;
+}
+
+.contentRow {
+    width:100%;
+    margin: 0 auto;
+}
+
+p {
+	font-size: 1.2em;
+}
+
+a {
+	text-decoration: none;
+}
+
+.links{
+	color: #97c98c;
+	font-weight: 900; 
+}
+
+.links:hover {
+	color: #b880c4;
+}
+
+h1 {
+	margin-top: 0.1em;
+	font-size: 6em;
+	font-weight: 100;
+	color: #595959;
+}
+
+h2 {
+	margin-top: 0.1em;
+	font-size: 3em;
+	font-weight: 100;
+	color: #595959;
+}
+
+h3 {
+	margin-top: 0.1em;
+	font-size: 1.8em;
+	font-weight: 100;
+	color: #595959;
+}
+
+
+
+.h2-center {
+	text-align: center;
+}
+
+.p-center-text {
+	text-align: center;
+	padding-left: 3em;
+	padding-right: 3em;
+}
+.big-glyph {
+	text-align: center;
+	font-size: 5em;
+}
+.my-button {
+	text-align: center;
+	display: inline-block;
+	width: 99%;
+	padding-top:20px;
+	padding-bottom: 20px;
+	color: white;
+	background: #AF3C3C;
+	margin-left: 0.2em;
+	margin-right: 0.2em;
+}
+.my-button:hover {
+	color: white;
+	background: #DB4C4C;
+}
+/*****************************************************
+	BOXAR
+*****************************************************/
+.fullBox {
+	width: 100%;
+	float: left;
+}
+
+.longBox {
+    float:left;
+    width:68%;
+}
+
+.sevenFiveBox {
+	float: left;
+	width: 74.5%;
+}
+
+.halfBox {
+	width: 49.5%;
+	float: left;
+}
+.quarterBox {
+	width: 24.5%;
+	float: left;
+	overflow: hidden;
+}
+
+.thirdBox {
+	width: 33.1%;
+	float: left;
+	overflow: hidden;
+}
+
+
+.shortBox, 
+.shortBoxLeft,
+.shortBoxLeft-Below {
+	width: 28%;
+	float: left;
+}
+
+.shortbox {
+	margin-right: 1em;
+}
+
+/*****************************************************
+	SECTION IDS
+*****************************************************/
+
+#navbar-section {
+    /*BLÅTT*/
+	background: #00A2E8;
+    /* GRÅ*/
+    /*background: #2d2d2d;*/
+	position: fixed;
+	z-index: 1000;
+}
+#head-seaction {
+	/*height: 550px;*/
+        /*GRÖNT*/
+	background: #81B900;
+        /* BULD*/
+    /*background: #E5C100;*/
+}
+
+#content-section {
+	/*height: 700px;*/
+	/*background-color: red;*/
+}
+
+#section-footer {
+	/*height: 300px;*/
+	margin-top: 4em;
+        /*BLÅTT*/
+	background: #00A2E8;
+        /* GRÅ*/
+    /*background: #2d2d2d;*/
+	border-top: 1px solid #B0F6A0;
+	padding-bottom: 4em;
+}
+
+/*****************************************************
+	Header stuff
+*****************************************************/
+#header-content {
+	width: 100%;
+	margin: 0em;
+	overflow: hidden;
+}
+
+.logoContainer {
+	float: left;
+	overflow-x: hidden;
+}
+.header-logo {
+	width: 100%;
+	height: auto; 
+	overflow-x:hidden;
+}
+
+/*****************************************************
+	Main-Navbar
+*****************************************************/
+.sticky {
+	width: 1200px;
+	position: fixed;
+	z-index: 500;
+}
+
+.main-navbar {
+	list-style: none;
+	display: block;
+	 float: right; 
+}
+
+.main-navbar > li {
+	display: inline;
+	float: left;
+}
+
+.main-navbar > li > a {
+	display: inline-block;
+	padding:20px 30px 20px 30px;
+	color: white; 
+}
+
+.main-navbar > li > a:hover {
+	display: inline-block;
+	padding:20px 30px 20px 30px;
+	color: black;
+	background: #FFFFFF;
+}
+
+.active {
+        /*BLÅTT*/
+	background: #66c7f1;
+
+    /* GRÅ*/
+    /*background: #6c6c6c;*/
+}
+
+/*****************************************************
+	Responsive-Navbar
+*****************************************************/
+.open-menu-link {
+	display: none;
+	padding:20px 30px 20px 30px;
+	color: white;
+	float: right;
+	overflow: visible;
+}
+
+.open-menu-link:hover {
+	background: #FFFFFF;
+	color: black;
+}
+
+.responsive-navbar-holder {
+	display: block;
+	float: right;
+	right: -20em;
+	position: fixed;
+	height: 100%;
+	width: 0em;
+    /*Blått*/
+	background: #00A2E8;
+        /* GRÅ*/
+    /*background: #2d2d2d;*/
+	z-index: 1035;
+	-webkit-transition: width 1s; 
+    transition: width 1s;
+}
+
+.responsive-navbar {
+	text-align: left;
+	display: block;
+	list-style: none;
+	position: relative;
+	float: left; 
+	width: 100%;
+}
+
+.responsive-navbar > li {
+	/*display: block;*/
+	color: white;
+}
+
+.responsive-navbar > li > a {
+	display: block;
+	padding:20px 30px 20px 30px;
+	color: white;
+}
+
+.responsive-navbar > li > a:hover {
+	display: block;
+	padding:20px 30px 20px 30px;
+	color: black;
+	background: #FFFFFF;
+}
+
+#open-menu:target {
+	width: 40em;
+}
+
+/*****************************************************
+	HEM CONTENT
+*****************************************************/
+#page-title {
+    /* GRÖNT */
+	border-bottom: 1px solid #81B900;
+
+        /* GULD*/
+     	/*border-bottom: 1px solid #E5C100;*/
+}
+
+#small-home-heading {
+	margin-top: 0.2em;
+	text-align: center;
+}
+
+.home-img {
+	display: block;
+	width: 90%;
+	height: 90%;
+	overflow: hidden;
+	margin-top: 0.5em;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.home-text {
+	margin: 0.5em;
+}
+
+.home-h3 {
+	margin-left: 0.3em;
+	margin-top: 0.6em;
+}
+
+.home-h2 {
+	margin-left: 0.3em;
+}
+
+.third-section{
+	margin-top: 5em;
+}
+/*****************************************************
+	OM
+*****************************************************/
+
+/*****************************************************
+	MER INFO
+*****************************************************/
+.glyph-100 {
+	font-size: 6em;
+	text-align: center;
+	margin-top: 10%;
+	color: #595959;
+}
+
+@media (max-width: 768px) {	
+	#glyphBox 
+ {
+    width: 50%;   
+  }
+}
+
+
+
+
+/*****************************************************
+	Footer
+*****************************************************/
+#footer {
+	text-align: center;
+	margin: 0em auto;
+	float: none;
+	padding-top: 2em;
+}
+
+.foot-text {
+	color: #101010;
+	margin-bottom: 0.5em;
+	margin-top: 0.5em;
+	font-size: 3em;
+}
+
+.foot-number {
+	color: #101010;
+	margin-bottom: 0.5em;
+	margin-top: 0.5em;
+	font-size: 1.7em;
+}
+.mail-links {
+	font-size: 1.7em;
+	text-decoration: none;
+	margin-bottom: 1em;
+	color: #101010;
+}
+.phone-links {
+	font-size: 1.7em;
+	text-decoration: none;
+	margin-bottom: 1em;
+	color: #101010;
+	cursor: pointer;
+}
+#email {
+	font-size: 1em;
+	display: block;
+	color: #101010;
+	margin-bottom: 0.3em;
+}
+
+.mail-links:hover {
+	color: #DB4C4C;
+}
+
+
+#phone {
+	font-size: 1.7em;
+	display: block;
+	color: #101010;
+	margin-bottom: 0.3em;
+}
+.phone-links:hover {
+	color: #DB4C4C;
+}
+
+/*****************************************************
+	GRID - för gridview om man vill använda det.
+*****************************************************/
+.Grid {
+    background-color: #fff; 
+    margin: 5px 0 10px 0; 
+    border: solid 1px #525252; 
+    border-collapse:collapse; 
+    font-family:'latolight'; 
+    color: #474747;
+}
+
+.Grid td {
+      padding: 1em;
+      border: solid 1px #c1c1c1; 
+      width: 200px;
+}
+.Grid th  {
+      padding : 1em;
+      color: #fff;
+      background: #AF3C3C;
+      border-left: solid 1px #525252;
+      font-size: 1.3em; 
+}
+
+/*****************************************************
+	MOBIL ANPASSAT
+*****************************************************/
+
+@media (max-width: 480px) {
+	h1
+	 {
+		font-size: 5em;
+	}
+}
+@media (max-width: 480px) {
+	h2
+	 {
+		font-size: 2em;
+	}
+}
+@media (max-width: 480px) {
+	h3
+	 {
+		font-size: 1.5em;
+	}
+}
+
+@media (max-width: 480px) {
+	.header-logo {
+	width: 992px;
+	height: 280px; 
+	margin-left: -100px;
+	}
+}
+/*****************************************************
+	HEADER MOBIL
+*****************************************************/
+@media (max-width: 768px) {
+	.header-logo, 
+	#header-content,
+	.header-content {
+	width: 992px;
+	height: 280px;
+	margin-left: -50px;
+	}
+}
+
+@media (max-width: 992px) {
+	.header-logo, 
+	#header-content,
+	.header-content {
+	width: 992px;
+	height: 280px; 
+	overflow-x: hidden;
+	}
+}
+
+@media (max-width: 1200px) {
+	.header-logo {
+	width: 100%;
+	}
+}
+
+/*****************************************************
+	BOXAR MOBIL
+*****************************************************/
+
+@media (max-width: 320px) {	
+	.halfBox,
+	.longBox,		
+	.content,
+	.boxContainer,
+	.navbarContainer
+ {
+    width: 100%;   
+  }
+}
+
+@media (max-width: 480px) {
+	.halfBox,	
+	.longBox,		
+	.content,
+	.boxContainer,	
+	.navbarContainer
+{
+    width: 100%;        
+  }
+}
+
+@media (max-width: 768px) {
+	.halfBox,	
+	.longBox,			
+	.content,
+	.boxContainer,	
+	.navbarContainer
+
+
+ {
+    width: 100%;        
+  }
+}
+
+@media (max-width: 992px) {	
+	.content,
+	.boxContainer,	
+	.navbarContainer
+ {
+    width: 100%;      
+  }
+}
+
+@media (max-width: 1200px) {
+	.content,	
+	.boxContainer,	
+	.navbarContainer
+ {
+    width: 100%;          
+  }
+}
+
+/*****************************************************
+	quarterBox - MEDIA STYLE
+*****************************************************/
+
+@media (max-width: 768px) {	
+	.quarterBox
+	 {
+	width: 100%;
+	height: 100%; 
+	}
+}
+
+
+@media (max-width: 768px) {	
+	.start-img {
+		width: 50%;
+		height: 50%;		
+	}
+}
+
+@media (max-width: 480px) {	
+	.thirdBox
+	 {
+	width: 100%;
+	height: 100%;
+	border-bottom: 1px solid #A8A8A8;
+	}
+}
+
+/*****************************************************
+	SHORTBOX - MEDIA STYLE
+*****************************************************/
+@media (max-width: 768px) {		
+	.shortBox {
+    width: 50%; 
+    padding-left: 25%; 
+    margin-bottom: 1em;   
+  }
+}
+@media (max-width: 992px) {	
+	.shortBox {
+    margin-right: 1em;    
+  }
+}
+
+/*****************************************************
+	main-navbar - MEDIA STYLE
+*****************************************************/
+@media (max-width: 768px) {	
+	.main-navbar {
+    display: none;   
+  }
+}
+
+/*****************************************************
+	menu-link - MEDIA STYLE
+*****************************************************/
+
+@media (max-width: 768px) {	
+	.open-menu-link  {
+    display: inline-block;   
+  }
+} 

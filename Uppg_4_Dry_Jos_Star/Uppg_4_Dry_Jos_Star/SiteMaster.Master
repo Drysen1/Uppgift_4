@@ -1,0 +1,130 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="SiteMaster.master.cs" Inherits="Uppg_4_Dry_Jos_Star.SiteMaster" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>HEM</title>
+    <meta charset="utf-8"/>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+      <meta name="description" content="Skoluppgift"/>
+      <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1, maximum-scale=1, minimum-scale=1.0" />
+
+      <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon"/>
+      <link rel="icon" href="img/favicon.ico" type="image/x-icon"/>
+
+      <meta name="author" content="Erik Drysén"/>
+
+      <!-- CSS -->
+      <link type="text/css" rel="stylesheet" href="css/style.css"/>
+      <link type="text/css" rel="stylesheet" href="font.css"/> 
+      <link type="text/css" rel="stylesheet" href="Glyphicons.css"/>   
+      <link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet" />
+      <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+      <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>      
+
+                 <!-- Script för att testa att rätt sträng tas ut
+                      finns kvar för att det tar lång tid ibland att ladda in så under tiden
+                     sidan laddas kan man göra nåt annat och så när det är färdigt laddat får
+                     man en alert box -->
+      <script type="text/javascript">
+
+          $(document).ready(function () {
+              var url = window.location.pathname;
+              var substr = url.split('/');
+              var urlaspx = substr[substr.length - 1];
+              alert(urlaspx);
+
+          });
+      </script>
+        <!-- Script för att highligta rätt meny val -->
+      <script type="text/javascript">
+          $(document).ready(function () {
+              var url = window.location.pathname;
+              var substr = url.split('/');
+              var urlaspx = substr[substr.length - 1];
+              $('.main-navbar').find('.active').removeClass('active');
+              $('.main-navbar li a').each(function () {
+                  if (this.href.indexOf(urlaspx) >= 0) {
+                      $(this).parent().addClass('active');
+                  }
+              });
+          });
+    </script> 
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <!-- Navbar ================================================== -->
+    <section class="container" id="navbar-section">
+      <div class="content">
+        <div class="contentRow">
+
+            <ul class="main-navbar">
+              <li><a class="active" href='default.aspx'>HEM</a></li>
+              <li><a href='aktier.aspx'>AKTIER</a></li>                                  
+            </ul>
+            
+            <a href="#open-menu" class="open-menu-link">☰ MENY</a>
+            <div class="responsive-navbar-holder" id="open-menu">
+              <ul class="responsive-navbar">
+                                <li><a  href="#">☰ STÄNG MENY</a></li>
+                <li><a class="active" href='index.html'>HEM</a></li>
+                <li><a href="aktier.aspx">AKTIER</a></li>                                 
+              </ul>
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Header ================================================== -->
+    <section class="container" id="head-seaction">
+      <div class="content" id="header-content">
+       <div class="logoContainer">
+          <img class="header-logo" src="img/headimage_00.png" alt="Headimage" title="Fint landskap"/>
+        </div> 
+      </div>
+    </section>
+
+    <!-- Page Content ================================================== -->
+    <section class="container" id="content-section">
+      <div class="content">
+        <div class="contentRow">  
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        
+                </asp:ContentPlaceHolder>
+
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer ================================================== -->
+    <section class="container" id="section-footer">
+      <div class="content">
+        <div class="contentRow">      
+
+          <div class="fullBox" id="footer">        
+            <p class="foot-text">JE BANKEN</p>
+
+            <div class="halfBox">
+              <a class="phone-links" href="callto:#">
+              <span class="glyphicon glyphicon-phone" aria-hidden="true"></span><br>
+              +46 (0)555 98 98 99</a>
+            </div>
+
+            <div class="halfBox">
+              <a class="mail-links"href="#" target="_top">              
+              <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><br> JEBANKEN@EMAIL.COM</a>
+            </div>
+
+          </div>
+      </div>
+      </div>
+    </section>
+
+    </form>
+</body>
+</html>
