@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Xml.Linq;
 
 namespace Uppg_4_Dry_Jos_Star
 {
@@ -13,8 +14,33 @@ namespace Uppg_4_Dry_Jos_Star
         {
             if(!IsPostBack)
             {
-
+                List<Question> questions = GetXmlContent();
+                Repeater1.DataSource = questions;
+                Repeater1.DataBind();
             }
         }
+
+        private List<Question> GetXmlContent()
+        {
+            
+            XDocument xDoc = XDocument.Load(Server.MapPath("~/xml/questions.xml"));
+            var xmlResult = from q in xDoc.Descendants("question")
+                            select new Question
+                            {
+                                Text = q.Element("text").Value,
+                                Category = q.Parent.Attribute("type").Value,
+                                Answers = q.Elements("answer").Select(x => x.Value).ToList(),
+                                CorrectAnswer = q.Elements("answer").Where(x => x.Attribute("correct").Value == "yes").Select(x => x.Value).ToList()
+                            };
+
+            List<Question> questions = new List<Question>();
+            foreach (Question q in xmlResult)
+            {
+                questions.Add(q);
+            }
+
+            return questions;
+        }
+        
     }
 }
