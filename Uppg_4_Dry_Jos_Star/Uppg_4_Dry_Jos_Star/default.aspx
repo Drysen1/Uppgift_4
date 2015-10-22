@@ -5,6 +5,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="fullBox" id="page-title">        
         <h1>KOMPETENSPORTALEN</h1>
+    </div>
+    <div class="fullBox">  
         <asp:Repeater ID="Repeater1" runat="server" OnItemDataBound="Repeater1_ItemDataBound">
             <HeaderTemplate>
                 <div id="category_container" style="border:1px solid black; margin: 20px 0;">
