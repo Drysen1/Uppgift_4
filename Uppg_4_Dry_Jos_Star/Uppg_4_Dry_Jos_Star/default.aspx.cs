@@ -27,10 +27,12 @@ namespace Uppg_4_Dry_Jos_Star
             var xmlResult = from q in xDoc.Descendants("question")
                             select new Question
                             {
+                                QuestionNumber = q.Attribute("id").Value,
                                 Text = q.Element("text").Value,
                                 Category = q.Parent.Attribute("type").Value,
                                 Answers = q.Elements("answer").Select(x => x.Value).ToList(),
-                                CorrectAnswer = q.Elements("answer").Where(x => x.Attribute("correct").Value == "yes").Select(x => x.Value).ToList()
+                                CorrectAnswer = q.Elements("answer").Where(x => x.Attribute("correct").Value == "yes").Select(x => x.Value).ToList(),
+                                NumOfCorrect = q.Elements("answer").Where(x => x.Attribute("correct").Value == "yes").Select(x => x.Value).ToList().Count.ToString()
                             };
 
             List<Question> questions = new List<Question>();
