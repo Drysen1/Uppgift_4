@@ -7,12 +7,13 @@ namespace Uppg_4_Dry_Jos_Star
 {
     public class Question
     {
-        public string QuestionNumber { get; set; }
+        public string Id { get; set; }
         public string Text { get; set; }
         public string Category { get; set; }
-        public string NumOfCorrect { get; set; }
         public List<string> Answers { get; set; }
+        public string AnswerOrder { get; set; }
         public List<string> CorrectAnswer { get; set; }
+        public string NumOfCorrect { get; set; }
         public List<string> UserInput { get; set; }
     }
 }

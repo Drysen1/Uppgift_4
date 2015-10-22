@@ -33,7 +33,7 @@
               var url = window.location.pathname;
               var substr = url.split('/');
               var urlaspx = substr[substr.length - 1];
-              alert(urlaspx);
+              //alert(urlaspx);
 
           });
       </script>
