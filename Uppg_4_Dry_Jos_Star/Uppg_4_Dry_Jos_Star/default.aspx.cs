@@ -10,21 +10,21 @@ namespace Uppg_4_Dry_Jos_Star
 {
     public partial class _default : System.Web.UI.Page
     {
+        private readonly object syncLock = new object();
+        private readonly Random rand = new Random();
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
                 List<Question> questions = GetXmlContent();
                 List<List<Question>> categoryLists = GetCategoryLists(questions); //parameter takes List<Question> .Count that corresponds to which test; 25 or 15 items at this moment
-                if(categoryLists.Count >2)
-                {
-                    Repeater1.DataSource = categoryLists[0];
-                    Repeater1.DataBind();
-                    Repeater2.DataSource = categoryLists[1];
-                    Repeater2.DataBind();
-                    Repeater3.DataSource = categoryLists[2];
-                    Repeater3.DataBind();
-                }
+
+                Repeater1.DataSource = categoryLists[0];
+                Repeater1.DataBind();
+                Repeater2.DataSource = categoryLists[1];
+                Repeater2.DataBind();
+                Repeater3.DataSource = categoryLists[2];
+                Repeater3.DataBind();
             }
         }
 
@@ -63,7 +63,7 @@ namespace Uppg_4_Dry_Jos_Star
                 questions.Add(q);
             }
 
-            List<int> questionOrder = GetRandomOrder(25);
+            List<int> questionOrder = GetRandomOrder(questions.Count);
 
             return questions;
         }
@@ -154,18 +154,20 @@ namespace Uppg_4_Dry_Jos_Star
 
         private List<int> GetRandomOrder(int amountOfNums)
         {
-            Random rand = new Random();
-            List<int> numberList= new List<int>();
-            
-            while (numberList.Count < amountOfNums)
+            lock(syncLock)
             {
-                int number = rand.Next(1, amountOfNums+1); //gives one less than specified
-                if (!numberList.Contains(number))
+                List<int> numberList = new List<int>();
+
+                while (numberList.Count < amountOfNums)
                 {
-                    numberList.Add(number);
+                    int number = rand.Next(1, amountOfNums + 1); //gives one less than specified
+                    if (!numberList.Contains(number))
+                    {
+                        numberList.Add(number);
+                    }
                 }
+                return numberList;
             }
-            return numberList;
         }
     }
 }
