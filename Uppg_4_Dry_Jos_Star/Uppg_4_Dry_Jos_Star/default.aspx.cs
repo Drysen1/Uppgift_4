@@ -12,19 +12,29 @@ namespace Uppg_4_Dry_Jos_Star
     {
         private readonly object syncLock = new object();
         private readonly Random rand = new Random();
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 List<Question> questions = GetXmlContent();
                 List<List<Question>> categoryLists = GetCategoryLists(questions); //parameter takes List<Question> .Count that corresponds to which test; 25 or 15 items at this moment
-
-                Repeater1.DataSource = categoryLists[0];
-                Repeater1.DataBind();
-                Repeater2.DataSource = categoryLists[1];
-                Repeater2.DataBind();
-                Repeater3.DataSource = categoryLists[2];
-                Repeater3.DataBind();
+                CreateUserXml(categoryLists);
+                if (categoryLists.Count > 0)
+                {
+                    Repeater1.DataSource = categoryLists[0];
+                    Repeater1.DataBind();
+                }
+                if(categoryLists.Count > 1)
+                {
+                    Repeater2.DataSource = categoryLists[1];
+                    Repeater2.DataBind();
+                }
+                if (categoryLists.Count > 2)
+                {
+                    Repeater3.DataSource = categoryLists[2];
+                    Repeater3.DataBind();
+                }
             }
         }
 
@@ -39,6 +49,21 @@ namespace Uppg_4_Dry_Jos_Star
         protected void Repeater3_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             SetLabelInRepeaterHead(e, Repeater3);
+        }
+
+        protected void btnSend_Click(object sender, EventArgs e)
+        {
+            foreach (RepeaterItem item in Repeater1.Items)
+            {
+                Label lbl = (Label)item.FindControl("question");
+                CheckBox chBox1 = (CheckBox)item.FindControl("cBox1");
+                CheckBox chBox2 = (CheckBox)item.FindControl("cBox2");
+                CheckBox chBox3 = (CheckBox)item.FindControl("cBox3");
+                CheckBox[] cBoxes = { chBox1, chBox2, chBox3 };
+
+                AddXmlAttribute(lbl.Text, cBoxes);
+            }
+            //RemoveAllUserXml();
         }
         //-------------------------------------------------------------------------------------
         private List<Question> GetXmlContent()
@@ -73,8 +98,8 @@ namespace Uppg_4_Dry_Jos_Star
             List<List<Question>> allCategoryQuestions = new List<List<Question>>();
             int count = 0;
 
-            List<int> numbers = GetRandomOrder(questionList.Count); //create random numbers according to amount of questions
-            questionList = GetRandomizedList(questionList, numbers);
+            List<int> numsToReOrderWith = GetRandomOrder(questionList.Count); //create random numbers according to amount of questions
+            questionList = GetRandomizedList(questionList, numsToReOrderWith);
             List<string> categories = GetCategoryNames(questionList);
 
             foreach (string c in categories)
@@ -91,16 +116,15 @@ namespace Uppg_4_Dry_Jos_Star
                     quest.AnswerOrder = count.ToString() + ". ";
                     categoryQuestions.Add(quest);
                 }
-                
                 allCategoryQuestions.Add(categoryQuestions);
             }
             return allCategoryQuestions;
         }
 
-        private List<Question> GetRandomizedList(List<Question> questions, List<int> order)
+        private List<Question> GetRandomizedList(List<Question> questions, List<int> numsToReOrderWith)
         {
             List<Question> randomizedList = new List<Question>();
-            foreach(int number in order)
+            foreach(int number in numsToReOrderWith)
             {
                 randomizedList.Add(questions.Where(x=>x.Id == number.ToString()).FirstOrDefault());
             }
@@ -139,22 +163,9 @@ namespace Uppg_4_Dry_Jos_Star
             return categories;
         }
 
-        private void SetLabelInRepeaterHead(RepeaterItemEventArgs e, Repeater rep)
-        {
-            if (e.Item.ItemType == ListItemType.Header)
-            {
-                Label lbl = (Label)e.Item.FindControl("categoryText");
-                if (Repeater1.DataSource != null)
-                {
-                    List<Question> ds = (List<Question>)rep.DataSource;
-                    lbl.Text = ds[0].Category;
-                }
-            }
-        }
-
         private List<int> GetRandomOrder(int amountOfNums)
         {
-            lock(syncLock)
+            lock (syncLock)
             {
                 List<int> numberList = new List<int>();
 
@@ -168,6 +179,187 @@ namespace Uppg_4_Dry_Jos_Star
                 }
                 return numberList;
             }
+        }
+
+        private void CreateUserXml(List<List<Question>> categoryLists)
+        {
+            List<Question> randomizedList = new List<Question>(); //take out all lists under categories and make one long list to get categories below
+            foreach (List<Question> list in categoryLists)
+            {
+                foreach (Question q in list)
+                {
+                    randomizedList.Add(q);
+                }
+            }
+            List<string> categories = GetCategoryNames(randomizedList);
+
+            XDocument xDoc = new XDocument(
+                   new XDeclaration("1.0", "utf-8", "yes"),
+                   new XElement("test",
+                       from c in categories //loops categories and creates rest accordingly
+                       select new XElement("category",
+                            new XAttribute("type", c))));
+
+            foreach (List<Question> list in categoryLists) //add elements to xml from each list one by one
+            {
+                string category = list.ElementAt(0).Category;
+
+                var categoryElement = from el in xDoc.Root.Elements("category")
+                                      where (string)el.Attribute("type") == category
+                                      select el;
+
+                xDoc.Element("test").Elements("category")
+                    .Where(x => x.Attribute("type").Value == category).FirstOrDefault()
+                    .Add(
+                    from q in list
+                    select new XElement("question",
+                    new XAttribute("id", q.Id),
+                    new XElement("text", q.Text),
+
+                    from a in q.Answers
+                    select new XElement("answer", a)));
+                
+                foreach(Question q in list) //to set correct="yes"/"no" as attributes
+                {
+                    foreach(string answer in q.CorrectAnswer)
+                    {
+                        var element = from e in xDoc.Descendants("question")
+                                      where e.Element("text").Value == q.Text
+                                      select e.Elements("answer");
+                        foreach(var a in element)
+                        {
+                            foreach(XElement el in a)
+                            {
+                                if (el.Value == answer)
+                                {
+                                    el.Add(new XAttribute("correct", "yes"));
+                                }
+                            }
+                        }
+                    }
+                }
+                var answers = from e in xDoc.Descendants("answer")
+                              where e.Attribute("correct") == null
+                              select e;
+                foreach (XElement x in answers)
+                {
+                    x.Add(new XAttribute("correct", "no"));
+                }
+            }
+            xDoc.Save(Server.MapPath("~/xml/userXml.xml"));
+        }
+
+        private void SetLabelInRepeaterHead(RepeaterItemEventArgs e, Repeater rep)
+        {
+            if (e.Item.ItemType == ListItemType.Header)
+            {
+                Label lbl = (Label)e.Item.FindControl("categoryText");
+                if (Repeater1.DataSource != null)
+                {
+                    List<Question> ds = (List<Question>)rep.DataSource;
+                    lbl.Text = ds[0].Category;
+                }
+            }
+        }
+
+        private void AddXmlAttribute(string questionText, CheckBox[] userInput)
+        {
+            XDocument xDoc = XDocument.Load(Server.MapPath("~/xml/userXml.xml"));
+            var answers = from a in xDoc.Descendants("question")
+                          where a.Element("text").Value == questionText
+                          select a.Elements("answer");
+            
+            if(answers.Any()) //check for zero result
+            {
+                IEnumerable<XElement> searchResult = answers.ElementAt(0);
+
+                XElement e1 = searchResult.ElementAt(0);
+                string result = MatchElementWithUserInput(e1, userInput);
+                WriteToXml(e1, result, xDoc);
+
+                XElement e2 = searchResult.ElementAt(1);
+                string result2 = MatchElementWithUserInput(e2, userInput);
+                WriteToXml(e2, result2, xDoc);
+
+                XElement e3 = searchResult.ElementAt(2);
+                string result3 = MatchElementWithUserInput(e3, userInput);
+                WriteToXml(e3, result3, xDoc);
+            }
+        }
+
+        private string MatchElementWithUserInput(XElement element, CheckBox[] userInput)
+        {
+            string toReturn = "";
+            CheckBox cBox1 = userInput[0];
+            CheckBox cBox2 = userInput[1];
+            CheckBox cBox3 = userInput[2];
+
+            if (element.Value == cBox1.Text)
+            {
+                if(IsCheckBoxChecked(cBox1))
+                {
+                    toReturn = "yes";
+                }
+                else
+                {
+                    toReturn = "no";
+                }
+            }
+            else if (element.Value == cBox2.Text)
+            {
+                if (IsCheckBoxChecked(cBox2))
+                {
+                    toReturn = "yes";
+                }
+                else
+                {
+                    toReturn = "no";
+                }
+            }
+            else if(element.Value == cBox3.Text)
+            {
+                if (IsCheckBoxChecked(cBox3))
+                {
+                    toReturn = "yes";
+                }
+                else
+                {
+                    toReturn = "no";
+                }
+            }
+            return toReturn;
+        }
+
+        private bool IsCheckBoxChecked(CheckBox cBox)
+        {
+            return cBox.Checked;
+        }
+
+        private bool IsAnswerCorrect(XElement element, CheckBox cBox)
+        {
+            string correct = (string)element.Attribute("correct");
+            if(cBox.Checked && correct == "yes")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private void WriteToXml(XElement element, string inputResult, XDocument xDoc)
+        {
+            element.SetAttributeValue("input", inputResult);
+            xDoc.Save(Server.MapPath("~/xml/userXml.xml"));
+        }
+
+        private void RemoveAllUserXml()
+        {
+            XDocument xDoc = XDocument.Load(Server.MapPath("~/xml/userXml.xml"));
+            XElement root = xDoc.Element("test");
+            root.RemoveAll();
+            xDoc.Save(Server.MapPath("~/xml/userXml.xml")); 
         }
     }
 }

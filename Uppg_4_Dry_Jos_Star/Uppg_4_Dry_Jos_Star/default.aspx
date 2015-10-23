@@ -21,16 +21,13 @@
                         </div>
                         <table>
                             <tr>
-                                <td><asp:CheckBox ID="cBox1" runat="server" /></td>
-                                <td><asp:Label ID="answerText1" Text=<%# Eval("Answers[0]") %> runat="server" ></asp:Label></td>
+                                <td><asp:CheckBox ID="cBox1" runat="server" Text=<%# Eval("Answers[0]") %> /></td>
                             </tr> 
                             <tr>
-                                <td><asp:CheckBox ID="cBox2" runat="server" /></td>
-                                <td><asp:Label ID="answerText2" Text=<%# Eval("Answers[1]") %> runat="server"></asp:Label></td>
+                                <td><asp:CheckBox ID="cBox2" runat="server" Text=<%# Eval("Answers[1]") %> /></td>
                             </tr> 
                             <tr>
-                                <td><asp:CheckBox ID="CBox3" runat="server" /></td>
-                                <td><asp:Label ID="answerText3" Text=<%# Eval("Answers[2]") %> runat="server"></asp:Label></td>
+                                <td><asp:CheckBox ID="CBox3" runat="server" Text=<%# Eval("Answers[2]") %> /></td>
                             </tr> 
                         </table>
                     </div>
@@ -53,16 +50,13 @@
                         </div>
                         <table>
                             <tr>
-                                <td><asp:CheckBox ID="cBox1" runat="server" /></td>
-                                <td><asp:Label ID="answerText1" Text=<%# Eval("Answers[0]") %> runat="server" ></asp:Label></td>
+                                <td><asp:CheckBox ID="cBox1" runat="server" Text=<%# Eval("Answers[0]") %> /></td>
                             </tr> 
                             <tr>
-                                <td><asp:CheckBox ID="cBox2" runat="server" /></td>
-                                <td><asp:Label ID="answerText2" Text=<%# Eval("Answers[1]") %> runat="server"></asp:Label></td>
+                                <td><asp:CheckBox ID="cBox2" runat="server" Text=<%# Eval("Answers[1]") %> /></td>
                             </tr> 
                             <tr>
-                                <td><asp:CheckBox ID="CBox3" runat="server" /></td>
-                                <td><asp:Label ID="answerText3" Text=<%# Eval("Answers[2]") %> runat="server"></asp:Label></td>
+                                <td><asp:CheckBox ID="CBox3" runat="server" Text=<%# Eval("Answers[2]") %> /></td>
                             </tr> 
                         </table>
                     </div>
@@ -85,16 +79,13 @@
                         </div>
                         <table>
                             <tr>
-                                <td><asp:CheckBox ID="cBox1" runat="server" /></td>
-                                <td><asp:Label ID="answerText1" Text=<%# Eval("Answers[0]") %> runat="server" ></asp:Label></td>
+                                <td><asp:CheckBox ID="cBox1" runat="server" Text=<%# Eval("Answers[0]") %> /></td>
                             </tr> 
                             <tr>
-                                <td><asp:CheckBox ID="cBox2" runat="server" /></td>
-                                <td><asp:Label ID="answerText2" Text=<%# Eval("Answers[1]") %> runat="server"></asp:Label></td>
+                                <td><asp:CheckBox ID="cBox2" runat="server" Text=<%# Eval("Answers[1]") %> /></td>
                             </tr> 
                             <tr>
-                                <td><asp:CheckBox ID="CBox3" runat="server" /></td>
-                                <td><asp:Label ID="answerText3" Text=<%# Eval("Answers[2]") %> runat="server"></asp:Label></td>
+                                <td><asp:CheckBox ID="CBox3" runat="server" Text=<%# Eval("Answers[2]") %> /></td>
                             </tr> 
                         </table>
                     </div>
@@ -103,5 +94,6 @@
                 </div>
             </FooterTemplate>
         </asp:Repeater>
+        <asp:Button ID="btnSend" runat="server" Text="Lämna in" OnClick="btnSend_Click"/>
     </div>
 </asp:Content>
