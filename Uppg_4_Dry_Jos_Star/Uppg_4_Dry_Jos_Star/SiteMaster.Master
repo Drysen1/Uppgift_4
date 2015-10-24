@@ -64,7 +64,7 @@
 
             <ul class="main-navbar">
               <li><a class="active" href='default.aspx'>HEM</a></li>
-              <li><a id="admin" runat="server" href='admin.aspx'>ADMINPANEL</a></li>                                  
+              <li><a id="admin" runat="server">ADMINPANEL</a></li>                                  
             </ul>
             <ul class="main-navbar right">
               <li><a href='logout.aspx'>LOGGA UT</a></li>                               
