@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace Uppg_4_Dry_Jos_Star
@@ -15,11 +16,13 @@ namespace Uppg_4_Dry_Jos_Star
         
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             if (!IsPostBack)
             {
                 List<Question> questions = GetXmlContent();
                 List<List<Question>> categoryLists = GetCategoryLists(questions); //parameter takes List<Question> .Count that corresponds to which test; 25 or 15 items at this moment
                 CreateUserXml(categoryLists);
+
                 if (categoryLists.Count > 0)
                 {
                     Repeater1.DataSource = categoryLists[0];
@@ -110,6 +113,20 @@ namespace Uppg_4_Dry_Jos_Star
             List<int> questionOrder = GetRandomOrder(questions.Count);
 
             return questions;
+        }
+
+        private void SendUserXmlToDb()
+        {
+            XDocument xmlDoc = XDocument.Load(Server.MapPath("~/xml/userXml.xml"));
+            DatabaseConnection db = new DatabaseConnection();
+            db.SaveUserXml(xmlDoc);
+        }
+
+        private void GetUserXmlFromDb()
+        {
+            DatabaseConnection db = new DatabaseConnection();
+            XDocument xDoc = db.RetrieveXmlDocument(6);
+            xDoc.Save(Server.MapPath("~/xml/userXmlcopy.xml"));
         }
 
         private List<List<Question>> GetCategoryLists(List<Question> questionList)
