@@ -51,7 +51,7 @@ namespace Uppg_4_Dry_Jos_Star
                 using (NpgsqlConnection conn = new NpgsqlConnection(myConnection))
                 {
                     conn.Open();
-                    string query = "SELECT xmlstring FROM testoccasion WHERE id = @userId";
+                    string query = "SELECT xmlstring FROM testoccasion WHERE id_user = @userId";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                     {
