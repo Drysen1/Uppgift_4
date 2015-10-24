@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
 
 namespace Uppg_4_Dry_Jos_Star
 {
@@ -14,18 +15,19 @@ namespace Uppg_4_Dry_Jos_Star
             //string authorisation = "admin";
             //if (authorisation == "admin")
             //{
-            //    admin.Visible = true;
+            //    adminButton.Visible = true;
             //    a1.Visible = true;
             //}
             //else
             //{
-            //    admin.Visible = false;
+            //    adminButton.Visible = false;
             //    a1.Visible = false;
             //}
         }
 
-        void btnGoToAdmin_OnClick(object Source, EventArgs e)
+        protected void adminButton_ServerClick(object sender, EventArgs e)
         {
+            Response.Redirect("admin.aspx");
             
         }
     }

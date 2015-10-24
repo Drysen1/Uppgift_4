@@ -11,7 +11,7 @@ namespace Uppg_4_Dry_Jos_Star
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string userType = "banana";
+            string userType = "admin";
 
             if (userType == "admin")
             {

@@ -61,10 +61,10 @@
     <section class="container" id="navbar-section">
       <div class="content">
         <div class="contentRow">
-
+            
             <ul class="main-navbar">
               <li><a class="active" href='default.aspx'>HEM</a></li>
-              <li><a id="adminButton" runat="server">ADMINPANEL</a></li>                                  
+              <li><a id="adminButton" runat="server" href="#" onserverclick="adminButton_ServerClick">ADMINPANEL</a></li>                                                                  
             </ul>
             <ul class="main-navbar right">
               <li><a href='logout.aspx'>LOGGA UT</a></li>                               

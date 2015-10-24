@@ -14,32 +14,20 @@ namespace Uppg_4_Dry_Jos_Star
         protected void Page_Load(object sender, EventArgs e)
         {
             string userType = "Johanna";
-            if(userType != "Admin")
+            if (userType != "Admin")
             {
-                //System.Web.UI.HtmlControls.HtmlAnchor buttonToHide = (System.Web.UI.HtmlControls.HtmlAnchor)Master.FindControl("adminButton");
-
-                //buttonToHide.Style.Add("display", "none");
-
-
-                HtmlAnchor Divid = (HtmlAnchor)Page.Master.FindControl("adminButton");
-                Divid.Visible = false;
+                HtmlAnchor menuButton = (HtmlAnchor)Page.Master.FindControl("adminButton");
+                HtmlAnchor menuButton1 = (HtmlAnchor)Page.Master.FindControl("a1");
+                menuButton.Visible = false;
+                menuButton1.Visible = false;
             }
 
-
             GetDbInfo();
-
-
         }
 
         protected void Button1_Click(object sender, EventArgs e)
         {
             Response.Redirect("test.aspx");
-        }
-
-        private void Start()
-        {
-            //GetDbInfo();
-
         }
 
         private void GetDbInfo()
@@ -79,6 +67,11 @@ namespace Uppg_4_Dry_Jos_Star
             result.Text = passTest.ToString();
             lbldate.Text = date.ToString("yyyy-MM-dd");
 
+        }
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+           
         }
     }
 }
