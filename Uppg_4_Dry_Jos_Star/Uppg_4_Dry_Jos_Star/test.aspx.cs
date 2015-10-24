@@ -13,5 +13,10 @@ namespace Uppg_4_Dry_Jos_Star
         {
 
         }
+
+        protected void LinkButton1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

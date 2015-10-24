@@ -64,15 +64,19 @@
 
             <ul class="main-navbar">
               <li><a class="active" href='default.aspx'>HEM</a></li>
-              <li><a href='aktier.aspx'>AKTIER</a></li>                                  
+              <li><a id="adminButton" runat="server">ADMINPANEL</a></li>                                  
+            </ul>
+            <ul class="main-navbar right">
+              <li><a href='logout.aspx'>LOGGA UT</a></li>                               
             </ul>
             
             <a href="#open-menu" class="open-menu-link">☰ MENY</a>
             <div class="responsive-navbar-holder" id="open-menu">
               <ul class="responsive-navbar">
-                                <li><a  href="#">☰ STÄNG MENY</a></li>
+                <li><a  href="#">☰ STÄNG MENY</a></li>
                 <li><a class="active" href='index.html'>HEM</a></li>
-                <li><a href="aktier.aspx">AKTIER</a></li>                                 
+                <li><a id="a1" runat="server" href='admin.aspx'>ADMINPANEL</a></li>      
+                <li><a href="logout.aspx">LOGGA UT</a></li>                                 
               </ul>
             </div>
         </div>
