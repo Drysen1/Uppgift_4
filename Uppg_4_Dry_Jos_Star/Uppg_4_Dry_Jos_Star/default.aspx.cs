@@ -63,7 +63,26 @@ namespace Uppg_4_Dry_Jos_Star
 
                 AddXmlAttribute(lbl.Text, cBoxes);
             }
-            //RemoveAllUserXml();
+            foreach (RepeaterItem item in Repeater2.Items)
+            {
+                Label lbl = (Label)item.FindControl("question");
+                CheckBox chBox1 = (CheckBox)item.FindControl("cBox1");
+                CheckBox chBox2 = (CheckBox)item.FindControl("cBox2");
+                CheckBox chBox3 = (CheckBox)item.FindControl("cBox3");
+                CheckBox[] cBoxes = { chBox1, chBox2, chBox3 };
+
+                AddXmlAttribute(lbl.Text, cBoxes);
+            }
+            foreach (RepeaterItem item in Repeater3.Items)
+            {
+                Label lbl = (Label)item.FindControl("question");
+                CheckBox chBox1 = (CheckBox)item.FindControl("cBox1");
+                CheckBox chBox2 = (CheckBox)item.FindControl("cBox2");
+                CheckBox chBox3 = (CheckBox)item.FindControl("cBox3");
+                CheckBox[] cBoxes = { chBox1, chBox2, chBox3 };
+
+                AddXmlAttribute(lbl.Text, cBoxes);
+            }
         }
         //-------------------------------------------------------------------------------------
         private List<Question> GetXmlContent()
@@ -296,36 +315,15 @@ namespace Uppg_4_Dry_Jos_Star
 
             if (element.Value == cBox1.Text)
             {
-                if(IsCheckBoxChecked(cBox1))
-                {
-                    toReturn = "yes";
-                }
-                else
-                {
-                    toReturn = "no";
-                }
+                toReturn = IsCheckBoxChecked(cBox1) ? "yes" : "no";
             }
             else if (element.Value == cBox2.Text)
             {
-                if (IsCheckBoxChecked(cBox2))
-                {
-                    toReturn = "yes";
-                }
-                else
-                {
-                    toReturn = "no";
-                }
+                toReturn = IsCheckBoxChecked(cBox2) ? "yes" : "no";
             }
             else if(element.Value == cBox3.Text)
             {
-                if (IsCheckBoxChecked(cBox3))
-                {
-                    toReturn = "yes";
-                }
-                else
-                {
-                    toReturn = "no";
-                }
+                toReturn = IsCheckBoxChecked(cBox3) ? "yes" : "no";
             }
             return toReturn;
         }
@@ -354,12 +352,5 @@ namespace Uppg_4_Dry_Jos_Star
             xDoc.Save(Server.MapPath("~/xml/userXml.xml"));
         }
 
-        private void RemoveAllUserXml()
-        {
-            XDocument xDoc = XDocument.Load(Server.MapPath("~/xml/userXml.xml"));
-            XElement root = xDoc.Element("test");
-            root.RemoveAll();
-            xDoc.Save(Server.MapPath("~/xml/userXml.xml")); 
-        }
     }
 }
