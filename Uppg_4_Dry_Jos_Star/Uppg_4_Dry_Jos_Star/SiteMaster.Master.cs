@@ -11,17 +11,17 @@ namespace Uppg_4_Dry_Jos_Star
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string authorisation = "admin";
-            if (authorisation == "admin")
-            {
-                admin.Visible = true;
-                a1.Visible = true;
-            }
-            else
-            {
-                admin.Visible = false;
-                a1.Visible = false;
-            }
+            //string authorisation = "admin";
+            //if (authorisation == "admin")
+            //{
+            //    admin.Visible = true;
+            //    a1.Visible = true;
+            //}
+            //else
+            //{
+            //    admin.Visible = false;
+            //    a1.Visible = false;
+            //}
         }
 
         void btnGoToAdmin_OnClick(object Source, EventArgs e)

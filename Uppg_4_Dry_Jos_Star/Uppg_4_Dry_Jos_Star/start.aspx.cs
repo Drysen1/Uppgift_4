@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using System.Web.UI.HtmlControls;
 
 namespace Uppg_4_Dry_Jos_Star
 {
@@ -12,8 +13,22 @@ namespace Uppg_4_Dry_Jos_Star
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            string userType = "Johanna";
+            if(userType != "Admin")
+            {
+                //System.Web.UI.HtmlControls.HtmlAnchor buttonToHide = (System.Web.UI.HtmlControls.HtmlAnchor)Master.FindControl("adminButton");
+
+                //buttonToHide.Style.Add("display", "none");
+
+
+                HtmlAnchor Divid = (HtmlAnchor)Page.Master.FindControl("adminButton");
+                Divid.Visible = false;
+            }
+
 
             GetDbInfo();
+
+
         }
 
         protected void Button1_Click(object sender, EventArgs e)
