@@ -11,7 +11,8 @@ namespace Uppg_4_Dry_Jos_Star
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            admin.Visible = false;
+            a1.Visible = false;
         }
     }
 }

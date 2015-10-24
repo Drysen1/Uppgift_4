@@ -95,13 +95,24 @@ h3 {
 	padding-top:20px;
 	padding-bottom: 20px;
 	color: white;
-	background: #AF3C3C;
+	background: #00A2E8;
 	margin-left: 0.2em;
 	margin-right: 0.2em;
+    border: 0 none;
+    outline: none;
+    font-size: 1.3em;
+    cursor: pointer;
 }
 .my-button:hover {
 	color: white;
-	background: #DB4C4C;
+	background: #66c7f1;
+}
+
+.button-80 {
+    width: 80%;
+}
+#center-home {
+    text-align:center;
 }
 /*****************************************************
 	BOXAR
@@ -216,7 +227,7 @@ h3 {
 .main-navbar {
 	list-style: none;
 	display: block;
-	 float: right; 
+	 float: left; 
 }
 
 .main-navbar > li {
@@ -245,6 +256,9 @@ h3 {
     /*background: #6c6c6c;*/
 }
 
+.right {
+    float: right;
+}
 /*****************************************************
 	Responsive-Navbar
 *****************************************************/
@@ -346,6 +360,7 @@ h3 {
 .home-h2 {
 	margin-left: 0.3em;
 }
+
 
 .third-section{
 	margin-top: 5em;

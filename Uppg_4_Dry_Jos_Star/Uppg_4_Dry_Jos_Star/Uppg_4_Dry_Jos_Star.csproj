@@ -57,6 +57,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="img\mote.jpg" />
+    <Content Include="start.aspx" />
     <Content Include="test.aspx" />
     <Content Include="xml\questions.xml" />
     <Content Include="SiteMaster.Master" />
@@ -115,6 +117,13 @@
     </Compile>
     <Compile Include="SiteMaster.Master.designer.cs">
       <DependentUpon>SiteMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="start.aspx.cs">
+      <DependentUpon>start.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="start.aspx.designer.cs">
+      <DependentUpon>start.aspx</DependentUpon>
     </Compile>
     <Compile Include="test.aspx.cs">
       <DependentUpon>test.aspx</DependentUpon>
