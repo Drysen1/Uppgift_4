@@ -61,6 +61,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="start1.aspx" />
     <Content Include="test.aspx" />
     <Content Include="xml\questions.xml" />
     <Content Include="SiteMaster.Master" />
@@ -121,6 +122,13 @@
     </Compile>
     <Compile Include="SiteMaster.Master.designer.cs">
       <DependentUpon>SiteMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="start1.aspx.cs">
+      <DependentUpon>start1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="start1.aspx.designer.cs">
+      <DependentUpon>start1.aspx</DependentUpon>
     </Compile>
     <Compile Include="test.aspx.cs">
       <DependentUpon>test.aspx</DependentUpon>
