@@ -55,7 +55,7 @@ namespace Uppg_4_Dry_Jos_Star
 
             if(totalDays > year)
             {
-                toDoTest = "1";
+                toDoTest = "2";
             }
             else
             {
