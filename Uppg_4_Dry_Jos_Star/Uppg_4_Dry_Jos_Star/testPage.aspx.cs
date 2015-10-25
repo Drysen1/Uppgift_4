@@ -22,6 +22,7 @@ namespace Uppg_4_Dry_Jos_Star
                 List<List<Question>> categoryLists = GetCategoryLists(questions); //parameter takes List<Question> .Count that corresponds to which test; 25 or 15 items at this moment
                 CreateUserXml(categoryLists);
                 PopulateRepeaters(categoryLists);
+                finalResult.Visible = false;
             }
         }
 
@@ -149,20 +150,15 @@ namespace Uppg_4_Dry_Jos_Star
 
         private void PopulateRepeaters(List<List<Question>> categoryLists)
         {
-            if (categoryLists.Count > 0)
+            List<Repeater> reps = new List<Repeater>();
+            foreach (Repeater rep in bodyContent.Controls.OfType<Repeater>())
             {
-                Repeater1.DataSource = categoryLists[0];
-                Repeater1.DataBind();
+                reps.Add(rep);
             }
-            if (categoryLists.Count > 1)
+            for (int i = 0; i < categoryLists.Count; i++)
             {
-                Repeater2.DataSource = categoryLists[1];
-                Repeater2.DataBind();
-            }
-            if (categoryLists.Count > 2)
-            {
-                Repeater3.DataSource = categoryLists[2];
-                Repeater3.DataBind();
+                reps[i].DataSource = categoryLists[i];
+                reps[i].DataBind();
             }
         }
 
@@ -409,9 +405,11 @@ namespace Uppg_4_Dry_Jos_Star
             }
 
             PopulateRepeaters(categoryLists);
-            SetBackcBoxToChecked(questions, Repeater1);
-            SetBackcBoxToChecked(questions, Repeater2);
-            SetBackcBoxToChecked(questions, Repeater3);
+            for (int i = 0; i < categoryLists.Count; i++)
+            {
+                SetBackcBoxToChecked(categoryLists[i], reps[i]);
+            }
+            ShowFinalResult(questions);
         }
 
         private void SetBackcBoxToChecked(List<Question> questions, Repeater rep)
@@ -514,6 +512,18 @@ namespace Uppg_4_Dry_Jos_Star
                 }
             }
             q.CssClasses = cssClasses; 
+        }
+
+        private void ShowFinalResult(List<Question> questions)
+        {
+            int score = 0;
+            foreach (Question q in questions)
+            {
+                if (q.IsCorrect)
+                    score++;
+            }
+            result.Text = String.Format("Ditt resultat blev: {0}/{1}", score, questions.Count);
+            finalResult.Visible = true;
         }
     }
 }

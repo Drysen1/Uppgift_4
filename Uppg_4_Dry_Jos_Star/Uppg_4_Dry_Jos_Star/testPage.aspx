@@ -6,7 +6,10 @@
     <div class="fullBox" id="page-title">        
         <h1>KOMPETENSPORTALEN</h1>
     </div>
-    <div id="bodyContent" class="fullBox" runat="server">  
+    <div id="bodyContent" class="fullBox" runat="server"> 
+         <div id="finalResult" class="fullBox" runat="server">        
+             <asp:Label ID="result" runat="server" Text="Label"></asp:Label>
+        </div>
         <asp:Repeater ID="Repeater1" runat="server" OnItemDataBound="Repeater1_ItemDataBound">
             <HeaderTemplate>
                 <div id="category_container" style="border:1px solid black; margin: 20px 0;">
