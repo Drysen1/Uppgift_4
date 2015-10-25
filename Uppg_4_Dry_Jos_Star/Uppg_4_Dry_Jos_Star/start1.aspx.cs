@@ -13,13 +13,17 @@ namespace Uppg_4_Dry_Jos_Star
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string userType = "Johanna";
+            string userType = "Admin";
             if (userType != "Admin")
             {
                 HtmlAnchor menuButton = (HtmlAnchor)Page.Master.FindControl("adminButton");
                 HtmlAnchor menuButton1 = (HtmlAnchor)Page.Master.FindControl("a1");
                 menuButton.Visible = false;
                 menuButton1.Visible = false;
+            }
+            else
+            {
+                lblUserName.Text = userType;
             }
 
             GetDbInfo();
@@ -50,7 +54,7 @@ namespace Uppg_4_Dry_Jos_Star
 
             if (totalDays > year)
             {
-                toDoTest = "2";
+                toDoTest = "1";
             }
             else
             {

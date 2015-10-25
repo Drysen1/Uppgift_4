@@ -38,7 +38,7 @@
         <div class="halfBox" id="center-home">
             <h3 class="home-h3">DITT SENASTE PROV</h3>
             <p class="home-text">Provresultat: <asp:Label ID="result" runat="server" Text="Label"></asp:Label></p>
-            <p class="home-text">Provdatumet: <asp:Label ID="lbldate" runat="server" Text="Label"></asp:Label></p>            
+            <p class="home-text">Provdatum: <asp:Label ID="lbldate" runat="server" Text="Label"></asp:Label></p>            
             <asp:Button ID="Button2" runat="server" Text="SE SENASTE PROVET" CssClass="my-button button-80" OnClick="Button2_Click" />
         </div>
     </div>
