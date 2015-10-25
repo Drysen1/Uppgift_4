@@ -2,6 +2,12 @@
 	TestPage
 *****************************************************/
 
+.correctanswer{
+    background-color:#7ee84d;
+}
+.incorrectanswer{
+    background-color:#fc9a90;
+}
 
 
 /*****************************************************

@@ -15,5 +15,7 @@ namespace Uppg_4_Dry_Jos_Star
         public List<string> CorrectAnswer { get; set; }
         public string NumOfCorrect { get; set; }
         public List<string> UserInput { get; set; }
+        public bool IsCorrect { get; set; }
+        public List<string> CssClasses { get; set; }
     }
 }
