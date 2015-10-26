@@ -13,7 +13,7 @@ namespace Uppg_4_Dry_Jos_Star
     {
         private readonly object syncLock = new object();
         private readonly Random rand = new Random();
-        
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if(Session["IsPageReloadAllowed"] == null) //gets instantiated first time
@@ -29,7 +29,8 @@ namespace Uppg_4_Dry_Jos_Star
             {
                 if(!IsAnythingChecked()) //when button is clicked something will be checked
                 {
-                    List<Question> questions = GetXmlContent("~/xml/userXml.xml");
+                    string fileName = GetUserXmlFileName();
+                    List<Question> questions = GetXmlContent(fileName);
                     List<List<Question>> categoryLists = GetCategoryListsNoRandomize(questions);
 
                     PopulateRepeaters(categoryLists);
@@ -41,7 +42,7 @@ namespace Uppg_4_Dry_Jos_Star
                 finalResult.Visible = false;
                 btnSend.Enabled = false;
             }
-        } //here's defaultXml and userXml
+        } 
 
         protected void Repeater1_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
@@ -64,7 +65,8 @@ namespace Uppg_4_Dry_Jos_Star
             }
             else
             {
-                XDocument xDoc = XDocument.Load(Server.MapPath("~/xml/userXml.xml"));
+                string fileName = GetUserXmlFileName();
+                XDocument xDoc = XDocument.Load(Server.MapPath(fileName));
 
                 List<Repeater> reps = new List<Repeater>();
                 foreach (Repeater rep in bodyContent.Controls.OfType<Repeater>())
@@ -84,7 +86,6 @@ namespace Uppg_4_Dry_Jos_Star
                         AddXmlAttribute(lbl.Text, cBoxes, xDoc);
                     }
                 }
-
                 CorrectTest();
             }
         }
@@ -268,7 +269,7 @@ namespace Uppg_4_Dry_Jos_Star
             }
         }
 
-        private void CreateUserXml(List<List<Question>> categoryLists) //here's one userXml - gets saved to DB
+        private void CreateUserXml(List<List<Question>> categoryLists) //userXml gets sent to DB here
         {
             List<Question> randomizedList = new List<Question>(); //take out all lists under categories and make one long list to get categories below
             foreach (List<Question> list in categoryLists)
@@ -325,7 +326,7 @@ namespace Uppg_4_Dry_Jos_Star
                         }
                     }
                 }
-                var answers = from e in xDoc.Descendants("answer")
+                var answers = from e in xDoc.Descendants("answer") //is needed otherwise attribute will be duplicated by else above
                               where e.Attribute("correct") == null
                               select e;
                 foreach (XElement x in answers)
@@ -333,8 +334,9 @@ namespace Uppg_4_Dry_Jos_Star
                     x.Add(new XAttribute("correct", "no"));
                 }
             }
-            xDoc.Save(Server.MapPath("~/xml/userXml.xml"));
-            SendUserXmlToDb();
+            string fileName = GetUserXmlFileName();
+            xDoc.Save(Server.MapPath(fileName));
+            //SendUserXmlToDb();
         }
 
         private void SetLabelInRepeaterHead(RepeaterItemEventArgs e, Repeater rep)
@@ -358,23 +360,18 @@ namespace Uppg_4_Dry_Jos_Star
             
             if(answers.Any()) //check for zero result
             {
-                IEnumerable<XElement> searchResult = answers.ElementAt(0);
+                List<XElement> searchResult = answers.ElementAt(0).ToList();
 
-                XElement e1 = searchResult.ElementAt(0);
-                string result = MatchElementWithUserInput(e1, userInput);
-                WriteToXml(e1, result, xDoc);
-
-                XElement e2 = searchResult.ElementAt(1);
-                string result2 = MatchElementWithUserInput(e2, userInput);
-                WriteToXml(e2, result2, xDoc);
-
-                XElement e3 = searchResult.ElementAt(2);
-                string result3 = MatchElementWithUserInput(e3, userInput);
-                WriteToXml(e3, result3, xDoc);
+                for(int i = 0; i< searchResult.Count; i++)
+                {
+                    XElement xe = searchResult.ElementAt(i);
+                    string result = IsCheckBoxChecked(xe, userInput);
+                    WriteToXml(xe, result, xDoc);
+                }
             }
         }
 
-        private string MatchElementWithUserInput(XElement element, CheckBox[] userInput)
+        private string IsCheckBoxChecked(XElement element, CheckBox[] userInput)
         {
             string toReturn = "";
             CheckBox cBox1 = userInput[0];
@@ -383,22 +380,17 @@ namespace Uppg_4_Dry_Jos_Star
 
             if (element.Value == cBox1.Text)
             {
-                toReturn = IsCheckBoxChecked(cBox1) ? "yes" : "no";
+                toReturn = cBox1.Checked ? "yes" : "no";
             }
             else if (element.Value == cBox2.Text)
             {
-                toReturn = IsCheckBoxChecked(cBox2) ? "yes" : "no";
+                toReturn = cBox2.Checked ? "yes" : "no";
             }
             else if(element.Value == cBox3.Text)
             {
-                toReturn = IsCheckBoxChecked(cBox3) ? "yes" : "no";
+                toReturn = cBox3.Checked ? "yes" : "no";
             }
             return toReturn;
-        }
-
-        private bool IsCheckBoxChecked(CheckBox cBox)
-        {
-            return cBox.Checked;
         }
 
         private bool IsAnswerCorrect(XElement element, CheckBox cBox)
@@ -414,15 +406,17 @@ namespace Uppg_4_Dry_Jos_Star
             }
         }
 
-        private void WriteToXml(XElement element, string inputResult, XDocument xDoc) //here's one userXml
+        private void WriteToXml(XElement element, string inputResult, XDocument xDoc)
         {
             element.SetAttributeValue("input", inputResult);
-            xDoc.Save(Server.MapPath("~/xml/userXml.xml"));
+            string fileName = GetUserXmlFileName();
+            xDoc.Save(Server.MapPath(fileName));
         }
 
-        private void CorrectTest() //here's one userXml
+        private void CorrectTest()
         {
-            List<Question> questions = GetXmlContent("~/xml/userXml.xml");
+            string fileName = GetUserXmlFileName();
+            List<Question> questions = GetXmlContent(fileName);
             List<List<Question>> categoryLists = GetCategoryListsNoRandomize(questions);
 
             List<Repeater> reps = new List<Repeater>();
@@ -479,7 +473,6 @@ namespace Uppg_4_Dry_Jos_Star
                 CheckBox cBox1 = (CheckBox)item.FindControl("cbox1");
                 CheckBox cBox2 = (CheckBox)item.FindControl("cbox2");
                 CheckBox cBox3 = (CheckBox)item.FindControl("cbox3");
-                List<CheckBox> cBoxes = new List<CheckBox> { cBox1, cBox2, cBox3 };
 
                 Question q = new Question();
                 List<string> list = new List<string>();
@@ -565,19 +558,47 @@ namespace Uppg_4_Dry_Jos_Star
             Session["IsFirstTime"] = false;
         }
 
-        private void SendUserXmlToDb() //here's one userXml
+        private void SendUserXmlToDb() //here's one Request.QueryString
         {
-            XDocument xmlDoc = XDocument.Load(Server.MapPath("~/xml/userXml.xml"));
             DatabaseConnection db = new DatabaseConnection();
-            string id = db.GetUserId("stare");
-            db.SaveUserXml(id, xmlDoc);
+            //string userName = Request.QueryString["userName"];
+            string id = db.GetUserId("stare"); //will be userName later, not "stare"
+            List<string> userXmls = db.RetrieveXmlDocument(id, DateTime.Today);
+
+            if (userXmls.Count < 1) 
+            {
+                string fileName = GetUserXmlFileName();
+                XDocument xDoc = XDocument.Load(Server.MapPath(fileName));
+                db.SaveUserXml(id, xDoc, DateTime.Today);
+            }
+            else 
+            {
+                //person has already done a test today
+            }
         }
 
-        private void GetUserXmlFromDb() //here's one userXml
+        private XDocument GetUserXmlFromDb()
         {
             DatabaseConnection db = new DatabaseConnection();
-            XDocument xDoc = db.RetrieveXmlDocument(6);
-            xDoc.Save(Server.MapPath("~/xml/userXmlcopy.xml"));
+            //string userName = Request.QueryString["userName"];
+            string id = db.GetUserId("stare"); //will be userName later, not "stare"
+            List<string> userXmls = db.RetrieveXmlDocument(id, DateTime.Today);
+
+            XDocument xDoc = XDocument.Parse(userXmls[0]);
+            XDeclaration xDec = xDoc.Declaration; //for some reason postgres changes encoding to utf-16, changing it back!
+            xDec.Encoding = "utf-8";
+
+            string fileName = GetUserXmlFileName();
+            xDoc.Save(Server.MapPath(fileName));
+
+            return xDoc;
+        }
+
+        private string GetUserXmlFileName() //here's one Request.QueryString
+        {
+            //string userName = Request.QueryString["userName"];
+            string userXmlFileName = string.Format("~/xml/{0}.xml", "stare"); //again will be userName later, not "stare"
+            return userXmlFileName;
         }
     }
 }

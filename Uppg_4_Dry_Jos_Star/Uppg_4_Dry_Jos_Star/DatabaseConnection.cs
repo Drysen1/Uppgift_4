@@ -47,7 +47,7 @@ namespace Uppg_4_Dry_Jos_Star
             return id;
         }
 
-        public void SaveUserXml (string userId, XDocument userXml)
+        public void SaveUserXml (string userId, XDocument userXml, DateTime todayDate)
         {
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             using (System.IO.StringWriter sw = new System.IO.StringWriter(sb))
@@ -64,7 +64,7 @@ namespace Uppg_4_Dry_Jos_Star
 
                     using(NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("date", DateTime.Today);
+                        cmd.Parameters.AddWithValue("date", todayDate);
                         cmd.Parameters.AddWithValue("userId", int.Parse(userId));
                         cmd.Parameters.AddWithValue("xml", sb.ToString());
                         cmd.ExecuteNonQuery();
@@ -77,29 +77,30 @@ namespace Uppg_4_Dry_Jos_Star
             }
         }
 
-        public XDocument RetrieveXmlDocument(int userId)
+        public List<string> RetrieveXmlDocument(string userId, DateTime todayDate)
         {
-            XDocument xDoc = new XDocument();
+            List<string> xmlList = new List<string>();
+
             try
             {
                 using (NpgsqlConnection conn = new NpgsqlConnection(myConnection))
                 {
                     conn.Open();
-                    string query = "SELECT xmlstring FROM testoccasion WHERE id_user = @userId";
+                    string query = "SELECT xmlstring FROM testoccasion "+
+                                    "WHERE id_user = @userId AND date = @date ";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("userId", userId);
+                        cmd.Parameters.AddWithValue("userId", int.Parse(userId));
+                        cmd.Parameters.AddWithValue("date", todayDate);
 
                         using(NpgsqlDataReader dr = cmd.ExecuteReader())
                         {
                             while(dr.Read())
                             {
-                                string result = dr[0].ToString();
-                                xDoc = XDocument.Parse(result);
+                                xmlList.Add(dr[0].ToString());
                             }
-                            XDeclaration xDec = xDoc.Declaration; //for some reason postgres changes encoding to utf-16, changing it back!
-                            xDec.Encoding = "utf-8";
+                           
                         }
                     }
                 }
@@ -108,7 +109,7 @@ namespace Uppg_4_Dry_Jos_Star
             {
                 NpgsqlException = ex.Message;
             }
-            return xDoc;
+            return xmlList;
         }
     }
 }
