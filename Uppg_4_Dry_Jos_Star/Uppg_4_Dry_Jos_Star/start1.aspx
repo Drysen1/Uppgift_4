@@ -33,7 +33,7 @@
             <p class="home-text">Du har för närvarande <asp:Label ID="testToDo" runat="server" Text="Label"></asp:Label> prov att genomföra.</p>
             <br />
             <br />
-            <asp:Button ID="Button1" runat="server" Text="STARTA PROV" CssClass="my-button button-80" OnClick="Button1_Click" />
+            <asp:Button ID="btnStartTest" runat="server" Text="STARTA PROV" CssClass="my-button button-80" OnClick="Button1_Click" />
         </div>
         <div class="halfBox" id="center-home">
             <h3 class="home-h3">DITT SENASTE PROV</h3>
