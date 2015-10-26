@@ -31,14 +31,15 @@
         <div class="halfBox" id="center-home">
             <h3 class="home-h3" >PROVSTATUS</h3>
             <p class="home-text">Du har för närvarande <asp:Label ID="testToDo" runat="server" Text="Label"></asp:Label> prov att genomföra.</p>
-            <br />
+            <p class="home-text">Nästa provdatum: <asp:Label ID="lblNextTestDate" runat="server" Text="Label"></asp:Label></p>
             <br />
             <asp:Button ID="btnStartTest" runat="server" Text="STARTA PROV" CssClass="my-button button-80" OnClick="Button1_Click" />
         </div>
         <div class="halfBox" id="center-home">
             <h3 class="home-h3">DITT SENASTE PROV</h3>
             <p class="home-text">Provresultat: <asp:Label ID="result" runat="server" Text="Label"></asp:Label></p>
-            <p class="home-text">Provdatum: <asp:Label ID="lbldate" runat="server" Text="Label"></asp:Label></p>            
+            <p class="home-text">Provdatum: <asp:Label ID="lbldate" runat="server" Text="Label"></asp:Label></p>  
+            <br />          
             <asp:Button ID="Button2" runat="server" Text="SE SENASTE PROVET" CssClass="my-button button-80" OnClick="Button2_Click" />
         </div>
     </div>

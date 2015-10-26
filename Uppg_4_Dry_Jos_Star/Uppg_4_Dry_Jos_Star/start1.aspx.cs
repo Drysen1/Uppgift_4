@@ -1,4 +1,8 @@
-﻿using System;
+﻿//Start1.aspx.cs code behind for page start1.aspx.
+//Erik Drysén 2015-10-22.
+//Revised 2015-10-26 by Erik Drysén.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -21,6 +25,7 @@ namespace Uppg_4_Dry_Jos_Star
             }
 
         }
+
         /// <summary>
         /// Method assumes that that a user has been redirected from a login page
         /// calls method GetLoggedinuserinfo to retrieve what privielge user have
@@ -55,8 +60,8 @@ namespace Uppg_4_Dry_Jos_Star
         private DataTable GetLoggedInUserInfo()
         {
             NpgsqlConnection conn = new NpgsqlConnection("Database=kompetensportal;Server=localhost;User Id=postgres;Password=anna;");
-            int userId = 2;//Change id here to get the user you want to find.
-            int userId2 = 2;//Change id here to get the user you want to find.
+            int userId = 5;//Change id here to get the user you want to find.
+            int userId2 = 5;//Change id here to get the user you want to find.
             //Assume id or something has been passed from log in page in order to retrieve correct info.
             //This is only for simulations purpose for this iteration.
             try
@@ -97,7 +102,7 @@ namespace Uppg_4_Dry_Jos_Star
             DateTime date = DateTime.Parse(dt.Rows[0]["date"].ToString());
             string userName = dt.Rows[0]["username"].ToString();
 
-            testToDo.Text = CheckDateOfLastTest(date);
+            testToDo.Text = CheckDateOfLastTest(date, passTest);
             result.Text = SetPassOrFail(passTest);
             lbldate.Text = date.ToString("yyyy-MM-dd");
             lblUserName.Text = userName;
@@ -126,31 +131,62 @@ namespace Uppg_4_Dry_Jos_Star
         }
 
         /// <summary>
-        /// Method takes param date and evaluate if timespan between current day and
-        /// date is more than 365 in order to see if user need to do another test. 
-        /// It assigns string value to param toDoTest and returns. 
-        /// If 0 test to de done it disables btnStartTest.
+        /// This method should probably be broken up into smaller methods.
+        /// Method takes param date and param passTest.
+        /// Evaluates if passtest is false, if false evaluates timespan is more or less
+        /// than 7 days to see if user is allowed to retake the test.
+        /// If passTest is true, evaluates timespan between date of test and date of
+        /// today. If more than 1year ago user can retake test.
+        /// 
         /// </summary>
         /// <param name="date">DateTime value from database</param>
+        /// <param name="passTest">bool/string value from database</param>
         /// <returns>Returns new string value</returns>
-        private string CheckDateOfLastTest(DateTime date)
+        private string CheckDateOfLastTest(DateTime date, string passTest)
         {
             string toDoTest = string.Empty;
             DateTime today = DateTime.Now;
             TimeSpan test = today - date;
             int totalDays = test.Days;
             int year = 365;
-
-            if (totalDays > year)
+            int week = 7;
+            DateTime nextTestDate;
+            if(passTest == "False")
             {
-                toDoTest = "1";
-                return toDoTest;
+                if(totalDays > week)
+                {
+                    nextTestDate = date.AddDays(7);
+                    lblNextTestDate.Text = nextTestDate.ToString("yyyy-MM-dd");
+                    toDoTest = "1";
+                    btnStartTest.Enabled = true;
+                    return toDoTest;
+                }
+                else
+                {
+                    nextTestDate = date.AddDays(7);
+                    lblNextTestDate.Text = nextTestDate.ToString("yyyy-MM-dd");
+                    toDoTest = "1";
+                    btnStartTest.Enabled = false;
+                    return toDoTest;
+                }
             }
             else
             {
-                toDoTest = "0";
-                btnStartTest.Enabled = false;
-                return toDoTest;
+                if (totalDays > year)
+                {
+                    nextTestDate = date.AddYears(1);
+                    lblNextTestDate.Text = nextTestDate.ToString("yyyy-MM-dd");
+                    toDoTest = "1";
+                    return toDoTest;
+                }
+                else
+                {
+                    nextTestDate = date.AddYears(1);
+                    lblNextTestDate.Text = nextTestDate.ToString("yyyy-MM-dd");
+                    toDoTest = "0";
+                    btnStartTest.Enabled = false;
+                    return toDoTest;
+                }
             }
         }
 
