@@ -106,7 +106,7 @@
       <answer correct="no">23 045</answer>
     </question>
   </category>
-  <!--<category type="Produkter och hantering av kundens affärer">
+  <category type="Produkter och hantering av kundens affärer">
     <question id="18">
       <text>Vilken inkomstnivå är lämplig för ett lån på 2 miljoner?</text>
       <answer correct="no">30.000kr/mån</answer>
@@ -155,5 +155,5 @@
       <answer correct="no">Kina</answer>
       <answer correct="yes">Grekland</answer>
     </question>
-  </category>-->
+  </category>
 </test>

@@ -16,15 +16,32 @@ namespace Uppg_4_Dry_Jos_Star
         
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            if(Session["IsPageReloadAllowed"] == null) //gets instantiated first time
             {
                 List<Question> questions = GetXmlContent("~/xml/questions.xml");
-                List<List<Question>> categoryLists = GetCategoryLists(questions); //parameter takes List<Question> .Count that corresponds to which test; 25 or 15 items at this moment
+                List<List<Question>> categoryLists = GetCategoryLists(questions);
                 CreateUserXml(categoryLists);
                 PopulateRepeaters(categoryLists);
                 finalResult.Visible = false;
+                Session["IsPageReloadAllowed"] = false;
             }
-        }
+            else if (Session["IsPageReloadAllowed"] != null && Session["IsFirstTime"] == null) //page reload before button has been clicked
+            {
+                if(!IsAnythingChecked()) //when button is clicked something will be checked
+                {
+                    List<Question> questions = GetXmlContent("~/xml/userXml.xml");
+                    List<List<Question>> categoryLists = GetCategoryListsNoRandomize(questions);
+
+                    PopulateRepeaters(categoryLists);
+                    finalResult.Visible = false;
+                }
+            }
+            else if (Session["IsPageReloadAllowed"] != null && Session["IsFirstTime"] != null) //if user hits back in browser after button has been clicked
+            {
+                finalResult.Visible = false;
+                btnSend.Enabled = false;
+            }
+        } //here's defaultXml and userXml
 
         protected void Repeater1_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
@@ -41,37 +58,66 @@ namespace Uppg_4_Dry_Jos_Star
 
         protected void btnSend_Click(object sender, EventArgs e)
         {
-            foreach (RepeaterItem item in Repeater1.Items)
+            if(Session["IsFirstTime"] != null) //after buttonclick page reload will trigger onClick-event
             {
-                Label lbl = (Label)item.FindControl("question");
-                CheckBox chBox1 = (CheckBox)item.FindControl("cBox1");
-                CheckBox chBox2 = (CheckBox)item.FindControl("cBox2");
-                CheckBox chBox3 = (CheckBox)item.FindControl("cBox3");
-                CheckBox[] cBoxes = { chBox1, chBox2, chBox3 };
-                AddXmlAttribute(lbl.Text, cBoxes);
+                CorrectTest();
             }
-            foreach (RepeaterItem item in Repeater2.Items)
+            else
             {
-                Label lbl = (Label)item.FindControl("question");
-                CheckBox chBox1 = (CheckBox)item.FindControl("cBox1");
-                CheckBox chBox2 = (CheckBox)item.FindControl("cBox2");
-                CheckBox chBox3 = (CheckBox)item.FindControl("cBox3");
-                CheckBox[] cBoxes = { chBox1, chBox2, chBox3 };
-                AddXmlAttribute(lbl.Text, cBoxes);
+                XDocument xDoc = XDocument.Load(Server.MapPath("~/xml/userXml.xml"));
+
+                List<Repeater> reps = new List<Repeater>();
+                foreach (Repeater rep in bodyContent.Controls.OfType<Repeater>())
+                {
+                    reps.Add(rep);
+                }
+
+                foreach (Repeater rep in reps)
+                {
+                    foreach (RepeaterItem item in rep.Items)
+                    {
+                        Label lbl = (Label)item.FindControl("question");
+                        CheckBox chBox1 = (CheckBox)item.FindControl("cBox1");
+                        CheckBox chBox2 = (CheckBox)item.FindControl("cBox2");
+                        CheckBox chBox3 = (CheckBox)item.FindControl("cBox3");
+                        CheckBox[] cBoxes = { chBox1, chBox2, chBox3 };
+                        AddXmlAttribute(lbl.Text, cBoxes, xDoc);
+                    }
+                }
+
+                CorrectTest();
             }
-            foreach (RepeaterItem item in Repeater3.Items)
-            {
-                Label lbl = (Label)item.FindControl("question");
-                CheckBox chBox1 = (CheckBox)item.FindControl("cBox1");
-                CheckBox chBox2 = (CheckBox)item.FindControl("cBox2");
-                CheckBox chBox3 = (CheckBox)item.FindControl("cBox3");
-                CheckBox[] cBoxes = { chBox1, chBox2, chBox3 };
-                AddXmlAttribute(lbl.Text, cBoxes);
-            }
-            CorrectTest();
         }
         //-------------------------------------------------------------------------------------
-        private List<Question> GetXmlContent(string xmlVirtualPath)
+        
+        private bool IsAnythingChecked()
+        {
+            bool result = false;
+            List<Repeater> reps = new List<Repeater>();
+            foreach (Repeater rep in bodyContent.Controls.OfType<Repeater>())
+            {
+                reps.Add(rep);
+            }
+
+            foreach (Repeater rep in reps)
+            {
+                foreach (RepeaterItem item in rep.Items)
+                {
+                    Label lbl = (Label)item.FindControl("question");
+                    CheckBox chBox1 = (CheckBox)item.FindControl("cBox1");
+                    CheckBox chBox2 = (CheckBox)item.FindControl("cBox2");
+                    CheckBox chBox3 = (CheckBox)item.FindControl("cBox3");
+                    if(chBox1.Checked || chBox2.Checked || chBox3.Checked)
+                    {
+                        result = true;
+                        break;
+                    }
+                }
+            }
+            return result;
+        }
+        
+        private List<Question> GetXmlContent(string xmlVirtualPath) 
         {
             XDocument xDoc = XDocument.Load(Server.MapPath(xmlVirtualPath));
             var xmlResult = from q in xDoc.Descendants("question")
@@ -93,7 +139,7 @@ namespace Uppg_4_Dry_Jos_Star
                 questions.Add(q);
             }
             return questions;
-        }
+        } 
 
         private List<List<Question>> GetCategoryLists(List<Question> questionList)
         {
@@ -162,20 +208,6 @@ namespace Uppg_4_Dry_Jos_Star
             }
         }
 
-        private void SendUserXmlToDb()
-        {
-            XDocument xmlDoc = XDocument.Load(Server.MapPath("~/xml/userXml.xml"));
-            DatabaseConnection db = new DatabaseConnection();
-            db.SaveUserXml(xmlDoc);
-        }
-
-        private void GetUserXmlFromDb()
-        {
-            DatabaseConnection db = new DatabaseConnection();
-            XDocument xDoc = db.RetrieveXmlDocument(6);
-            xDoc.Save(Server.MapPath("~/xml/userXmlcopy.xml"));
-        }
-
         private List<Question> GetRandomizedList(List<Question> questions, List<int> numsToReOrderWith)
         {
             List<Question> randomizedList = new List<Question>();
@@ -236,7 +268,7 @@ namespace Uppg_4_Dry_Jos_Star
             }
         }
 
-        private void CreateUserXml(List<List<Question>> categoryLists)
+        private void CreateUserXml(List<List<Question>> categoryLists) //here's one userXml - gets saved to DB
         {
             List<Question> randomizedList = new List<Question>(); //take out all lists under categories and make one long list to get categories below
             foreach (List<Question> list in categoryLists)
@@ -302,6 +334,7 @@ namespace Uppg_4_Dry_Jos_Star
                 }
             }
             xDoc.Save(Server.MapPath("~/xml/userXml.xml"));
+            SendUserXmlToDb();
         }
 
         private void SetLabelInRepeaterHead(RepeaterItemEventArgs e, Repeater rep)
@@ -317,9 +350,8 @@ namespace Uppg_4_Dry_Jos_Star
             }
         }
 
-        private void AddXmlAttribute(string questionText, CheckBox[] userInput)
+        private void AddXmlAttribute(string questionText, CheckBox[] userInput, XDocument xDoc)
         {
-            XDocument xDoc = XDocument.Load(Server.MapPath("~/xml/userXml.xml"));
             var answers = from a in xDoc.Descendants("question")
                           where a.Element("text").Value == questionText
                           select a.Elements("answer");
@@ -382,13 +414,13 @@ namespace Uppg_4_Dry_Jos_Star
             }
         }
 
-        private void WriteToXml(XElement element, string inputResult, XDocument xDoc)
+        private void WriteToXml(XElement element, string inputResult, XDocument xDoc) //here's one userXml
         {
             element.SetAttributeValue("input", inputResult);
             xDoc.Save(Server.MapPath("~/xml/userXml.xml"));
         }
 
-        private void CorrectTest()
+        private void CorrectTest() //here's one userXml
         {
             List<Question> questions = GetXmlContent("~/xml/userXml.xml");
             List<List<Question>> categoryLists = GetCategoryListsNoRandomize(questions);
@@ -411,7 +443,7 @@ namespace Uppg_4_Dry_Jos_Star
             }
             ShowFinalResult(questions);
         }
-
+      
         private void SetBackcBoxToChecked(List<Question> questions, Repeater rep)
         {
             foreach (RepeaterItem item in rep.Items)
@@ -523,7 +555,29 @@ namespace Uppg_4_Dry_Jos_Star
                     score++;
             }
             result.Text = String.Format("Ditt resultat blev: {0}/{1}", score, questions.Count);
+            btnSend.Enabled = false;
             finalResult.Visible = true;
+            KeepInSession();
+        }
+
+        private void KeepInSession()
+        {
+            Session["IsFirstTime"] = false;
+        }
+
+        private void SendUserXmlToDb() //here's one userXml
+        {
+            XDocument xmlDoc = XDocument.Load(Server.MapPath("~/xml/userXml.xml"));
+            DatabaseConnection db = new DatabaseConnection();
+            string id = db.GetUserId("stare");
+            db.SaveUserXml(id, xmlDoc);
+        }
+
+        private void GetUserXmlFromDb() //here's one userXml
+        {
+            DatabaseConnection db = new DatabaseConnection();
+            XDocument xDoc = db.RetrieveXmlDocument(6);
+            xDoc.Save(Server.MapPath("~/xml/userXmlcopy.xml"));
         }
     }
 }
