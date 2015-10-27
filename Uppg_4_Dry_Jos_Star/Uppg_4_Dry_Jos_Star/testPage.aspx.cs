@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.DataVisualization.Charting;
 using System.Web.UI.WebControls;
 using System.Xml;
 using System.Xml.Linq;
@@ -69,7 +71,7 @@ namespace Uppg_4_Dry_Jos_Star
                 XDocument xDoc = XDocument.Load(Server.MapPath(fileName));
 
                 List<Repeater> reps = new List<Repeater>();
-                foreach (Repeater rep in bodyContent.Controls.OfType<Repeater>())
+                foreach (Repeater rep in repeaters.Controls.OfType<Repeater>())
                 {
                     reps.Add(rep);
                 }
@@ -90,33 +92,6 @@ namespace Uppg_4_Dry_Jos_Star
             }
         }
         //-------------------------------------------------------------------------------------
-        
-        private bool IsAnythingChecked()
-        {
-            bool result = false;
-            List<Repeater> reps = new List<Repeater>();
-            foreach (Repeater rep in bodyContent.Controls.OfType<Repeater>())
-            {
-                reps.Add(rep);
-            }
-
-            foreach (Repeater rep in reps)
-            {
-                foreach (RepeaterItem item in rep.Items)
-                {
-                    Label lbl = (Label)item.FindControl("question");
-                    CheckBox chBox1 = (CheckBox)item.FindControl("cBox1");
-                    CheckBox chBox2 = (CheckBox)item.FindControl("cBox2");
-                    CheckBox chBox3 = (CheckBox)item.FindControl("cBox3");
-                    if(chBox1.Checked || chBox2.Checked || chBox3.Checked)
-                    {
-                        result = true;
-                        break;
-                    }
-                }
-            }
-            return result;
-        }
         
         private List<Question> GetXmlContent(string xmlVirtualPath) 
         {
@@ -198,7 +173,7 @@ namespace Uppg_4_Dry_Jos_Star
         private void PopulateRepeaters(List<List<Question>> categoryLists)
         {
             List<Repeater> reps = new List<Repeater>();
-            foreach (Repeater rep in bodyContent.Controls.OfType<Repeater>())
+            foreach (Repeater rep in repeaters.Controls.OfType<Repeater>())
             {
                 reps.Add(rep);
             }
@@ -393,17 +368,31 @@ namespace Uppg_4_Dry_Jos_Star
             return toReturn;
         }
 
-        private bool IsAnswerCorrect(XElement element, CheckBox cBox)
+        private bool IsAnythingChecked()
         {
-            string correct = (string)element.Attribute("correct");
-            if(cBox.Checked && correct == "yes")
+            bool result = false;
+            List<Repeater> reps = new List<Repeater>();
+            foreach (Repeater rep in repeaters.Controls.OfType<Repeater>())
             {
-                return true;
+                reps.Add(rep);
             }
-            else
+
+            foreach (Repeater rep in reps)
             {
-                return false;
+                foreach (RepeaterItem item in rep.Items)
+                {
+                    Label lbl = (Label)item.FindControl("question");
+                    CheckBox chBox1 = (CheckBox)item.FindControl("cBox1");
+                    CheckBox chBox2 = (CheckBox)item.FindControl("cBox2");
+                    CheckBox chBox3 = (CheckBox)item.FindControl("cBox3");
+                    if (chBox1.Checked || chBox2.Checked || chBox3.Checked)
+                    {
+                        result = true;
+                        break;
+                    }
+                }
             }
+            return result;
         }
 
         private void WriteToXml(XElement element, string inputResult, XDocument xDoc)
@@ -420,7 +409,7 @@ namespace Uppg_4_Dry_Jos_Star
             List<List<Question>> categoryLists = GetCategoryListsNoRandomize(questions);
 
             List<Repeater> reps = new List<Repeater>();
-            foreach(Repeater rep in bodyContent.Controls.OfType<Repeater>())
+            foreach (Repeater rep in repeaters.Controls.OfType<Repeater>())
             {
                 reps.Add(rep);
             }
@@ -435,7 +424,10 @@ namespace Uppg_4_Dry_Jos_Star
             {
                 SetBackcBoxToChecked(categoryLists[i], reps[i]);
             }
-            ShowFinalResult(questions);
+            CalculateScore(questions, categoryLists);
+            btnSend.Enabled = false;
+            finalResult.Visible = true;
+            KeepInSession();
         }
       
         private void SetBackcBoxToChecked(List<Question> questions, Repeater rep)
@@ -539,7 +531,36 @@ namespace Uppg_4_Dry_Jos_Star
             q.CssClasses = cssClasses; 
         }
 
-        private void ShowFinalResult(List<Question> questions)
+        private void CalculateScore(List<Question> allQuestions, List<List<Question>> categoryLists)
+        {
+            List<int> totalQuestions = new List<int>();
+            totalQuestions.Add(allQuestions.Count);
+            
+            int score = GetScoreFromList(allQuestions);
+            Dictionary<string, int> allScores = new Dictionary<string, int>();
+            allScores.Add("Totalt", score);
+
+            foreach (List<Question> list in categoryLists)
+            {
+                totalQuestions.Add(list.Count);
+                score = GetScoreFromList(list);
+                allScores.Add(list[0].Category, score);
+            }
+
+            Dictionary<string, double> allPercents = new Dictionary<string, double>();
+
+            for(int i = 0; i<allScores.Count; i++)
+            {
+                KeyValuePair<string, int> pair = allScores.ElementAt(i);
+                int totalAmount = totalQuestions.ElementAt(i);
+                double percent = GetPercentageScore(totalAmount, pair.Value);
+                allPercents.Add(pair.Key, percent);
+            }
+            SetDataOnCharts(allPercents);
+            //result.Text = String.Format("Ditt resultat blev: {0}/{1}", score, allQuestions.Count);
+        }
+
+        private int GetScoreFromList(List<Question> questions)
         {
             int score = 0;
             foreach (Question q in questions)
@@ -547,10 +568,38 @@ namespace Uppg_4_Dry_Jos_Star
                 if (q.IsCorrect)
                     score++;
             }
-            result.Text = String.Format("Ditt resultat blev: {0}/{1}", score, questions.Count);
-            btnSend.Enabled = false;
-            finalResult.Visible = true;
-            KeepInSession();
+            return score;
+        }
+
+        private double GetPercentageScore(int totalQuestions, int correctAnswers)
+        {
+            double percent = (double)correctAnswers / (double)totalQuestions * 100;
+            return Math.Round(percent, 2);
+        }
+
+        private void SetDataOnCharts(Dictionary<string, double> dictAllPercents)
+        {
+            List<Chart> charts = new List<Chart>();
+            foreach(Chart c in finalResult.Controls.OfType<Chart>())
+            {
+                charts.Add(c);
+            }
+
+            for(int i = 0; i<dictAllPercents.Count; i++)
+            {
+                KeyValuePair<string, double> pair = dictAllPercents.ElementAt(i);
+                double percentLeft = 100 - pair.Value;
+                string percentText = pair.Value.ToString() + "%";
+
+                Chart c = charts.ElementAt(i);
+                c.Titles[0].Text = pair.Key;
+
+                SeriesCollection s = c.Series;
+                s[0].Points.AddY(percentLeft);
+                s[0].Points.AddXY(percentText, pair.Value);
+                s[0].Points[0].Color = Color.Red;
+                s[0].Points[1].Color = Color.LightGreen;
+            }
         }
 
         private void KeepInSession()
