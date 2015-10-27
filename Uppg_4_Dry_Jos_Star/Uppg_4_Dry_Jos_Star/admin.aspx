@@ -30,15 +30,15 @@
         <div class="halfBox" id="center-home">
             <h3 class="home-h3" >Licencieringstest</h3>
             <p class="home-text">Namn - label<br /> </p>
-            <p class="home-text">Namn</p>
+            <p class="home-text">Namn 123</p>
             <br />
             <br />
             <asp:Button ID="Button1" runat="server" Text="TEXT" CssClass="my-button button-80" OnClick="Button1_Click" />
         </div>
         <div class="halfBox" id="center-home">
             <h3 class="home-h3">ÅKU</h3>
-            <p class="home-text">Namn</p>
-            <p class="home-text">Namn</p> 
+            <p class="home-text">Cirkeldiagram</p>
+            <p class="home-text">Översikt över gruppen</p> 
             <br />
             <br />           
             <asp:Button ID="Button2" runat="server" Text="TEXT" CssClass="my-button button-80" OnClick="Button2_Click" />
