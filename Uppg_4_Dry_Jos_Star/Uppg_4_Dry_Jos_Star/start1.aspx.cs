@@ -67,9 +67,10 @@ namespace Uppg_4_Dry_Jos_Star
             try
             {
                 conn.Open();
-                NpgsqlCommand cmdGetUserInfo = new NpgsqlCommand("SELECT * FROM person, testoccasion WHERE id_user = @id AND person.id = @id2; ", conn);
+                NpgsqlCommand cmdGetUserInfo = new NpgsqlCommand("SELECT * FROM person " +
+                                                                 "INNER JOIN testoccasion ON testoccasion.id_user = person.id " +
+                                                                 "WHERE person.id = @id; ", conn);
                 cmdGetUserInfo.Parameters.AddWithValue("@id", userId);
-                cmdGetUserInfo.Parameters.AddWithValue("@id2", userId2);
                 NpgsqlDataAdapter nda = new NpgsqlDataAdapter();
                 nda.SelectCommand = cmdGetUserInfo;
                 DataSet ds = new DataSet();

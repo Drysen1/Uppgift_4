@@ -14,7 +14,6 @@ namespace Uppg_4_Dry_Jos_Star
 		protected void Page_Load(object sender, EventArgs e)
 		{
             string userName = Request.QueryString["userName"];
-            lblTest.Text = userName;
             string userType = userName;
             if (userType != "Admin")
             {
