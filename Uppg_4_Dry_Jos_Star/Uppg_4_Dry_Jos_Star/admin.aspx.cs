@@ -21,12 +21,23 @@ namespace Uppg_4_Dry_Jos_Star
                 HtmlAnchor menuButton1 = (HtmlAnchor)Page.Master.FindControl("a1");
                 menuButton.Visible = false;
                 menuButton1.Visible = false;
-                Response.Redirect("test.aspx");
+               // Response.Redirect("test.aspx");
             }
             else
             {
 
             }
 		}
+
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+
+        }
 	}
 }
