@@ -12,7 +12,7 @@ namespace Uppg_4_Dry_Jos_Star
 {
     public class DatabaseConnection
     {
-        private string myConnection = "Server=localhost;Port=5432;Database=kompetensportal;User Id=postgres;Password=anna;";
+        private string myConnection = "Server=localhost;Port=5432;Database=kompetensportalen;User Id=postgres;Password=anna;";
         public string NpgsqlException { get; set; }
 
         public string GetUserId(string userName)
@@ -36,7 +36,6 @@ namespace Uppg_4_Dry_Jos_Star
                                 id = dr[0].ToString();
                             }
                         }
-                        
                     }
                 }
             }
@@ -54,7 +53,6 @@ namespace Uppg_4_Dry_Jos_Star
             {
                 userXml.Save(sw);
             }
-            
             try
             {
                 using(NpgsqlConnection conn = new NpgsqlConnection(myConnection))
@@ -100,7 +98,6 @@ namespace Uppg_4_Dry_Jos_Star
                             {
                                 xmlList.Add(dr[0].ToString());
                             }
-                           
                         }
                     }
                 }
@@ -110,6 +107,32 @@ namespace Uppg_4_Dry_Jos_Star
                 NpgsqlException = ex.Message;
             }
             return xmlList;
+        }
+
+        public void UpdateAfterTestIsComplete(string userId, DateTime todayDate, string score, bool passed)
+        {
+            try
+            {
+                using (NpgsqlConnection conn = new NpgsqlConnection(myConnection))
+                {
+                    conn.Open();
+                    string query = "UPDATE testoccasion SET score = @score, passed = @passed "+
+                                    "WHERE id_user = @userName AND date = @date ";
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("score", score);
+                        cmd.Parameters.AddWithValue("passed", passed);
+                        cmd.Parameters.AddWithValue("userName", int.Parse(userId));
+                        cmd.Parameters.AddWithValue("date", todayDate);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (NpgsqlException ex)
+            {
+                NpgsqlException = ex.Message;
+            }
         }
     }
 }

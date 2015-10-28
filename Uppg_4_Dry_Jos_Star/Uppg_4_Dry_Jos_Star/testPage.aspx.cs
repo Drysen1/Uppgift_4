@@ -120,21 +120,27 @@ namespace Uppg_4_Dry_Jos_Star
         private List<List<Question>> GetCategoryLists(List<Question> questionList) //Request.QueryString is needed to know which type of test is to be done
         {
             //string typeOfTest = Request.QueryString
-            string typeOfTest = "LST"; //two types are availible: LST=licensieringstest & ÅKU=årlig kunskapsuppdatering, get these from Request.QueryString later
-            int numberOfQuestions = GetQuestionListForSpecificTest(typeOfTest);
-            List<string> categories = new List<string>();
+            string typeOfTest = "ÅKU"; //two types are availible: LST=licensieringstest & ÅKU=årlig kunskapsuppdatering, get these from Request.QueryString later
+            int numberOfQuestions = GetAmountOfQuestionsForSpecificTest(typeOfTest);
+
+            Dictionary<string, List<Question>> dictCategoryQuestions = new Dictionary<string, List<Question>>();
+            List<Question> randomQuestionList = new List<Question>();
             do
             {
-                List<int> numsToReOrderWith = GetRandomOrder(numberOfQuestions); //create random numbers according to amount of questions
-                questionList = GetRandomizedList(questionList, numsToReOrderWith);
-                categories = GetCategoryNames(questionList);
-            } while (categories.Count != 3);
+                List<int> numsToReOrderWith = GetRandomOrder(questionList.Count); //create random numbers according to amount of all questions
+                randomQuestionList = GetRandomizedList(questionList, numsToReOrderWith);
+                randomQuestionList = randomQuestionList.Take(numberOfQuestions).ToList();
+
+                dictCategoryQuestions = GetCategoriesWithQuestions(randomQuestionList);
+
+            } while (!IsEnoughQuestions(dictCategoryQuestions) || dictCategoryQuestions.Count != 3);
 
             List<List<Question>> allCategoryQuestions = new List<List<Question>>();
             int count = 0;
+            List<string> categories = dictCategoryQuestions.Keys.ToList();
             foreach (string c in categories)
             {
-                var result = from q in questionList
+                var result = from q in randomQuestionList
                              where q.Category == c
                              select q;
 
@@ -155,7 +161,8 @@ namespace Uppg_4_Dry_Jos_Star
         {
             List<List<Question>> allCategoryQuestions = new List<List<Question>>();
             int count = 0;
-            List<string> categories = GetCategoryNames(questionList);
+            Dictionary<string, List<Question>> dictCategoryQuestions = GetCategoriesWithQuestions(questionList);
+            List<string> categories = dictCategoryQuestions.Keys.ToList();
 
             foreach (string c in categories)
             {
@@ -176,7 +183,7 @@ namespace Uppg_4_Dry_Jos_Star
             return allCategoryQuestions;
         }
 
-        private int GetQuestionListForSpecificTest(string typeOfTest)
+        private int GetAmountOfQuestionsForSpecificTest(string typeOfTest)
         {
             int numberOfQuestions;
             if (typeOfTest == "LST")
@@ -234,15 +241,39 @@ namespace Uppg_4_Dry_Jos_Star
             return questions;
         }
 
-        private List<string> GetCategoryNames(List<Question> questionList)
+        private Dictionary<string, List<Question>> GetCategoriesWithQuestions(List<Question> questionList)
         {
-            List<string> categories = new List<string>();
+            Dictionary<string, List<Question>> dictQuestionsCategory = new Dictionary<string, List<Question>>();
             var grouped = questionList.GroupBy(x => x.Category);
             foreach (var pair in grouped)
             {
-                categories.Add(pair.Key);
+                List<Question> questions = new List<Question>();
+                foreach(Question q in pair)
+                {
+                    questions.Add(q);
+                }
+                dictQuestionsCategory.Add(pair.Key, questions);
             }
-            return categories;
+            return dictQuestionsCategory;
+        }
+
+        private bool IsEnoughQuestions(Dictionary<string, List<Question>> dictQuestions)
+        {
+            bool result = true;
+            List<Question> questions;
+            List<string> categories = dictQuestions.Keys.ToList();
+            foreach(string key in categories)
+            {
+                if(dictQuestions.TryGetValue(key, out questions))
+                {
+                    if (questions.Count < 3)
+                    {
+                        result = false;
+                        break;
+                    }
+                }
+            }
+            return result;
         }
 
         private void CreateUserXml(List<List<Question>> categoryLists) //userXml gets sent to DB here
@@ -255,7 +286,8 @@ namespace Uppg_4_Dry_Jos_Star
                     randomizedList.Add(q);
                 }
             }
-            List<string> categories = GetCategoryNames(randomizedList);
+            Dictionary<string, List<Question>> dictCategoryQuestions = GetCategoriesWithQuestions(randomizedList);
+            List<string> categories = dictCategoryQuestions.Keys.ToList();
 
             XDocument xDoc = new XDocument(
                    new XDeclaration("1.0", "utf-8", "yes"),
@@ -312,7 +344,7 @@ namespace Uppg_4_Dry_Jos_Star
             }
             string fileName = GetUserXmlFileName();
             xDoc.Save(Server.MapPath(fileName));
-            //SendUserXmlToDb();
+            SendUserXmlToDb();
         }
 
         private void PopulateRepeaters(List<List<Question>> categoryLists)
@@ -549,7 +581,7 @@ namespace Uppg_4_Dry_Jos_Star
             q.CssClasses = cssClasses; 
         }
 
-        private void CalculateScore(List<Question> allQuestions, List<List<Question>> categoryLists)
+        private void CalculateScore(List<Question> allQuestions, List<List<Question>> categoryLists) //userName Request.QueryString
         {
             List<int> totalQuestions = new List<int>();
             totalQuestions.Add(allQuestions.Count);
@@ -580,7 +612,12 @@ namespace Uppg_4_Dry_Jos_Star
                 yesNoImg.ImageUrl = "~/img/btn_correct.png";
             else
                 yesNoImg.ImageUrl = "~/img/btn_incorrect.png";
-            
+
+            DatabaseConnection db = new DatabaseConnection();
+            //string userName = Request.QueryString["userName"];
+            string id = db.GetUserId("stare");
+            string totalScore = String.Format("{0}/{1}", allScores["Totalt"], totalQuestions[0]);
+            db.UpdateAfterTestIsComplete(id, DateTime.Today, totalScore, IsTestPassed(allPercents));
         }
 
         private int GetScoreFromList(List<Question> questions)
@@ -675,7 +712,7 @@ namespace Uppg_4_Dry_Jos_Star
             Session["IsFirstTime"] = false;
         }
 
-        private void SendUserXmlToDb() //here's one Request.QueryString
+        private void SendUserXmlToDb() //userName Request.QueryString
         {
             DatabaseConnection db = new DatabaseConnection();
             //string userName = Request.QueryString["userName"];
@@ -711,7 +748,7 @@ namespace Uppg_4_Dry_Jos_Star
             return xDoc;
         }
 
-        private string GetUserXmlFileName() //here's one Request.QueryString
+        private string GetUserXmlFileName() //userName Request.QueryString
         {
             //string userName = Request.QueryString["userName"];
             string userXmlFileName = string.Format("~/xml/{0}.xml", "stare"); //again will be userName later, not "stare"
