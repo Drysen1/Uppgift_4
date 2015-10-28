@@ -3,7 +3,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-<div class="fullBox" id="page-title">
+<div class="fullBox" id="page-title1">
         <h1>Licensieringstest</h1>
     </div>
     <div class="fullBox">
@@ -12,7 +12,7 @@
     </div>
 
     <div class="fullBox" >
-        <div class="fullBox" id="page-title">
+        <div class="fullBox" id="page-title2">
             <h2 class="home-h2">Översikt/Licencieringstest</h2>
             <p>Provdeltagare som ska göra licencieringstestet. 
                 <br />
