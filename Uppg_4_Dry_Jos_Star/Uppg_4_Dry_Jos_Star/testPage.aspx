@@ -9,8 +9,9 @@
         <h1>KOMPETENSPORTALEN</h1>
     </div>
     <div id="bodyContent" class="fullBox" runat="server"> 
-         <div id="finalResult" class="fullBox" runat="server">        
-             <asp:Chart ID="totalChart"  runat="server">
+         <div id="finalResult" class="fullBox" runat="server"> 
+             <div class="quarterBox">
+                <asp:Chart ID="totalChart" CssClass="home-img" runat="server" Width="300" Height="300">
                  <Titles>
                      <asp:Title Text=""></asp:Title>
                  </Titles>
@@ -21,7 +22,10 @@
                      <asp:ChartArea Name="chartAreaTotal"></asp:ChartArea>
                  </ChartAreas>
              </asp:Chart>
-             <asp:Chart ID="categoryChart1"  runat="server">
+
+             </div>       
+            <div class="quarterBox">
+                    <asp:Chart ID="categoryChart1" CssClass="home-img"  runat="server" Width="300" Height="300">
                  <Titles>
                      <asp:Title Text=""></asp:Title>
                  </Titles>
@@ -32,7 +36,9 @@
                      <asp:ChartArea Name="chartAreaCategory1"></asp:ChartArea>
                  </ChartAreas>
              </asp:Chart>
-             <asp:Chart ID="categoryChart2"  runat="server">
+            </div> 
+            <div class="quarterBox">
+                <asp:Chart ID="categoryChart2" CssClass="home-img" runat="server" Width="300" Height="300">
                  <Titles>
                      <asp:Title Text=""></asp:Title>
                  </Titles>
@@ -43,7 +49,9 @@
                      <asp:ChartArea Name="chartAreaCategory2"></asp:ChartArea>
                  </ChartAreas>
              </asp:Chart>
-             <asp:Chart ID="categoryChart3"  runat="server">
+            </div> 
+            <div class="quarterBox">
+                             <asp:Chart ID="categoryChart3" CssClass="home-img" runat="server" Width="300" Height="300">
                  <Titles>
                      <asp:Title Text=""></asp:Title>
                  </Titles>
@@ -54,6 +62,11 @@
                      <asp:ChartArea Name="chartAreaCategory3"></asp:ChartArea>
                  </ChartAreas>
              </asp:Chart>
+            </div> 
+
+
+
+
         </div>
         <div id="repeaters" class="fullBox" runat="server"> 
             <asp:Repeater ID="Repeater1" runat="server" OnItemDataBound="Repeater1_ItemDataBound">

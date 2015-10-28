@@ -1,6 +1,6 @@
 ﻿//Start1.aspx.cs code behind for page start1.aspx.
 //Erik Drysén 2015-10-22.
-//Revised 2015-10-26 by Erik Drysén.
+//Revised 2015-10-27 by Erik Drysén.
 
 using System;
 using System.Collections.Generic;
@@ -23,7 +23,6 @@ namespace Uppg_4_Dry_Jos_Star
                 CheckPrivilegeHideNavButton();
                 UpdateWebsiteGUI();
             }
-
         }
 
         /// <summary>
@@ -61,7 +60,6 @@ namespace Uppg_4_Dry_Jos_Star
         {
             NpgsqlConnection conn = new NpgsqlConnection("Database=kompetensportal;Server=localhost;User Id=postgres;Password=anna;");
             int userId = 5;//Change id here to get the user you want to find.
-            int userId2 = 5;//Change id here to get the user you want to find.
             //Assume id or something has been passed from log in page in order to retrieve correct info.
             //This is only for simulations purpose for this iteration.
             try
@@ -109,7 +107,6 @@ namespace Uppg_4_Dry_Jos_Star
             lblUserName.Text = userName;
         }
 
-
         /// <summary>
         /// Method recevis a string, which was a bool in the database
         /// and sets a new string value to make it readable for the user
@@ -138,7 +135,6 @@ namespace Uppg_4_Dry_Jos_Star
         /// than 7 days to see if user is allowed to retake the test.
         /// If passTest is true, evaluates timespan between date of test and date of
         /// today. If more than 1year ago user can retake test.
-        /// 
         /// </summary>
         /// <param name="date">DateTime value from database</param>
         /// <param name="passTest">bool/string value from database</param>
@@ -208,7 +204,7 @@ namespace Uppg_4_Dry_Jos_Star
 
         }
 
-        // TEST PURPOSES CODE BELOW
+        // TEST PURPOSES CODE BELOW ***************************************************************************************************
         private DataTable CreateFakeDB()
         {
             //ASSUME that there is a query to database which retrieves one row and stores in datatable.
