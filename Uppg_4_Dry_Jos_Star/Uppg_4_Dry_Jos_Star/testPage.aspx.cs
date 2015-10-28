@@ -117,15 +117,21 @@ namespace Uppg_4_Dry_Jos_Star
             return questions;
         } 
 
-        private List<List<Question>> GetCategoryLists(List<Question> questionList)
+        private List<List<Question>> GetCategoryLists(List<Question> questionList) //Request.QueryString is needed to know which type of test is to be done
         {
+            //string typeOfTest = Request.QueryString
+            string typeOfTest = "LST"; //two types are availible: LST=licensieringstest & ÅKU=årlig kunskapsuppdatering, get these from Request.QueryString later
+            int numberOfQuestions = GetQuestionListForSpecificTest(typeOfTest);
+            List<string> categories = new List<string>();
+            do
+            {
+                List<int> numsToReOrderWith = GetRandomOrder(numberOfQuestions); //create random numbers according to amount of questions
+                questionList = GetRandomizedList(questionList, numsToReOrderWith);
+                categories = GetCategoryNames(questionList);
+            } while (categories.Count != 3);
+
             List<List<Question>> allCategoryQuestions = new List<List<Question>>();
             int count = 0;
-
-            List<int> numsToReOrderWith = GetRandomOrder(questionList.Count); //create random numbers according to amount of questions
-            questionList = GetRandomizedList(questionList, numsToReOrderWith);
-            List<string> categories = GetCategoryNames(questionList);
-
             foreach (string c in categories)
             {
                 var result = from q in questionList
@@ -170,26 +176,39 @@ namespace Uppg_4_Dry_Jos_Star
             return allCategoryQuestions;
         }
 
-        private void PopulateRepeaters(List<List<Question>> categoryLists)
+        private int GetQuestionListForSpecificTest(string typeOfTest)
         {
-            List<Repeater> reps = new List<Repeater>();
-            foreach (Repeater rep in repeaters.Controls.OfType<Repeater>())
+            int numberOfQuestions;
+            if (typeOfTest == "LST")
+                return numberOfQuestions = 25;
+            else
+                return numberOfQuestions = 15;
+        }
+
+        private List<int> GetRandomOrder(int amountOfNums)
+        {
+            lock (syncLock)
             {
-                reps.Add(rep);
-            }
-            for (int i = 0; i < categoryLists.Count; i++)
-            {
-                reps[i].DataSource = categoryLists[i];
-                reps[i].DataBind();
+                List<int> numberList = new List<int>();
+
+                while (numberList.Count < amountOfNums)
+                {
+                    int number = rand.Next(1, amountOfNums + 1); //gives one less than specified
+                    if (!numberList.Contains(number))
+                    {
+                        numberList.Add(number);
+                    }
+                }
+                return numberList;
             }
         }
 
         private List<Question> GetRandomizedList(List<Question> questions, List<int> numsToReOrderWith)
         {
             List<Question> randomizedList = new List<Question>();
-            foreach(int number in numsToReOrderWith)
+            foreach (int number in numsToReOrderWith)
             {
-                randomizedList.Add(questions.Where(x=>x.Id == number.ToString()).FirstOrDefault());
+                randomizedList.Add(questions.Where(x => x.Id == number.ToString()).FirstOrDefault());
             }
             randomizedList = ShuffleAnswerOrder(randomizedList);
             return randomizedList;
@@ -197,13 +216,13 @@ namespace Uppg_4_Dry_Jos_Star
 
         private List<Question> ShuffleAnswerOrder(List<Question> questions)
         {
-            if(questions.Count > 0 && questions[0].Answers != null)
+            if (questions.Count > 0 && questions[0].Answers != null)
             {
-                foreach(Question q in questions)
+                foreach (Question q in questions)
                 {
                     List<int> numbers = GetRandomOrder(q.Answers.Count);
                     List<string> newAnswerOrder = new List<string>();
-                    for(int i = 0; i < numbers.Count; i++)
+                    for (int i = 0; i < numbers.Count; i++)
                     {
                         int index = numbers[i] - 1;
                         string answer = q.Answers[index];
@@ -224,24 +243,6 @@ namespace Uppg_4_Dry_Jos_Star
                 categories.Add(pair.Key);
             }
             return categories;
-        }
-
-        private List<int> GetRandomOrder(int amountOfNums)
-        {
-            lock (syncLock)
-            {
-                List<int> numberList = new List<int>();
-
-                while (numberList.Count < amountOfNums)
-                {
-                    int number = rand.Next(1, amountOfNums + 1); //gives one less than specified
-                    if (!numberList.Contains(number))
-                    {
-                        numberList.Add(number);
-                    }
-                }
-                return numberList;
-            }
         }
 
         private void CreateUserXml(List<List<Question>> categoryLists) //userXml gets sent to DB here
@@ -312,6 +313,20 @@ namespace Uppg_4_Dry_Jos_Star
             string fileName = GetUserXmlFileName();
             xDoc.Save(Server.MapPath(fileName));
             //SendUserXmlToDb();
+        }
+
+        private void PopulateRepeaters(List<List<Question>> categoryLists)
+        {
+            List<Repeater> reps = new List<Repeater>();
+            foreach (Repeater rep in repeaters.Controls.OfType<Repeater>())
+            {
+                reps.Add(rep);
+            }
+            for (int i = 0; i < categoryLists.Count; i++)
+            {
+                reps[i].DataSource = categoryLists[i];
+                reps[i].DataBind();
+            }
         }
 
         private void SetLabelInRepeaterHead(RepeaterItemEventArgs e, Repeater rep)
@@ -479,15 +494,18 @@ namespace Uppg_4_Dry_Jos_Star
                     list.Add(cBox3.Text);
                 
                 q.UserInput = list;
+                System.Web.UI.WebControls.Image image = (System.Web.UI.WebControls.Image)item.FindControl("questionImage");
 
                 if (IsAnswersCorrect(q))
                 {
                     q.IsCorrect = true;
+                    q.ImageUrl = "~/img/btn_correct.png";
                     SetCssClasses(q);
                 }
                 else
                 {
                     q.IsCorrect = false;
+                    q.ImageUrl = "~/img/btn_incorrect.png";
                     SetCssClasses(q);
                 }
             }

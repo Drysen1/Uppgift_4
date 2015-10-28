@@ -81,7 +81,7 @@
                         <div style="margin:20px 0;">
                             <asp:Label ID="questionId" style="font-weight:bold;" Text=<%# Eval("AnswerOrder") %> runat="server"></asp:Label>
                             <asp:Label ID="question" style="font-weight:bold;" text=<%# Eval("Text") %> runat="server"></asp:Label>
-                            <asp:Image ID="Image1" runat="server" />
+                            <asp:Image ID="questionImage" ImageUrl=<%# Eval("ImageUrl") %> runat="server" />
                             <div style="margin: 5px 0 10px 0;">
                                 <asp:Label ID="numOfcorrect" style="font-style: italic;" Text=<%# Eval("NumOfCorrect") %> runat="server"></asp:Label>
                             </div>
@@ -111,6 +111,7 @@
                         <div style="margin:20px 0;">
                             <asp:Label ID="questionId" style="font-weight:bold;" Text=<%# Eval("AnswerOrder") %> runat="server"></asp:Label>
                             <asp:Label ID="question" style="font-weight:bold;" Text=<%# Eval("Text") %> runat="server"></asp:Label>
+                            <asp:Image ID="questionImage" ImageUrl=<%# Eval("ImageUrl") %> runat="server" />
                             <div style="margin: 5px 0 10px 0;">
                                 <asp:Label ID="numOfcorrect" style="font-style: italic;" Text=<%# Eval("NumOfCorrect") %> runat="server"></asp:Label>
                             </div>
@@ -140,6 +141,7 @@
                         <div style="margin:20px 0;">
                             <asp:Label ID="questionId" style="font-weight:bold;" Text=<%# Eval("AnswerOrder") %> runat="server"></asp:Label>
                             <asp:Label ID="question" style="font-weight:bold;" Text=<%# Eval("Text") %> runat="server"></asp:Label>
+                            <asp:Image ID="questionImage" ImageUrl=<%# Eval("ImageUrl") %> runat="server" />
                             <div style="margin: 5px 0 10px 0;">
                                 <asp:Label ID="numOfcorrect" style="font-style: italic;" Text=<%# Eval("NumOfCorrect") %> runat="server"></asp:Label>
                             </div>

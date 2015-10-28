@@ -7,7 +7,7 @@
       <answer correct="no">”Var vänlig sitt ner”</answer>
       <answer correct="no">”Tar detta lång tid?”</answer>
     </question>
-    <!--<question id="2">
+    <question id="2">
       <text>Vilka aktier är mest oetiska?</text>
       <answer correct="yes">IS</answer>
       <answer correct="no">Svenska motståndsrörelsen</answer>
@@ -154,6 +154,6 @@
       <answer correct="no">USA</answer>
       <answer correct="no">Kina</answer>
       <answer correct="yes">Grekland</answer>
-    </question>-->
+    </question>
   </category>
 </test>
