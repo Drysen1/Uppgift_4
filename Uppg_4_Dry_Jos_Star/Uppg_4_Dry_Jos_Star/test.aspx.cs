@@ -112,6 +112,15 @@ namespace Uppg_4_Dry_Jos_Star
             //}            
         }
 
+        protected void Timer1_Tick1(object sender, EventArgs e)
+        {
+            SetLabel3Time();
+        }
+
+        private void SetLabel3Time()
+        {
+            Label3.Text = DateTime.Now.ToLongTimeString();
+        }
 
         //private void LoggedInUserInfo()
         //{
