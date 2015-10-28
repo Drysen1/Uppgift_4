@@ -11,60 +11,89 @@ namespace Uppg_4_Dry_Jos_Star
 {
     public partial class test : System.Web.UI.Page
     {
-        //DateTime startTime;
-
         protected void Page_Load(object sender, EventArgs e)
         {
-            //SetStartTime();
 
-            if (Session["IsPageReloadAllowed"] == null ) //gets instantiated first time
+            if (Session["IsPageReloadAllowed"] == null ) 
             {
                 Label1.Text = "Första gång";
                 Label2.Text = DateTime.Now.ToString();
-                Session["StartTime"] = DateTime.Now;
+                Session["StartTime"] = DateTime.Now; //When test is started starttime is saved in session.
                 Session["IsPageReloadAllowed"] = false;
             }
-            else if (Session["IsPageReloadAllowed"] != null && Session["IsFirstTime"] == null ) //page reload before button has been clicked
+            else if (Session["IsPageReloadAllowed"] != null && Session["IsFirstTime"] == null ) 
             {
                 Label1.Text = "Andra gång";
 
             }
-            //string userName = Request.QueryString["userName"];
-            ////Response.Write(userName);
-            //Label1.Text = userName;
-            ////LoggedInUserInfo();
+
+            string userName = Request.QueryString["userName"];
+            lblUserName.Text = userName;
+
         }
 
-        //private void SetStartTime()
-        //{
-        //    startTime = DateTime.Now;
-        //    Label2.Text = startTime.ToString();
-        //}
 
         protected void LinkButton1_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void TestTimerStuff()
+        /// <summary>
+        /// Tick event for timer. Intervall at 180000 atm, which is 3 minutes.
+        /// If testtime is exceded this event triggers and calls method and redirects to other page.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void Timer1_Tick1(object sender, EventArgs e)
         {
-            
+            FailUser();
+            Response.Redirect("~/start1.aspx");
         }
 
-        protected void Timer1_Tick(object sender, EventArgs e)
+        /// <summary>
+        /// Method sends data to database and fails current user if 
+        /// the time for the test has been exceeded. Method is triggered from
+        /// timer1_tick which has an intervall for the moment of 180000 which is 
+        /// 3 minutes. Do 31 minutes in live scenario.
+        /// Code also te be found with slight modification in testmaster.cs
+        /// </summary>
+        private void FailUser()
         {
-            //Label2.Text = DateTime.Now.ToLongTimeString();
+            NpgsqlConnection conn = new NpgsqlConnection("Database=kompetensportal;Server=localhost;User Id=postgres;Password=anna;");
+            string userName = lblUserName.Text;
+            DateTime dateNow = DateTime.Now;
+            try
+            {
+                conn.Open();
+                NpgsqlCommand cmdUpdateAndFailUser = new NpgsqlCommand("UPDATE testoccasion " +
+                                                                 "SET passed = false, date = @date " +
+                                                                 "WHERE id_user = (SELECT id FROM person WHERE username = @userName);", conn);
+                cmdUpdateAndFailUser.Parameters.AddWithValue("@userName", userName);
+                cmdUpdateAndFailUser.Parameters.AddWithValue("@date", dateNow);
+                cmdUpdateAndFailUser.ExecuteNonQuery();
+            }
+            catch (NpgsqlException ex)
+            {
+                Response.Write(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
 
+        /// <summary>
+        /// This is pretty much for test scenario to be implemented in testPage.aspx.
+        /// Simulates that a user has finished the test but has turned off javascript
+        /// and somehow still managed to get thourgh to the testpage.
+        /// Retrevies value from session["startTime"] and compares to the time
+        /// that the user clicked the submit button. If more than 30 
+        /// it should call the failuser method. REMEBER TO IMPLEMENT THIS BEFORE LIVE.
+        /// 
+        /// Lots of labels also for test purpose.
+        /// </summary>
         protected void Button1_Click(object sender, EventArgs e)
         {
-            //Session["StartTime"] = Label2.Text;
-            //DateTime endTime = DateTime.Now;
-
-            //TimeSpan elapsedTime = endTime - startTime;
-            //TimeSpan oneMinute = TimeSpan.FromMinutes(2);
-
-
             DateTime TheStartTime = Convert.ToDateTime(Session["StartTime"]);
             Label5.Text = TheStartTime.ToString();
             DateTime endTime = DateTime.Now;
@@ -80,48 +109,17 @@ namespace Uppg_4_Dry_Jos_Star
             else
             {
                 Label4.Text = "MIndre än 30 minuter";
-            }
-            
-
-
-
-
-            //Label2.Text = startTime.ToString();
-            //Label3.Text = endTime.ToString();
-            //Label4.Text = Session["StartTime"].ToString();
-            //int result = elapsedTime.CompareTo(oneMinute);
-
-            //if (result == 1)
-            //{
-            //    Label2.Text = "Mer än 10 sekunder ";
-            //}
-            //else
-            //{
-            //    Label2.Text = "Mindre än 10 sekduner";
-            //}     
-
-            //Label2.Text = oneMinute.ToString();
-            //Label3.Text = result.ToString();
-            //if (elapsedTime.Minutes > oneMinute.Seconds)
-            //{
-            //    Label2.Text = "Mer än 10 sekunder ";
-            //}
-            //else
-            //{
-            //    Label2.Text = "Mindre än 10 sekduner";
-            //}            
+            }                     
         }
 
-        protected void Timer1_Tick1(object sender, EventArgs e)
-        {
-            SetLabel3Time();
-        }
 
+        //Test purpose.
         private void SetLabel3Time()
         {
             Label3.Text = DateTime.Now.ToLongTimeString();
         }
 
+        //Test purpose.
         //private void LoggedInUserInfo()
         //{
         //    NpgsqlConnection conn = new NpgsqlConnection("Database=kompetensportal;Server=localhost;User Id=postgres;Password=anna;"); 

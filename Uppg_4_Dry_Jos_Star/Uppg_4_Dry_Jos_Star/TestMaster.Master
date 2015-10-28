@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="SiteMaster.master.cs" Inherits="Uppg_4_Dry_Jos_Star.SiteMaster" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="TestMaster.master.cs" Inherits="Uppg_4_Dry_Jos_Star.TestMaster" %>
 
 <!DOCTYPE html>
 
@@ -51,10 +51,7 @@
               });
           });
     </script> 
-
     <asp:ContentPlaceHolder ID="head" runat="server">
-
-
     </asp:ContentPlaceHolder>
 </head>
 <body>
@@ -64,7 +61,6 @@
     <section class="container" id="navbar-section">
       <div class="content">
         <div class="contentRow">
-            
             <ul class="main-navbar">
               <li><a class="active" href='default.aspx'>HEM</a></li>
               <li><a id="adminButton" runat="server" href="#" onserverclick="adminButton_ServerClick">ADMINPANEL</a></li>                                                                  
@@ -96,16 +92,54 @@
     </section>
 
     <!-- Page Content ================================================== -->
+                                <noscript>
+              <style type="text/css">
+            .pagecontainer {display:none;}
+        </style>
 
-        <section class="container" id="content-section">
+        <div class="noscriptmsg">
+          <div class="javascript-error-msg">
+            <h3 class="home-h3">INGET JAVASCRIPT UPPTÄCKT</h3>
+              <p class="home-text">Det verkar som om att javascript är avstängt i din webbläsare.
+                <br />
+                <br />
+                Utan javascript kan du inte göra provet. </p>
+                <br />
+                <a href="start1.aspx" class="my-button">TILLBAKA TILL START</a>
+          </div>
+
+        </div>
+        </noscript>        
+        <div class="pagecontainer">
+        <div class="page-overlay">
+            <div class="overlay-message">
+                <h3 class="home-h3">PROVTIDEN SLUT</h3>
+                <p class="home-text">
+                Provtiden hann ta slut. Du kommer dessvärre bli underkänd. 
+                <br>
+                <br>
+                Du kan göra om provet om en vecka.
+                </p>
+                <br>
+                <asp:Button ID="Button_Go_To_Start" CssClass="my-button" runat="server" Text="TILLBAKA TILL START" OnClick="Button_Go_To_Start_Click" />
+        </div>
+
+
+    </div>
+    <section class="container" id="content-section">
       <div class="content">
         <div class="contentRow">  
+
+
+
                 <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
         
                 </asp:ContentPlaceHolder>
+
         </div>
       </div>
     </section>
+                </div>
     <!-- Footer ================================================== -->
     <section class="container" id="section-footer">
       <div class="content">
@@ -129,7 +163,7 @@
       </div>
       </div>
     </section>
-
+    <script type="text/javascript" src="js/timer.js"></script>  
     </form>
 </body>
 </html>
