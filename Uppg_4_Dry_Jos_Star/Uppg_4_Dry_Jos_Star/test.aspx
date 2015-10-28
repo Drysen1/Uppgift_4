@@ -24,9 +24,23 @@
         </script>
 
         <p id="clock"></p>
+       <!--         <noscript>
+          <style type="text/css">
+        .pagecontainer {display:none;}
+    </style>
+
+    <div class="noscriptmsg">
+    You don't have javascript enabled.  Good luck with that.
+    </div>
+    </noscript>
+
+    <div class="pagecontainer">
 
 
-        <asp:GridView ID="GridView1" runat="server"></asp:GridView>
+        -->
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <asp:Timer ID="Timer1" runat="server" OnTick="Timer1_Tick1" Interval="5000"></asp:Timer>
+        <!--<asp:GridView ID="GridView1" runat="server"></asp:GridView>-->
         <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label><br />
         <asp:Label ID="Label2" runat="server" Text="Label"></asp:Label><br />
         <asp:Label ID="Label3" runat="server" Text="Label"></asp:Label><br />
@@ -34,5 +48,7 @@
         <asp:Label ID="Label5" runat="server" Text="Label"></asp:Label><br />
         <asp:Button ID="Button1" runat="server" Text="Button" OnClick="Button1_Click" />
         
+    <!--    </div> -->
+
     </div>
 </asp:Content>
