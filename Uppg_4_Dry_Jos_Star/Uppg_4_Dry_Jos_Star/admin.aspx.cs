@@ -32,6 +32,7 @@ namespace Uppg_4_Dry_Jos_Star
 
         protected void Button1_Click(object sender, EventArgs e)
         {
+            Response.Redirect("~/licencieringstest.aspx"); 
 
         }
 

@@ -39,6 +39,16 @@
             <h3 class="home-h3">ÅKU</h3>
             <p class="home-text">Cirkeldiagram</p>
             <p class="home-text">Översikt över gruppen</p> 
+            <asp:Chart ID="Chart1" runat="server">
+                <Series>
+                    <asp:Series ChartType="Pie" Name="Series1">
+                    </asp:Series>
+                </Series>
+                <ChartAreas>
+                    <asp:ChartArea Name="ChartArea1">
+                    </asp:ChartArea>
+                </ChartAreas>
+            </asp:Chart>
             <br />
             <br />           
             <asp:Button ID="Button2" runat="server" Text="TEXT" CssClass="my-button button-80" OnClick="Button2_Click" />
