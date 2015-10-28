@@ -72,6 +72,7 @@
     <Content Include="admin.aspx" />
     <Content Include="img\btn_correct.png" />
     <Content Include="img\btn_incorrect.png" />
+    <Content Include="js\timer.js" />
     <Content Include="licencieringstest.aspx" />
     <Content Include="start1.aspx" />
     <Content Include="test.aspx" />
@@ -90,6 +91,7 @@
     <Content Include="img\headimage_00.xcf" />
     <Content Include="img\headimage_01.xcf" />
     <Content Include="packages.config" />
+    <Content Include="TestMaster.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -134,6 +136,13 @@
     </Compile>
     <Compile Include="licencieringstest.aspx.designer.cs">
       <DependentUpon>licencieringstest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TestMaster.Master.cs">
+      <DependentUpon>TestMaster.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TestMaster.Master.designer.cs">
+      <DependentUpon>TestMaster.Master</DependentUpon>
     </Compile>
     <Compile Include="testPage.aspx.cs">
       <DependentUpon>testPage.aspx</DependentUpon>
