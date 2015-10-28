@@ -8,65 +8,68 @@
     <div class="fullBox" id="page-title">        
         <h1>KOMPETENSPORTALEN</h1>
     </div>
-    <div id="bodyContent" class="fullBox" runat="server"> 
-         <div id="finalResult" class="fullBox" runat="server"> 
-             <div class="quarterBox">
+    <div id="bodyContent" class="fullBox" runat="server">
+        <div id="finalResult" style="margin-top: 20px;" class="fullBox" runat="server">
+            <div class="quarterBox" style="text-align: center; border: 1px solid black;">
                 <asp:Chart ID="totalChart" CssClass="home-img" runat="server" Width="300" Height="300">
-                 <Titles>
-                     <asp:Title Text=""></asp:Title>
-                 </Titles>
-                 <Series>
-                     <asp:Series Name="seriesTotal" ChartType="Pie"></asp:Series>
-                 </Series>
-                 <ChartAreas>
-                     <asp:ChartArea Name="chartAreaTotal"></asp:ChartArea>
-                 </ChartAreas>
-             </asp:Chart>
-
-             </div>       
-            <div class="quarterBox">
-                    <asp:Chart ID="categoryChart1" CssClass="home-img"  runat="server" Width="300" Height="300">
-                 <Titles>
-                     <asp:Title Text=""></asp:Title>
-                 </Titles>
-                 <Series>
-                     <asp:Series Name="seriesCategory1" ChartType="Pie"></asp:Series>
-                 </Series>
-                 <ChartAreas>
-                     <asp:ChartArea Name="chartAreaCategory1"></asp:ChartArea>
-                 </ChartAreas>
-             </asp:Chart>
-            </div> 
-            <div class="quarterBox">
+                    <Titles>
+                        <asp:Title Text=""></asp:Title>
+                    </Titles>
+                    <Series>
+                        <asp:Series Name="seriesTotal" ChartType="Pie"></asp:Series>
+                    </Series>
+                    <ChartAreas>
+                        <asp:ChartArea Name="chartAreaTotal"></asp:ChartArea>
+                    </ChartAreas>
+                </asp:Chart>
+                <asp:Label Style="font-weight: bold" ID="resultTotal" runat="server" Text="Label"></asp:Label>
+            </div>
+            <div class="quarterBox" style="text-align: center;">
+                <asp:Chart ID="categoryChart1" CssClass="home-img" runat="server" Width="300" Height="300">
+                    <Titles>
+                        <asp:Title Text=""></asp:Title>
+                    </Titles>
+                    <Series>
+                        <asp:Series Name="seriesCategory1" ChartType="Pie"></asp:Series>
+                    </Series>
+                    <ChartAreas>
+                        <asp:ChartArea Name="chartAreaCategory1"></asp:ChartArea>
+                    </ChartAreas>
+                </asp:Chart>
+                <asp:Label ID="resultCategory1" runat="server" Text="Label"></asp:Label>
+            </div>
+            <div class="quarterBox" style="text-align: center">
                 <asp:Chart ID="categoryChart2" CssClass="home-img" runat="server" Width="300" Height="300">
-                 <Titles>
-                     <asp:Title Text=""></asp:Title>
-                 </Titles>
-                 <Series>
-                     <asp:Series Name="seriesCategory2" ChartType="Pie"></asp:Series>
-                 </Series>
-                 <ChartAreas>
-                     <asp:ChartArea Name="chartAreaCategory2"></asp:ChartArea>
-                 </ChartAreas>
-             </asp:Chart>
-            </div> 
-            <div class="quarterBox">
-                             <asp:Chart ID="categoryChart3" CssClass="home-img" runat="server" Width="300" Height="300">
-                 <Titles>
-                     <asp:Title Text=""></asp:Title>
-                 </Titles>
-                 <Series>
-                     <asp:Series Name="seriesCategory3" ChartType="Pie"></asp:Series>
-                 </Series>
-                 <ChartAreas>
-                     <asp:ChartArea Name="chartAreaCategory3"></asp:ChartArea>
-                 </ChartAreas>
-             </asp:Chart>
-            </div> 
-
-
-
-
+                    <Titles>
+                        <asp:Title Text=""></asp:Title>
+                    </Titles>
+                    <Series>
+                        <asp:Series Name="seriesCategory2" ChartType="Pie"></asp:Series>
+                    </Series>
+                    <ChartAreas>
+                        <asp:ChartArea Name="chartAreaCategory2"></asp:ChartArea>
+                    </ChartAreas>
+                </asp:Chart>
+                <asp:Label ID="resultCategory2" runat="server" Text="Label"></asp:Label>
+            </div>
+            <div class="quarterBox" style="text-align: center">
+                <asp:Chart ID="categoryChart3" CssClass="home-img" runat="server" Width="300" Height="300">
+                    <Titles>
+                        <asp:Title Text=""></asp:Title>
+                    </Titles>
+                    <Series>
+                        <asp:Series Name="seriesCategory3" ChartType="Pie"></asp:Series>
+                    </Series>
+                    <ChartAreas>
+                        <asp:ChartArea Name="chartAreaCategory3"></asp:ChartArea>
+                    </ChartAreas>
+                </asp:Chart>
+                <asp:Label ID="resultCategory3" runat="server" Text="Label"></asp:Label>
+            </div>
+            <div class="fullBox" style="margin-top: 20px">
+                <asp:Label style="margin-right: 10px; font-weight:bold; font-size: 1.2em;" ID="testPassed" runat="server" >Provresultat:</asp:Label>
+                <asp:Image style="vertical-align:middle;" ID="yesNoImg"  runat="server"/>
+            </div>
         </div>
         <div id="repeaters" class="fullBox" runat="server"> 
             <asp:Repeater ID="Repeater1" runat="server" OnItemDataBound="Repeater1_ItemDataBound">
@@ -78,6 +81,7 @@
                         <div style="margin:20px 0;">
                             <asp:Label ID="questionId" style="font-weight:bold;" Text=<%# Eval("AnswerOrder") %> runat="server"></asp:Label>
                             <asp:Label ID="question" style="font-weight:bold;" text=<%# Eval("Text") %> runat="server"></asp:Label>
+                            <asp:Image ID="Image1" runat="server" />
                             <div style="margin: 5px 0 10px 0;">
                                 <asp:Label ID="numOfcorrect" style="font-style: italic;" Text=<%# Eval("NumOfCorrect") %> runat="server"></asp:Label>
                             </div>

@@ -556,8 +556,13 @@ namespace Uppg_4_Dry_Jos_Star
                 double percent = GetPercentageScore(totalAmount, pair.Value);
                 allPercents.Add(pair.Key, percent);
             }
-            SetDataOnCharts(allPercents);
-            //result.Text = String.Format("Ditt resultat blev: {0}/{1}", score, allQuestions.Count);
+            SetDataOnCharts(allPercents, allScores, totalQuestions);
+            
+            if(IsTestPassed(allPercents))
+                yesNoImg.ImageUrl = "~/img/btn_correct.png";
+            else
+                yesNoImg.ImageUrl = "~/img/btn_incorrect.png";
+            
         }
 
         private int GetScoreFromList(List<Question> questions)
@@ -577,12 +582,20 @@ namespace Uppg_4_Dry_Jos_Star
             return Math.Round(percent, 2);
         }
 
-        private void SetDataOnCharts(Dictionary<string, double> dictAllPercents)
+        private void SetDataOnCharts(Dictionary<string, double> dictAllPercents, Dictionary<string, int> dictAllScores, List<int> totalQuestions)
         {
             List<Chart> charts = new List<Chart>();
             foreach(Chart c in finalResult.Controls.OfType<Chart>())
             {
                 charts.Add(c);
+            }
+            List<Label> labels = new List<Label>();
+            foreach(Label lbl in finalResult.Controls.OfType<Label>())
+            {
+                if (lbl.Text != "Provresultat:")
+                    lbl.Visible = false;
+                
+                labels.Add(lbl);
             }
 
             for(int i = 0; i<dictAllPercents.Count; i++)
@@ -593,13 +606,50 @@ namespace Uppg_4_Dry_Jos_Star
 
                 Chart c = charts.ElementAt(i);
                 c.Titles[0].Text = pair.Key;
+                if(c.Titles[0].Text == "Totalt")
+                {
+                    c.Titles[0].Font = new Font("Lato-light", 12, FontStyle.Bold);
+                    c.Titles[0].Text += "\n";
+                }
+                else if(c.Titles[0].Text == "Etik och regelverk")
+                {
+                    c.Titles[0].Font = new Font("Lato-light", 12, FontStyle.Italic);
+                    c.Titles[0].Text += "\n";
+                }
+                else
+                    c.Titles[0].Font = new Font("Lato-light", 12, FontStyle.Italic);
 
                 SeriesCollection s = c.Series;
                 s[0].Points.AddY(percentLeft);
                 s[0].Points.AddXY(percentText, pair.Value);
                 s[0].Points[0].Color = Color.Red;
                 s[0].Points[1].Color = Color.LightGreen;
+                s[0].Points[1]["Exploded"] = "true";
+
+                string result = String.Format("Poäng: {0}/{1}", dictAllScores[pair.Key], totalQuestions[i]);
+                Label lbl = (Label)labels[i];
+                lbl.Text = result;
+                lbl.Visible = true;
             }
+        }
+
+        private bool IsTestPassed(Dictionary<string, double> dictAllPercents)
+        {
+            bool result = true;
+            foreach(KeyValuePair<string, double> pair in dictAllPercents)
+            {
+                if (pair.Key == "Totalt" && pair.Value < 70) //total have to be 70 % or higher to be passed
+                {
+                    result = false;
+                    break;
+                }
+                if (pair.Key != "Totalt" && pair.Value < 60) //in each category at least 60 % has to be correct
+                {
+                    result = false;
+                    break;
+                }
+            }
+            return result;
         }
 
         private void KeepInSession()
