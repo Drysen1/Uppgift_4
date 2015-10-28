@@ -72,6 +72,7 @@
     <Content Include="admin.aspx" />
     <Content Include="img\btn_correct.png" />
     <Content Include="img\btn_incorrect.png" />
+    <Content Include="licencieringstest.aspx" />
     <Content Include="start1.aspx" />
     <Content Include="test.aspx" />
     <Content Include="xml\questions.xml">
@@ -127,6 +128,13 @@
       <DependentUpon>admin.aspx</DependentUpon>
     </Compile>
     <Compile Include="DatabaseConnection.cs" />
+    <Compile Include="licencieringstest.aspx.cs">
+      <DependentUpon>licencieringstest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="licencieringstest.aspx.designer.cs">
+      <DependentUpon>licencieringstest.aspx</DependentUpon>
+    </Compile>
     <Compile Include="testPage.aspx.cs">
       <DependentUpon>testPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
