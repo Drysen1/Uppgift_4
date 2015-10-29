@@ -6,6 +6,9 @@
         <h1>Statistik</h1>
     </div>
     <div class="fullBox">
-        <asp:GridView ID="gViewStats" runat="server"></asp:GridView>
+        <div id="gridCategegor1" class="fullBox" style="border: 1px solid black;">
+            <h3>Etik och regelverk</h3>
+            <asp:GridView ID="gViewStatsCategory1" runat="server"></asp:GridView>
+        </div>
     </div>
 </asp:Content>

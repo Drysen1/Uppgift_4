@@ -88,6 +88,7 @@ namespace Uppg_4_Dry_Jos_Star
                         AddXmlAttribute(lbl.Text, cBoxes, xDoc);
                     }
                 }
+                SendUserXmlToDb();
                 CorrectTest();
             }
         }
@@ -344,7 +345,14 @@ namespace Uppg_4_Dry_Jos_Star
             }
             string fileName = GetUserXmlFileName();
             xDoc.Save(Server.MapPath(fileName));
-            SendUserXmlToDb();
+            
+        }
+
+        private string GetUserXmlFileName() //Request.QueryString["userName"]
+        {
+            string userName = Request.QueryString["userName"];
+            string userXmlFileName = string.Format("~/xml/{0}.xml", userName);
+            return userXmlFileName;
         }
 
         private void SendUserXmlToDb() //Request.QueryString["userName"]
@@ -759,11 +767,6 @@ namespace Uppg_4_Dry_Jos_Star
             return xDoc;
         }
 
-        private string GetUserXmlFileName() //Request.QueryString["userName"]
-        {
-            string userName = Request.QueryString["userName"];
-            string userXmlFileName = string.Format("~/xml/{0}.xml", userName);
-            return userXmlFileName;
-        }
+        
     }
 }
