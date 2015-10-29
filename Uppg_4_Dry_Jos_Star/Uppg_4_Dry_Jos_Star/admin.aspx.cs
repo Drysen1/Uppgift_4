@@ -38,7 +38,7 @@ namespace Uppg_4_Dry_Jos_Star
 
         protected void Button2_Click(object sender, EventArgs e)
         {
-
+            Response.Redirect("~/aku.aspx"); 
         }
 	}
 }

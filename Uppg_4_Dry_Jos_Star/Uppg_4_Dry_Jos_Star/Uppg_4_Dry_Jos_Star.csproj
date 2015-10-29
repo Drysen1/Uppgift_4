@@ -71,6 +71,7 @@
   <ItemGroup>
     <Content Include="admin.aspx" />
     <Content Include="adminStats.aspx" />
+    <Content Include="aku.aspx" />
     <Content Include="img\btn_correct.png" />
     <Content Include="img\btn_incorrect.png" />
     <Content Include="js\timer.js" />
@@ -137,6 +138,13 @@
     </Compile>
     <Compile Include="adminStats.aspx.designer.cs">
       <DependentUpon>adminStats.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="aku.aspx.cs">
+      <DependentUpon>aku.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="aku.aspx.designer.cs">
+      <DependentUpon>aku.aspx</DependentUpon>
     </Compile>
     <Compile Include="DatabaseConnection.cs" />
     <Compile Include="licencieringstest.aspx.cs">
