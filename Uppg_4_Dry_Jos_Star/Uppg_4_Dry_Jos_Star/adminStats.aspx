@@ -6,6 +6,6 @@
         <h1>Statistik</h1>
     </div>
     <div class="fullBox">
-        
+        <asp:GridView ID="gViewStats" runat="server"></asp:GridView>
     </div>
 </asp:Content>

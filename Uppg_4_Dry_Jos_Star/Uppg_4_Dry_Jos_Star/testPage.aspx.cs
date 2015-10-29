@@ -119,8 +119,8 @@ namespace Uppg_4_Dry_Jos_Star
 
         private List<List<Question>> GetCategoryLists(List<Question> questionList) // Request.QueryString["typeofTest"] is needed to know which type of test is to be done
         {
-            //string typeOfTest = Request.QueryString["typeOfTest"];
-            string typeOfTest = "ÅKU"; //two types are availible: LST=licensieringstest & ÅKU=årlig kunskapsuppdatering, get these from Request.QueryString later
+            string typeOfTest = Request.QueryString["typeOfTest"];
+            //string typeOfTest = "ÅKU"; //two types are availible: LST=licensieringstest & ÅKU=årlig kunskapsuppdatering, get these from Request.QueryString later
             int numberOfQuestions = GetAmountOfQuestionsForSpecificTest(typeOfTest);
 
             Dictionary<string, List<Question>> dictCategoryQuestions = new Dictionary<string, List<Question>>();
@@ -351,7 +351,7 @@ namespace Uppg_4_Dry_Jos_Star
         {
             DatabaseConnection db = new DatabaseConnection();
             string userName = Request.QueryString["userName"];
-            string id = db.GetUserId("stare"); //will be userName later, not "stare"
+            string id = db.GetUserId(userName);
             List<string> userXmls = db.RetrieveXmlDocument(id, DateTime.Today);
 
             if (userXmls.Count < 1)
@@ -729,9 +729,9 @@ namespace Uppg_4_Dry_Jos_Star
         {
             DatabaseConnection db = new DatabaseConnection();
             string userName = Request.QueryString["userName"];
-            //string typeOfTest = Request.QueryString["typeofTest"];
-            string id = db.GetUserId("stare"); //will be userName later
-            string typeOfTest = "LST"; //will be typeOfTest later
+            string id = db.GetUserId(userName);
+            string typeOfTest = Request.QueryString["typeofTest"];
+            //string typeOfTest = "LST"; //will be typeOfTest later
             string totalScore = String.Format("{0}/{1}", allScores["Totalt"], totalQuestions[0]);
             
             db.UpdateAfterTestIsComplete(id, DateTime.Today, totalScore, IsTestPassed(allPercents), typeOfTest);
@@ -742,11 +742,11 @@ namespace Uppg_4_Dry_Jos_Star
             Session["IsFirstTime"] = false;
         }
 
-        private XDocument GetUserXmlFromDb()
+        private XDocument GetUserXmlFromDb() //Request.QueryString["userName"]
         {
             DatabaseConnection db = new DatabaseConnection();
-            //string userName = Request.QueryString["userName"];
-            string id = db.GetUserId("stare"); //will be userName later, not "stare"
+            string userName = Request.QueryString["userName"];
+            string id = db.GetUserId(userName);
             List<string> userXmls = db.RetrieveXmlDocument(id, DateTime.Today);
 
             XDocument xDoc = XDocument.Parse(userXmls[0]);
@@ -762,7 +762,7 @@ namespace Uppg_4_Dry_Jos_Star
         private string GetUserXmlFileName() //Request.QueryString["userName"]
         {
             string userName = Request.QueryString["userName"];
-            string userXmlFileName = string.Format("~/xml/{0}.xml", "stare"); //again will be userName later, not "stare"
+            string userXmlFileName = string.Format("~/xml/{0}.xml", userName);
             return userXmlFileName;
         }
     }

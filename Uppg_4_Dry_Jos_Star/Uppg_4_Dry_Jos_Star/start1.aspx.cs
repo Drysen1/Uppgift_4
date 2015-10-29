@@ -279,7 +279,7 @@ namespace Uppg_4_Dry_Jos_Star
             string userName = lblUserName.Text;
             string typeOfTest = SetTypeOfTest();
 
-            Response.Redirect("~/test.aspx?userName=" + userName + "&typeOfTest=" + typeOfTest); //Currently sending data to test.aspx for test purpose. Change this to testPage to receieve data in testpage.
+            Response.Redirect("~/testPage.aspx?userName=" + userName + "&typeOfTest=" + typeOfTest); //Currently sending data to test.aspx for test purpose. Change this to testPage to receieve data in testpage.
         }
 
         /// <summary>
