@@ -59,7 +59,7 @@ namespace Uppg_4_Dry_Jos_Star
         private DataTable GetLoggedInUserInfo()
         {
             NpgsqlConnection conn = new NpgsqlConnection("Database=kompetensportal;Server=localhost;User Id=postgres;Password=anna;");
-            int userId = 5;//Change id here to get the user you want to find.
+            int userId = 1;//Change id here to get the user you want to find.
             //Assume id or something has been passed from log in page in order to retrieve correct info.
             //This is only for simulations purpose for this iteration.
             try
@@ -196,7 +196,7 @@ namespace Uppg_4_Dry_Jos_Star
             DataTable dt = GetLoggedInUserInfo();
             string userName = dt.Rows[0]["username"].ToString();
 
-            Response.Redirect("~/test.aspx?userName=" + userName); //Currently sending data to test.aspx for test purpose. Change this to testPage to receieve data in testpage.
+            Response.Redirect("~/testPage.aspx?userName=" + userName); //Currently sending data to test.aspx for test purpose. Change this to testPage to receieve data in testpage.
         }
 
         protected void Button2_Click(object sender, EventArgs e)

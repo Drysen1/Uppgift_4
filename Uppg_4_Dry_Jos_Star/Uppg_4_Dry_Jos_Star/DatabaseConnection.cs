@@ -13,6 +13,7 @@ namespace Uppg_4_Dry_Jos_Star
     public class DatabaseConnection
     {
         private string myConnection = "Server=localhost;Port=5432;Database=kompetensportal;User Id=postgres;Password=anna;";
+                                        
         public string NpgsqlException { get; set; }
 
         public string GetUserId(string userName)

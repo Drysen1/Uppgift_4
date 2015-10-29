@@ -119,7 +119,7 @@ namespace Uppg_4_Dry_Jos_Star
 
         private List<List<Question>> GetCategoryLists(List<Question> questionList) // Request.QueryString["typeofTest"] is needed to know which type of test is to be done
         {
-            //string typeOfTest = Request.QueryString
+            //string typeOfTest = Request.QueryString["typeOfTest"];
             string typeOfTest = "ÅKU"; //two types are availible: LST=licensieringstest & ÅKU=årlig kunskapsuppdatering, get these from Request.QueryString later
             int numberOfQuestions = GetAmountOfQuestionsForSpecificTest(typeOfTest);
 
@@ -350,7 +350,7 @@ namespace Uppg_4_Dry_Jos_Star
         private void SendUserXmlToDb() //Request.QueryString["userName"]
         {
             DatabaseConnection db = new DatabaseConnection();
-            //string userName = Request.QueryString["userName"];
+            string userName = Request.QueryString["userName"];
             string id = db.GetUserId("stare"); //will be userName later, not "stare"
             List<string> userXmls = db.RetrieveXmlDocument(id, DateTime.Today);
 
@@ -728,7 +728,7 @@ namespace Uppg_4_Dry_Jos_Star
         private void UpdateDbWithResult(Dictionary<string, int> allScores, List<int> totalQuestions, Dictionary<string, double> allPercents) // Request.QueryString["userName"] & Request.QueryString["typeofTest"]
         {
             DatabaseConnection db = new DatabaseConnection();
-            //string userName = Request.QueryString["userName"];
+            string userName = Request.QueryString["userName"];
             //string typeOfTest = Request.QueryString["typeofTest"];
             string id = db.GetUserId("stare"); //will be userName later
             string typeOfTest = "LST"; //will be typeOfTest later
@@ -761,7 +761,7 @@ namespace Uppg_4_Dry_Jos_Star
 
         private string GetUserXmlFileName() //Request.QueryString["userName"]
         {
-            //string userName = Request.QueryString["userName"];
+            string userName = Request.QueryString["userName"];
             string userXmlFileName = string.Format("~/xml/{0}.xml", "stare"); //again will be userName later, not "stare"
             return userXmlFileName;
         }
