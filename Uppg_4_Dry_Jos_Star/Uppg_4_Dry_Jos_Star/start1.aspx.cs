@@ -1,6 +1,6 @@
 ﻿//Start1.aspx.cs code behind for page start1.aspx.
 //Erik Drysén 2015-10-22.
-//Revised 2015-10-27 by Erik Drysén.
+//Revised 2015-10-29 by Erik Drysén.
 
 using System;
 using System.Collections.Generic;
@@ -65,7 +65,8 @@ namespace Uppg_4_Dry_Jos_Star
                 conn.Open();
                 NpgsqlCommand cmdGetUserInfo = new NpgsqlCommand("SELECT * FROM person " +
                                                                  "INNER JOIN testoccasion ON person.id = id_user " +
-                                                                 "WHERE person.id = (SELECT id FROM person WHERE username = @userName); ", conn);
+                                                                 "WHERE person.id = (SELECT id FROM person WHERE username = @userName) " + 
+                                                                 "ORDER BY date DESC LIMIT 1; ", conn);
                 cmdGetUserInfo.Parameters.AddWithValue("@userName", userName);
                 NpgsqlDataAdapter nda = new NpgsqlDataAdapter();
                 nda.SelectCommand = cmdGetUserInfo;
@@ -247,7 +248,7 @@ namespace Uppg_4_Dry_Jos_Star
 
             if (dt.Rows.Count <= 0)
             {
-                typeOfTest = "ÅKU";
+                typeOfTest = "LST";
                 return typeOfTest;
             }
             else

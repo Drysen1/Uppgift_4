@@ -119,6 +119,8 @@
                 <br>
                 <br>
                 Du kan göra om provet om en vecka.
+                <br />
+                Klicka på knappen om du inte blir vidareskickad inom 30 sekunder.
                 </p>
                 <br>
                 <asp:Button ID="Button_Go_To_Start" CssClass="my-button" runat="server" Text="TILLBAKA TILL START" OnClick="Button_Go_To_Start_Click" />
