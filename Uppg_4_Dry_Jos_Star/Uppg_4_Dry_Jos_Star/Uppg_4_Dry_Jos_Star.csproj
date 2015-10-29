@@ -146,6 +146,7 @@
     <Compile Include="aku.aspx.designer.cs">
       <DependentUpon>aku.aspx</DependentUpon>
     </Compile>
+    <Compile Include="CategoryStats.cs" />
     <Compile Include="DatabaseConnection.cs" />
     <Compile Include="licencieringstest.aspx.cs">
       <DependentUpon>licencieringstest.aspx</DependentUpon>
