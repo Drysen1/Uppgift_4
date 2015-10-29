@@ -15,10 +15,9 @@
         <div class="fullBox" id="page-title2">
             <p>Provdeltagare som ska göra licencieringstestet. </p>
                 <br />
-                <asp:GridView ID="GridView1" runat="server" OnRowDataBound="GridView1_RowDataBound" OnSelectedIndexChanged="GridView1_SelectedIndexChanged1">
+                <asp:GridView ID="GridView1" runat="server" OnRowDataBound="GridView1_RowDataBound" OnRowCommand="GridView1_RowCommand" >
                 </asp:GridView>
                 <br />
-            </p>
         </div>
     </div>
 </asp:Content>

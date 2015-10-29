@@ -141,7 +141,6 @@ namespace Uppg_4_Dry_Jos_Star
         {
             //deffinerar koppling mot postgres
             List<Person> listOfPersons = new List<Person>();
-            DateTime date = new DateTime();
             bool isPassed;
 
             try
@@ -191,7 +190,6 @@ namespace Uppg_4_Dry_Jos_Star
 
                                 listOfPersons.Add(p);
                             }
-
                         }
                     }
                 }
@@ -204,7 +202,6 @@ namespace Uppg_4_Dry_Jos_Star
             }
             //returnerar listan med personer som inte skrivit LST och de som inte blivit godkännda 
             return listOfPersons;
-
         }
     }
 }

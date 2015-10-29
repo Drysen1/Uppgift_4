@@ -25,13 +25,6 @@ namespace Uppg_4_Dry_Jos_Star
         {
             GridView1.DataSource = people;
             GridView1.DataBind();
-            
-
-        }
-
-        protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -51,14 +44,7 @@ namespace Uppg_4_Dry_Jos_Star
                 e.Row.Cells[3].Text = "Provpoäng";
                 e.Row.Cells[4].Text = "Provresultat";
                 e.Row.Cells[5].Text = "Användarnamn";
-
-
             }
-        }
-
-        protected void GridView1_SelectedIndexChanged1(object sender, EventArgs e)
-        {
-            GridView gw = (GridView)sender;
         }
     }
 }
