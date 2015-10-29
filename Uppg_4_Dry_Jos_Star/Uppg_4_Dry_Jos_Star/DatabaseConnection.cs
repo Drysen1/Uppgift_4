@@ -12,7 +12,7 @@ namespace Uppg_4_Dry_Jos_Star
 {
     public class DatabaseConnection
     {
-        private string myConnection = "Server=localhost;Port=5432;Database=kompetensportalen;User Id=postgres;Password=anna;";
+        private string myConnection = "Server=localhost;Port=5432;Database=kompetensportal;User Id=postgres;Password=anna;";
         public string NpgsqlException { get; set; }
 
         public string GetUserId(string userName)
@@ -109,14 +109,14 @@ namespace Uppg_4_Dry_Jos_Star
             return xmlList;
         }
 
-        public void UpdateAfterTestIsComplete(string userId, DateTime todayDate, string score, bool passed)
+        public void UpdateAfterTestIsComplete(string userId, DateTime todayDate, string score, bool passed, string typeOfTest)
         {
             try
             {
                 using (NpgsqlConnection conn = new NpgsqlConnection(myConnection))
                 {
                     conn.Open();
-                    string query = "UPDATE testoccasion SET score = @score, passed = @passed "+
+                    string query = "UPDATE testoccasion SET score = @score, passed = @passed, testtype = @typeOfTest "+
                                     "WHERE id_user = @userName AND date = @date ";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
@@ -125,6 +125,7 @@ namespace Uppg_4_Dry_Jos_Star
                         cmd.Parameters.AddWithValue("passed", passed);
                         cmd.Parameters.AddWithValue("userName", int.Parse(userId));
                         cmd.Parameters.AddWithValue("date", todayDate);
+                        cmd.Parameters.AddWithValue("typeOfTest", typeOfTest);
                         cmd.ExecuteNonQuery();
                     }
                 }
