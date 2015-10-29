@@ -90,7 +90,7 @@ namespace Uppg_4_Dry_Jos_Star
         private DataTable GetPersonInfo()
         {
             NpgsqlConnection conn = new NpgsqlConnection("Database=kompetensportal;Server=localhost;User Id=postgres;Password=anna;");
-            int userId = 5;//Change id here to get the user you want to find.
+            int userId = 3;//Change id here to get the user you want to find.
             //Assume id or something has been passed from log in page in order to retrieve correct info.
             //This is only for simulations purpose for this iteration.
             try
