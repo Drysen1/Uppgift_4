@@ -13,10 +13,9 @@
 
     <div class="fullBox" >
         <div class="fullBox" id="page-title2">
-            <h2 class="home-h2">Översikt/Licencieringstest</h2>
-            <p>Provdeltagare som ska göra licencieringstestet. 
+            <p>Provdeltagare som ska göra licencieringstestet. </p>
                 <br />
-                <asp:GridView AutoGenerateColumns="False" ID="GridView1" runat="server">
+                <asp:GridView ID="GridView1" runat="server" OnRowDataBound="GridView1_RowDataBound" OnSelectedIndexChanged="GridView1_SelectedIndexChanged1">
                 </asp:GridView>
                 <br />
             </p>

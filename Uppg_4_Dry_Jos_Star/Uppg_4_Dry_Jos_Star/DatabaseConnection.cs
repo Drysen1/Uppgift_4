@@ -136,5 +136,75 @@ namespace Uppg_4_Dry_Jos_Star
                 NpgsqlException = ex.Message;
             }
         }
+
+        public List<Person> GetNoTestPersons()
+        {
+            //deffinerar koppling mot postgres
+            List<Person> listOfPersons = new List<Person>();
+            DateTime date = new DateTime();
+            bool isPassed;
+
+            try
+            {
+                using (NpgsqlConnection conn = new NpgsqlConnection(myConnection))
+                {
+                    //öpnar koppling mot db
+                    conn.Open();
+
+                    //kod för vad man vill göra mot databasen
+                    string query = "SELECT firstname, lastname, date, score, passed, username " +
+                                    "FROM testoccasion t " +
+                                    "RIGHT JOIN person p ON t.id_user = p.id " +
+                                    "WHERE id_user IS NULL OR (testtype ='LST' AND passed = false) " +
+                                    "ORDER BY lastname";
+
+                    using (NpgsqlCommand command = new NpgsqlCommand(query, conn))
+                    {
+                        //command.Parameters.AddWithValue("name", userName); 
+                        using (NpgsqlDataReader dr = command.ExecuteReader())
+                        {
+
+                            while (dr.Read())
+                            {
+
+                                Person p = new Person();
+                                p.FirstName = dr[0].ToString();
+                                p.LastName = dr[1].ToString();
+
+                                p.TestDate = dr[2].ToString();
+                                if (p.TestDate != "")
+                                {
+                                    p.TestDate = p.TestDate.Substring(0, 10);
+                                }
+
+                                p.TestScore = dr[3].ToString();
+
+                                if(bool.TryParse(dr[4].ToString(), out isPassed ))
+                                {
+                                    if (isPassed)
+                                        p.TestGrade = "Godkänd";
+                                    else
+                                        p.TestGrade = "Underkänd";
+                                }
+
+                                p.UserName = dr[5].ToString();
+
+                                listOfPersons.Add(p);
+                            }
+
+                        }
+                    }
+                }
+            }
+
+            catch (NpgsqlException ex)
+            {
+                NpgsqlException = ex.Message;
+
+            }
+            //returnerar listan med personer som inte skrivit LST och de som inte blivit godkännda 
+            return listOfPersons;
+
+        }
     }
 }

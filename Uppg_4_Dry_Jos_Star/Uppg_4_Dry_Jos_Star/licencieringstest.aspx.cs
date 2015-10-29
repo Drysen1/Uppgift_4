@@ -11,63 +11,54 @@ namespace Uppg_4_Dry_Jos_Star
 {
     public partial class licencieringstest : System.Web.UI.Page
     {
-        string myConnectionString = "Server=localhost;Port=5432;Database=kompetensportal;User Id=postgres;Password=anna;"; 
-
         protected void Page_Load(object sender, EventArgs e)
         {
-            List<Person> personer = GetNoTestPersons(); 
-
+            // metoden ligger i DatabaseConnections 
+            DatabaseConnection db = new DatabaseConnection(); 
+            List<Person> personer = db.GetNoTestPersons();
+           
+            FillGrid(personer);
+            //FillGrid(GetNoTestPersons()); alt 2
         }
 
-        private List<Person> GetNoTestPersons()
+        private void FillGrid(List<Person> people)
         {
-            //deffinerar koppling mot postgres
-             List<Person> listOfPersons = new List<Person>(); 
+            GridView1.DataSource = people;
+            GridView1.DataBind();
+            
 
-            try
-            {
-                using (NpgsqlConnection conn = new NpgsqlConnection(myConnectionString))
-                {
-                    //öpnar koppling mot db
-                    conn.Open();
-
-                    //kod för vad man vill göra mot databasen
-                    string query = "SELECT firstname, lastname " +
-                                    "FROM testoccasion t " +
-                                    "RIGHT JOIN person p ON t.id_user = p.id " +
-                                    "WHERE id_user IS NULL";
-
-                    using (NpgsqlCommand command = new NpgsqlCommand(query, conn))
-                    {
-                        //command.Parameters.AddWithValue("name", userName); 
-                        using (NpgsqlDataReader dr = command.ExecuteReader())
-                        {
-                           
-                            while (dr.Read())
-                            {
-                             
-                                Person p = new Person();
-                                p.FirstName = dr[0].ToString();
-                                p.LastName = dr[1].ToString();
-
-                                listOfPersons.Add(p);
-                            }
-
-                        }
-                    }
-                }
-            }
-        
-            catch (Exception ex)
-            {
-                Response.Write(ex.Message);
-
-            }
-            //returnerar listan med personer som inte skrivit LST
-            return listOfPersons;
-          
         }
 
-        
+        protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            e.Row.Cells[0].Attributes["width"] = "150px";
+            e.Row.Cells[1].Attributes["width"] = "150px";
+            e.Row.Cells[2].Attributes["width"] = "150px";
+            e.Row.Cells[3].Attributes["width"] = "150px";
+            e.Row.Cells[4].Attributes["width"] = "150px";
+            e.Row.Cells[5].Attributes["width"] = "150px";
+
+            if (e.Row.RowType == DataControlRowType.Header)
+            {
+                e.Row.Cells[0].Text = "Förnamn";
+                e.Row.Cells[1].Text = "Efternamn";
+                e.Row.Cells[2].Text = "Datum";
+                e.Row.Cells[3].Text = "Provpoäng";
+                e.Row.Cells[4].Text = "Provresultat";
+                e.Row.Cells[5].Text = "Användarnamn";
+
+
+            }
+        }
+
+        protected void GridView1_SelectedIndexChanged1(object sender, EventArgs e)
+        {
+            GridView gw = (GridView)sender;
+        }
     }
 }
