@@ -76,6 +76,7 @@
     <Content Include="licencieringstest.aspx" />
     <Content Include="start1.aspx" />
     <Content Include="test.aspx" />
+    <Content Include="UserOldTest.aspx" />
     <Content Include="xml\questions.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -174,6 +175,13 @@
     </Compile>
     <Compile Include="test.aspx.designer.cs">
       <DependentUpon>test.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserOldTest.aspx.cs">
+      <DependentUpon>UserOldTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserOldTest.aspx.designer.cs">
+      <DependentUpon>UserOldTest.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup />
