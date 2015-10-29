@@ -22,13 +22,13 @@ namespace Uppg_4_Dry_Jos_Star {
         protected global::System.Web.UI.WebControls.Label lblUserName;
         
         /// <summary>
-        /// testToDo control.
+        /// lbltestToDo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label testToDo;
+        protected global::System.Web.UI.WebControls.Label lbltestToDo;
         
         /// <summary>
         /// lblNextTestDate control.
@@ -49,13 +49,13 @@ namespace Uppg_4_Dry_Jos_Star {
         protected global::System.Web.UI.WebControls.Button btnStartTest;
         
         /// <summary>
-        /// result control.
+        /// lblresult control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label result;
+        protected global::System.Web.UI.WebControls.Label lblresult;
         
         /// <summary>
         /// lbldate control.
@@ -67,12 +67,12 @@ namespace Uppg_4_Dry_Jos_Star {
         protected global::System.Web.UI.WebControls.Label lbldate;
         
         /// <summary>
-        /// Button2 control.
+        /// btnGoToOldTest control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button2;
+        protected global::System.Web.UI.WebControls.Button btnGoToOldTest;
     }
 }

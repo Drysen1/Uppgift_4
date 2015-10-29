@@ -22,6 +22,15 @@ namespace Uppg_4_Dry_Jos_Star {
         protected global::System.Web.UI.WebControls.Label lblUserName;
         
         /// <summary>
+        /// lblTypeOfTest control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTypeOfTest;
+        
+        /// <summary>
         /// ScriptManager1 control.
         /// </summary>
         /// <remarks>

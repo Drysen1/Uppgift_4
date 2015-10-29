@@ -10,6 +10,7 @@
 
 
             <asp:Label ID="lblUserName" runat="server" Text="Label"></asp:Label>
+            <asp:Label ID="lblTypeOfTest" runat="server" Text="Label"></asp:Label>
             <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
             <asp:Timer ID="Timer1" runat="server" OnTick="Timer1_Tick1" Interval="180000"></asp:Timer>
             <!--<asp:GridView ID="GridView1" runat="server"></asp:GridView>-->

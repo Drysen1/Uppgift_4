@@ -36,7 +36,7 @@ namespace Uppg_4_Dry_Jos_Star
         /// </summary>
         private void CheckPrivilegeHideNavButton()
         {
-            DataTable dt = GetLoggedInUserInfo();
+            DataTable dt = GetPersonInfo();
             string userType = dt.Rows[0]["privilege"].ToString();
 
             if (userType != "Admin")
@@ -56,25 +56,54 @@ namespace Uppg_4_Dry_Jos_Star
         /// and stores in a datatable.
         /// </summary>
         /// <returns>Returns a datatable with all information regarding user</returns>
-        private DataTable GetLoggedInUserInfo()
+        private DataTable GetPersonAndTestInfo()
         {
             NpgsqlConnection conn = new NpgsqlConnection("Database=kompetensportal;Server=localhost;User Id=postgres;Password=anna;");
-            int userId = 1;//Change id here to get the user you want to find.
-            //Assume id or something has been passed from log in page in order to retrieve correct info.
-            //This is only for simulations purpose for this iteration.
+            string userName = lblUserName.Text;
             try
             {
                 conn.Open();
                 NpgsqlCommand cmdGetUserInfo = new NpgsqlCommand("SELECT * FROM person " +
-                                                                 "INNER JOIN testoccasion ON testoccasion.id_user = person.id " +
-                                                                 "WHERE person.id = @id; ", conn);
-                cmdGetUserInfo.Parameters.AddWithValue("@id", userId);
+                                                                 "INNER JOIN testoccasion ON person.id = id_user " +
+                                                                 "WHERE person.id = (SELECT id FROM person WHERE username = @userName); ", conn);
+                cmdGetUserInfo.Parameters.AddWithValue("@userName", userName);
                 NpgsqlDataAdapter nda = new NpgsqlDataAdapter();
                 nda.SelectCommand = cmdGetUserInfo;
                 DataSet ds = new DataSet();
                 nda.Fill(ds);
                 DataTable dt = ds.Tables[0];
                 
+                return dt;
+            }
+            catch (NpgsqlException ex)
+            {
+                Response.Write(ex.Message);
+                return null;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        private DataTable GetPersonInfo()
+        {
+            NpgsqlConnection conn = new NpgsqlConnection("Database=kompetensportal;Server=localhost;User Id=postgres;Password=anna;");
+            int userId = 5;//Change id here to get the user you want to find.
+            //Assume id or something has been passed from log in page in order to retrieve correct info.
+            //This is only for simulations purpose for this iteration.
+            try
+            {
+                conn.Open();
+                NpgsqlCommand cmdGetUserInfo = new NpgsqlCommand("SELECT * FROM person " +
+                                                                 "WHERE person.id = @id; ", conn);
+                cmdGetUserInfo.Parameters.AddWithValue("@id", userId);
+                NpgsqlDataAdapter nda = new NpgsqlDataAdapter();
+                nda.SelectCommand = cmdGetUserInfo;
+                DataSet ds = new DataSet();
+                nda.Fill(ds);
+                DataTable dt = ds.Tables[0];             
+
                 return dt;
             }
             catch (NpgsqlException ex)
@@ -95,16 +124,33 @@ namespace Uppg_4_Dry_Jos_Star
         private void UpdateWebsiteGUI()
         {
             DataTable dt = new DataTable();
-            dt = GetLoggedInUserInfo();
+            DataTable dtAllInfo = new DataTable();
 
-            string passTest = dt.Rows[0]["passed"].ToString();
-            DateTime date = DateTime.Parse(dt.Rows[0]["date"].ToString());
+            dt = GetPersonInfo();
             string userName = dt.Rows[0]["username"].ToString();
-
-            testToDo.Text = CheckDateOfLastTest(date, passTest);
-            result.Text = SetPassOrFail(passTest);
-            lbldate.Text = date.ToString("yyyy-MM-dd");
             lblUserName.Text = userName;
+
+            dtAllInfo = GetPersonAndTestInfo();
+
+            //lblNextTestDate.Text = dtAllInfo.Rows.Count.ToString();
+            //lblresult.Text = dt.Rows.Count.ToString();
+            if (dtAllInfo.Rows.Count <= 0)
+            {
+                lblresult.Text = "Inget test hittat";
+                lbldate.Text = "Inget datum";
+                lbltestToDo.Text = "1";
+                DateTime today = DateTime.Now;
+                lblNextTestDate.Text = today.ToString("yyyy-MM-dd");
+                btnGoToOldTest.Enabled = false;
+            }
+            else
+            {
+                string passTest = dtAllInfo.Rows[0]["passed"].ToString();
+                DateTime date = DateTime.Parse(dtAllInfo.Rows[0]["date"].ToString());
+                lblresult.Text = SetPassOrFail(passTest);
+                lbltestToDo.Text = CheckDateOfLastTest(date, passTest);
+                lbldate.Text = date.ToString("yyyy-MM-dd");
+            }
         }
 
         /// <summary>
@@ -156,6 +202,7 @@ namespace Uppg_4_Dry_Jos_Star
                     lblNextTestDate.Text = nextTestDate.ToString("yyyy-MM-dd");
                     toDoTest = "1";
                     btnStartTest.Enabled = true;
+                    btnGoToOldTest.Enabled = false;
                     return toDoTest;
                 }
                 else
@@ -164,6 +211,7 @@ namespace Uppg_4_Dry_Jos_Star
                     lblNextTestDate.Text = nextTestDate.ToString("yyyy-MM-dd");
                     toDoTest = "1";
                     btnStartTest.Enabled = false;
+                    btnGoToOldTest.Enabled = false;
                     return toDoTest;
                 }
             }
@@ -188,17 +236,54 @@ namespace Uppg_4_Dry_Jos_Star
         }
 
         /// <summary>
+        /// Method evaluates what type of test user should do, either ÅKU or LST.
+        /// </summary>
+        /// <returns>Returns new string value.</returns>
+        private string SetTypeOfTest()
+        {
+            DataTable dt = GetPersonAndTestInfo();
+            string typeOfTest = string.Empty;
+            string passTest = string.Empty;
+
+            if (dt.Rows.Count <= 0)
+            {
+                typeOfTest = "ÅKU";
+                return typeOfTest;
+            }
+            else
+            {
+                typeOfTest = dt.Rows[0]["testtype"].ToString();
+                passTest = dt.Rows[0]["passed"].ToString();
+
+                if (typeOfTest == "LST" && passTest == "False")
+                {
+                    typeOfTest = "LST";
+                    return typeOfTest;
+                }
+                else
+                {
+                    typeOfTest = "ÅKU";
+                    return typeOfTest;
+                }
+            }
+        }
+
+        /// <summary>
         /// btnStartTest event click, redirects user to testpage so he or she can
         /// start the test. Sends value to testPage with a querystring.
         /// </summary>
         protected void Button1_Click(object sender, EventArgs e)
         {
-            DataTable dt = GetLoggedInUserInfo();
-            string userName = dt.Rows[0]["username"].ToString();
 
-            Response.Redirect("~/testPage.aspx?userName=" + userName); //Currently sending data to test.aspx for test purpose. Change this to testPage to receieve data in testpage.
+            string userName = lblUserName.Text;
+            string typeOfTest = SetTypeOfTest();
+
+            Response.Redirect("~/test.aspx?userName=" + userName + "&typeOfTest=" + typeOfTest); //Currently sending data to test.aspx for test purpose. Change this to testPage to receieve data in testpage.
         }
 
+        /// <summary>
+        /// btnGoToOldTest event click.
+        /// </summary>
         protected void Button2_Click(object sender, EventArgs e)
         {
 
@@ -246,8 +331,8 @@ namespace Uppg_4_Dry_Jos_Star
                 //Disable button
             }
 
-            testToDo.Text = toDoTest.ToString();
-            result.Text = passTest.ToString();
+            lbltestToDo.Text = toDoTest.ToString();
+            lblresult.Text = passTest.ToString();
             lbldate.Text = date.ToString("yyyy-MM-dd");
             lblUserName.Text = dt.Rows[0]["userName"].ToString();
 

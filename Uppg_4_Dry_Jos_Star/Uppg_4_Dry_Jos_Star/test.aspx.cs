@@ -23,12 +23,14 @@ namespace Uppg_4_Dry_Jos_Star
             }
             else if (Session["IsPageReloadAllowed"] != null && Session["IsFirstTime"] == null ) 
             {
-                Label1.Text = "Andra gång";
+                Label1.Text = "Andra gång"; //Test purpose.
 
             }
 
             string userName = Request.QueryString["userName"];
+            string typeOfTest = Request.QueryString["typeOfTest"];
             lblUserName.Text = userName;
+            lblTypeOfTest.Text = typeOfTest;
 
         }
 
@@ -95,12 +97,15 @@ namespace Uppg_4_Dry_Jos_Star
         protected void Button1_Click(object sender, EventArgs e)
         {
             DateTime TheStartTime = Convert.ToDateTime(Session["StartTime"]);
-            Label5.Text = TheStartTime.ToString();
             DateTime endTime = DateTime.Now;
-            Label3.Text = endTime.ToString();
+            
+            Label5.Text = TheStartTime.ToString(); //TEstpurpose
+            Label3.Text = endTime.ToString(); //Test purpose
+
+
             TimeSpan elapsedTime = endTime - TheStartTime;
-            TimeSpan tenSec = TimeSpan.FromMinutes(2);
-            int result = elapsedTime.CompareTo(tenSec);
+            TimeSpan twoMinutes = TimeSpan.FromMinutes(2); //Change name to thirtyMinutes and FromMInutes(30)
+            int result = elapsedTime.CompareTo(twoMinutes);
 
             if(result == 1)
             {
