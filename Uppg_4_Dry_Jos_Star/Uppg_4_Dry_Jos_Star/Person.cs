@@ -7,20 +7,15 @@ namespace Uppg_4_Dry_Jos_Star
 {
     public class Person
     {
-        private string firstName;
-        private string lastName;
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string TestDate { get; set; }
+        public string TestScore { get; set; }
+        public string TestGrade { get; set; }
+        public string UserName { get; set; }
 
-        //metod som inte har en returtyp, property
-        public string FirstName
-        {
-            get { return firstName; }
-            set { firstName = value; }
-        }
+        
 
-        public string LastName
-        {
-            get { return lastName; }
-            set { lastName = value;  }
-        }
+
     }
 }
