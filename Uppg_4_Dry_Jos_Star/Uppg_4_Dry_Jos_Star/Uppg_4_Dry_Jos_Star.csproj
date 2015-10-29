@@ -137,6 +137,7 @@
     <Compile Include="licencieringstest.aspx.designer.cs">
       <DependentUpon>licencieringstest.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Person.cs" />
     <Compile Include="TestMaster.Master.cs">
       <DependentUpon>TestMaster.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
