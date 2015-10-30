@@ -3,7 +3,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 <div class="fullBox" id="page-title">
-        <h1>START</h1>
+        <h1>Administration</h1>
     </div>
     <div class="fullBox">
         <div class="halfBox" >
@@ -11,7 +11,8 @@
             <p class="home-text">Välkommen till administationsdelen av JE Bankens kompetensportal. På denna sida kan du som provledare se när personerna i ditt team gjort Licenceringstestet och det årliga ÅKU.
                
                 <br />
-                <br />
+            </p>
+            <p class="home-text">Du kan även titta statistiskt på ditt teams utförda prov.<br />
             </p>
             <p class="home-text">Om du upplever några problem med kompetensportalen eller saknar personer i ditt team eller prov. Kontakta då JE bankens IT-support för hjälp.
             </p>
@@ -25,7 +26,7 @@
 
     <div class="fullBox" >
         <div class="fullBox" id="page-title">
-            <h2 class="home-h2">TEAM 1</h2>
+            <h2 class="home-h2">&nbsp;</h2>
         </div>
         <div class="halfBox" id="center-home">
             <h3 class="home-h3" >Licencieringstest</h3>
@@ -36,12 +37,12 @@
             <asp:Button ID="Button1" runat="server" Text="TEXT" CssClass="my-button button-80" OnClick="Button1_Click" />
         </div>
         <div class="halfBox" id="center-home">
-            <h3 class="home-h3">ÅKU</h3>
-            <p class="home-text">Cirkeldiagram</p>
-            <p class="home-text">Översikt över gruppen</p> 
+            <h3 class="home-h3">Statistik</h3>
+            <p class="home-text">&nbsp;</p>
+            <p class="home-text">&nbsp;</p> 
             <br />
             <br />           
-            <asp:Button ID="Button2" runat="server" Text="TEXT" CssClass="my-button button-80" OnClick="Button2_Click" />
+            <asp:Button ID="Button2" runat="server" Text="Se statistik" CssClass="my-button button-80" OnClick="Button2_Click" />
         </div>
     </div>
 </asp:Content>

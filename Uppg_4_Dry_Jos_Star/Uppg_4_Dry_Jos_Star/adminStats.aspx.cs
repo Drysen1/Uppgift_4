@@ -24,15 +24,18 @@ namespace Uppg_4_Dry_Jos_Star
         private void Initialize()
         {
             List<Person> personsWithTest = GetAlltests();
-            Dictionary<string, List<Question>> dictPersonsWithQuestions = CreateQuestions(personsWithTest);
+            List<List<Question>> dictPersonsWithQuestions = CreateQuestions(personsWithTest);
 
             List<List<CategoryStats>> allCategoryStats = new List<List<CategoryStats>>();
             for (int i = 0; i < personsWithTest.Count; i++)
             {
-                KeyValuePair<string, List<Question>> pair = dictPersonsWithQuestions.ElementAt(i);
+                List<Question> questions = dictPersonsWithQuestions.ElementAt(i);
+                List<List<Question>> categoryLists = GetCategoryLists(questions);
 
-                List<List<Question>> categoryLists = GetCategoryLists(pair.Value);
-                List<CategoryStats> categoryStats = GetCategoryStats(categoryLists, pair.Key, personsWithTest[i].TestScore);
+                string fullName = personsWithTest[i].FirstName + " " + personsWithTest[i].LastName;
+                string testDate = personsWithTest[i].TestDate;
+                string testScore = personsWithTest[i].TestScore;
+                List<CategoryStats> categoryStats = GetCategoryStats(categoryLists, fullName, testDate, testScore);
                 allCategoryStats.Add(categoryStats);
             }
             DataTable dt = CreateDataTable();
@@ -55,15 +58,17 @@ namespace Uppg_4_Dry_Jos_Star
             pickTestType.Items.Add("ÅKU");
         }
 
-        private List<Person> GetAlltests()
+        private List<Person> GetAlltests() //Request.Querystring["username"]
         {
             DatabaseConnection dr = new DatabaseConnection();
-            return dr.RetrieveAllXmlDocuments(pickTestType.Text);
+            string userName = Request.QueryString["userName"];
+            //string userName = "tomKar"; //will be replaced by above code later
+            return dr.RetrieveAllXmlDocuments(pickTestType.Text, userName);
         }
 
-        private Dictionary<string, List<Question>> CreateQuestions(List<Person> persons)
+        private List<List<Question>> CreateQuestions(List<Person> persons)
         {
-            Dictionary<string, List<Question>> dictAllTests = new Dictionary<string, List<Question>>();
+            List<List<Question>> allTests = new List<List<Question>>();
             foreach (Person p in persons)
             {
                 var xmlResult = 
@@ -87,17 +92,17 @@ namespace Uppg_4_Dry_Jos_Star
                 {
                     questions.Add(q);
                 }
-                dictAllTests.Add(p.FirstName + " " + p.LastName, questions);
+                allTests.Add(questions);
             }
-            CorrectTest(dictAllTests);
-            return dictAllTests;
+            CorrectTest(allTests);
+            return allTests;
         }
 
-        private void CorrectTest(Dictionary<string, List<Question>> dictAllTests)
+        private void CorrectTest(List<List<Question>> allTests)
         {
-            foreach(KeyValuePair<string, List<Question>> pair in dictAllTests)
+            foreach(List<Question> list in allTests)
             {
-                foreach (Question q in pair.Value)
+                foreach(Question q in list)
                 {
                     if (IsAnswerCorrect(q.CorrectAnswer, q.UserInput))
                         q.IsCorrect = true;
@@ -162,7 +167,7 @@ namespace Uppg_4_Dry_Jos_Star
             return dictQuestionsCategory;
         }
 
-        private List<CategoryStats> GetCategoryStats(List<List<Question>> categoryLists, string fullName, string testScore)
+        private List<CategoryStats> GetCategoryStats(List<List<Question>> categoryLists, string fullName, string testDate, string testScore)
         {
             List<Question> defaultQuestions = GetXmlContent("~/xml/questions.xml");
             List<CategoryStats> categoryStats = new List<CategoryStats>();
@@ -175,21 +180,21 @@ namespace Uppg_4_Dry_Jos_Star
                 
                 if(questions[0].Category == "Etik och regelverk")
                 {
-                    categoryStats = GetChoosenCategoryStats(categoryStats, questions, fullName, testScore, defaultQuestions);
+                    categoryStats = GetChoosenCategoryStats(categoryStats, questions, fullName, testDate, testScore, defaultQuestions);
                 }
                 else if (questions[0].Category == "Ekonomi – nationalekonomi, finansiell ekonomi och privatekonomi")
                 {
-                    categoryStats = GetChoosenCategoryStats(categoryStats, questions, fullName, testScore, defaultQuestions);
+                    categoryStats = GetChoosenCategoryStats(categoryStats, questions, fullName, testDate, testScore, defaultQuestions);
                 }
                 else if (questions[0].Category == "Produkter och hantering av kundens affärer")
                 {
-                    categoryStats = GetChoosenCategoryStats(categoryStats, questions, fullName, testScore, defaultQuestions);
+                    categoryStats = GetChoosenCategoryStats(categoryStats, questions, fullName, testDate, testScore, defaultQuestions);
                 }
             }
             return categoryStats;
         }
 
-        private List<CategoryStats> GetChoosenCategoryStats(List<CategoryStats> categoryStats, List<Question> questions, string fullName, string testScore, List<Question> defaultQuestions)
+        private List<CategoryStats> GetChoosenCategoryStats(List<CategoryStats> categoryStats, List<Question> questions, string fullName, string testDate, string testScore, List<Question> defaultQuestions)
         {
             Dictionary<string, bool> correctedAnswers = GetCategoryAnswers(defaultQuestions, questions);
 
@@ -198,6 +203,7 @@ namespace Uppg_4_Dry_Jos_Star
                     {
                         CategoryName = questions[0].Category,
                         FullName = fullName,
+                        TestDate = testDate,
                         QuestionsResult = correctedAnswers,
                         CategoryScore = GetCategoryScore(correctedAnswers),
                         TotalScore = testScore,
@@ -266,6 +272,9 @@ namespace Uppg_4_Dry_Jos_Star
             DataTable dt = new DataTable();
             DataColumn clmName = new DataColumn("Namn");
             dt.Columns.Add(clmName);
+            DataColumn clmTestDate = new DataColumn("Provdatum");
+            dt.Columns.Add(clmTestDate);
+            
             foreach(Question q in queryResult)
             {
                 DataColumn clmQuestion = new DataColumn(q.Text);
@@ -275,6 +284,7 @@ namespace Uppg_4_Dry_Jos_Star
             dt.Columns.Add(clmCategoryScore);
             DataColumn clmTotalScore = new DataColumn("Totalpoäng");
             dt.Columns.Add(clmTotalScore);
+            
             return dt;
         }
 
@@ -288,8 +298,9 @@ namespace Uppg_4_Dry_Jos_Star
                 foreach (CategoryStats cs in queryResult)
                 {
                     dr["Namn"] = cs.FullName;
+                    dr["Provdatum"] = cs.TestDate;
 
-                    for(int i = 1; i<dt.Columns.Count -2; i++) //first column is already taken, last two columns is not to be populated in loop
+                    for(int i = 2; i<dt.Columns.Count -2; i++) //first two columns is already taken, last two columns is not to be populated in loop
                     {
                         string columnName = dt.Columns[i].ColumnName;
                         if(cs.QuestionsResult.TryGetValue(columnName, out isAnswerCorrect))
@@ -327,13 +338,14 @@ namespace Uppg_4_Dry_Jos_Star
             }
             else
             {
-                for (int i = 1; i < e.Row.Cells.Count - 2; i++)
+                for (int i = 2; i < e.Row.Cells.Count - 2; i++) //first two columns is already taken, last two columns is not to be populated in loop
                 {
                     if (e.Row.Cells[i].Text == "R&#228;tt") // makes ä = &#228;
                         e.Row.Cells[i].BackColor = Color.LightGreen;
-                    else
+                    else if (e.Row.Cells[i].Text == "Fel")
                         e.Row.Cells[i].BackColor = Color.Tomato;
-
+                    else
+                        e.Row.Cells[i].Text = "Ingår ej";
                 }
             }
         }

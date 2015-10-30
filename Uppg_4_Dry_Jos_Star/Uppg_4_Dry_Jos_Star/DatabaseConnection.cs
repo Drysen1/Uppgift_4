@@ -147,7 +147,7 @@ namespace Uppg_4_Dry_Jos_Star
             return xmlList;
         }
 
-        public List<Person> RetrieveAllXmlDocuments(string testType)
+        public List<Person> RetrieveAllXmlDocuments(string testType, string userName)
         {
             List<Person> personWithXmlTest = new List<Person>();
 
@@ -156,13 +156,16 @@ namespace Uppg_4_Dry_Jos_Star
                 using (NpgsqlConnection conn = new NpgsqlConnection(myConnection))
                 {
                     conn.Open();
-                    string query = "SELECT firstname, lastname, username, score, xmlstring " +
+                    string query = "SELECT firstname, lastname, username, date, score, xmlstring " +
                                     "FROM testoccasion t JOIN person p ON t.id_user = p.id "+
-                                    "WHERE testtype = @testType ";
+                                    "WHERE testtype = @testType AND id_testadmin = "+
+                                    "(SELECT id FROM person WHERE username = @userName) " +
+                                    "ORDER BY date DESC ";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("testType", testType);
+                        cmd.Parameters.AddWithValue("userName", userName);
 
                         using (NpgsqlDataReader dr = cmd.ExecuteReader())
                         {
@@ -174,8 +177,9 @@ namespace Uppg_4_Dry_Jos_Star
                                     FirstName = dr[0].ToString(),
                                     LastName = dr[1].ToString(),
                                     UserName = dr[2].ToString(),
-                                    TestScore = dr[3].ToString(),
-                                    xmlTest = XDocument.Parse(dr[4].ToString())
+                                    TestDate = dr[3].ToString().Substring(0,10),
+                                    TestScore = dr[4].ToString(),
+                                    xmlTest = XDocument.Parse(dr[5].ToString())
                                 });
                             }
                         }
@@ -215,8 +219,7 @@ namespace Uppg_4_Dry_Jos_Star
                 NpgsqlException = ex.Message;
             }
         }
-
-        //Personer som inte gjort ett LST/ÅKU eller ej blivit godkända. 
+        
         public List<Person> GetNoTestPersons()
         {
             //deffinerar koppling mot postgres
@@ -284,7 +287,7 @@ namespace Uppg_4_Dry_Jos_Star
             }
             //returnerar listan med personer som inte skrivit LST och de som inte blivit godkännda 
             return listOfPersons;
-        }
+        } //Personer som inte gjort ett LST/ÅKU eller ej blivit godkända. 
 
     }
 }
