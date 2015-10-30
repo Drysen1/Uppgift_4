@@ -13,9 +13,9 @@
 
     <div class="fullBox" >
         <div class="fullBox" id="page-title2">
-            <p>Provdeltagare som ska göra licencieringstestet. </p>
+            <p>Personer som har ett test att genomföra</p>
                 <br />
-                <asp:GridView ID="GridView1" runat="server" OnRowDataBound="GridView1_RowDataBound" OnRowCommand="GridView1_RowCommand" >
+                <asp:GridView ID="GridView1" runat="server" OnRowDataBound="GridView1_RowDataBound" >
                 </asp:GridView>
                 <br />
         </div>
