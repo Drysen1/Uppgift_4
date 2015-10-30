@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -27,7 +29,8 @@ namespace Uppg_4_Dry_Jos_Star
                     List<CategoryStats> categoryStats = GetCategoryStats(categoryLists, pair.Key, personsWithTest[i].TestScore);
                     allCategoryStats.Add(categoryStats);
                 }
-                PopulateGridViews(allCategoryStats);
+                DataTable dt = CreateDataTable();
+                PopulateGridViews(allCategoryStats, dt);
             }
         }
 
@@ -249,14 +252,56 @@ namespace Uppg_4_Dry_Jos_Star
             return String.Format("{0}/{1}", numCorrect, totalQuestions);
         }
 
-        private void PopulateGridViews(List<List<CategoryStats>> allCategoryStats) //hardcoded category right now, will get value from dropDownlist later
+        private DataTable CreateDataTable() 
         {
+            List<Question> defaultQuestions = GetXmlContent("~/xml/questions.xml");
+
+            var queryResult = defaultQuestions.Where(x => x.Category == pickTestCategory.Text);
+            
+            DataTable dt = new DataTable();
+            DataColumn clmName = new DataColumn("Namn");
+            dt.Columns.Add(clmName);
+            foreach(Question q in queryResult)
+            {
+                DataColumn clmQuestion = new DataColumn(q.Text);
+                dt.Columns.Add(clmQuestion);
+            }
+            DataColumn clmCategoryScore = new DataColumn("Poäng kategori");
+            dt.Columns.Add(clmCategoryScore);
+            DataColumn clmTotalScore = new DataColumn("Totalpoäng");
+            dt.Columns.Add(clmTotalScore);
+            return dt;
+        }
+
+        private void PopulateGridViews(List<List<CategoryStats>> allCategoryStats, DataTable dt)
+        {
+            bool isAnswerCorrect;
             foreach (List<CategoryStats> csList in allCategoryStats)
             {
+                DataRow dr = dt.NewRow();
                 var queryResult = csList.Where(x => x.CategoryName == pickTestCategory.Text);
-                gViewStatsCategory.DataSource = "";
-                gViewStatsCategory.DataBind();
+                foreach (CategoryStats cs in queryResult)
+                {
+                    dr["Namn"] = cs.FullName;
+
+                    for(int i = 1; i<dt.Columns.Count -2; i++) //first column is already taken, last two columns is not to be populated in loop
+                    {
+                        string columnName = dt.Columns[i].ColumnName;
+                        if(cs.QuestionsResult.TryGetValue(columnName, out isAnswerCorrect))
+                        {
+                            if (isAnswerCorrect)
+                                dr[columnName] = "Rätt";
+                            else
+                                dr[columnName] = "Fel";
+                        }
+                    }
+                    dr["Poäng kategori"] = cs.CategoryScore;
+                    dr["Totalpoäng"] = cs.TotalScore;
+                }
+                dt.Rows.Add(dr);
             }
+            gViewStatsCategory.DataSource = dt;
+            gViewStatsCategory.DataBind();
         }
 
         protected void pickTestType_SelectedIndexChanged(object sender, EventArgs e)
@@ -267,6 +312,25 @@ namespace Uppg_4_Dry_Jos_Star
         protected void pickTestCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        protected void gViewStatsCategory_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if(e.Row.RowType == DataControlRowType.Header)
+            {
+                e.Row.BackColor = Color.BlanchedAlmond;
+            }
+            else
+            {
+                for (int i = 1; i < e.Row.Cells.Count - 2; i++)
+                {
+                    if (e.Row.Cells[i].Text == "R&#228;tt") // makes ä = &#228;
+                        e.Row.Cells[i].BackColor = Color.LightGreen;
+                    else
+                        e.Row.Cells[i].BackColor = Color.Tomato;
+
+                }
+            }
         }
 
     }

@@ -6,15 +6,18 @@
         <h1>Statistik</h1>
     </div>
     <div class="fullBox">
-        <div class="quarterBox">
-            <asp:DropDownList ID="pickTestType" runat="server" OnSelectedIndexChanged="pickTestType_SelectedIndexChanged"></asp:DropDownList>
+        <div class="quarterBox" style="margin-bottom: 20px">
+            <asp:Label ID="Label1" runat="server">Typ av prov:</asp:Label>
+            <asp:DropDownList  ID="pickTestType" runat="server" OnSelectedIndexChanged="pickTestType_SelectedIndexChanged"></asp:DropDownList>
         </div>
-        <div class="quarterBox">
+        <div class="sevenFiveBox" style="margin-bottom: 20px">
+            <asp:Label ID="Label2" runat="server">Kategori:</asp:Label>
             <asp:DropDownList ID="pickTestCategory" runat="server" OnSelectedIndexChanged="pickTestCategory_SelectedIndexChanged"></asp:DropDownList>
         </div>
         <div id="gridCategory" class="fullBox" style="border: 1px solid black;">
             <h3 id="header" runat="server"></h3>
-            <asp:GridView ID="gViewStatsCategory" runat="server"></asp:GridView>
+            <asp:GridView ID="gViewStatsCategory" runat="server" OnRowDataBound="gViewStatsCategory_RowDataBound">
+            </asp:GridView>
         </div>
     </div>
 </asp:Content>

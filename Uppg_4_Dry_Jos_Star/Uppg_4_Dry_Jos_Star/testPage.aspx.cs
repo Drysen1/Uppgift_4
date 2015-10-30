@@ -118,10 +118,9 @@ namespace Uppg_4_Dry_Jos_Star
             return questions;
         }
 
-        private List<List<Question>> GetCategoryLists(List<Question> questionList) // Request.QueryString["typeofTest"] is needed to know which type of test is to be done
+        private List<List<Question>> GetCategoryLists(List<Question> questionList) // Request.QueryString["typeofTest"]
         {
             string typeOfTest = Request.QueryString["typeOfTest"];
-            //string typeOfTest = "ÅKU"; //two types are availible: LST=licensieringstest & ÅKU=årlig kunskapsuppdatering, get these from Request.QueryString later
             int numberOfQuestions = GetAmountOfQuestionsForSpecificTest(typeOfTest);
 
             Dictionary<string, List<Question>> dictCategoryQuestions = new Dictionary<string, List<Question>>();
