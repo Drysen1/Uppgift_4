@@ -17,21 +17,26 @@ namespace Uppg_4_Dry_Jos_Star
             if(!IsPostBack)
             {
                 PopulateDropDownLists();
-                List<Person> personsWithTest = GetAlltests();
-                Dictionary<string, List<Question>> dictPersonsWithQuestions = CreateQuestions(personsWithTest);
-                
-                List<List<CategoryStats>> allCategoryStats = new List<List<CategoryStats>>();
-                for(int i = 0; i<personsWithTest.Count; i++)
-                {
-                    KeyValuePair<string, List<Question>> pair = dictPersonsWithQuestions.ElementAt(i);
-
-                    List<List<Question>> categoryLists = GetCategoryLists(pair.Value);
-                    List<CategoryStats> categoryStats = GetCategoryStats(categoryLists, pair.Key, personsWithTest[i].TestScore);
-                    allCategoryStats.Add(categoryStats);
-                }
-                DataTable dt = CreateDataTable();
-                PopulateGridViews(allCategoryStats, dt);
+                Initialize();
             }
+        }
+
+        private void Initialize()
+        {
+            List<Person> personsWithTest = GetAlltests();
+            Dictionary<string, List<Question>> dictPersonsWithQuestions = CreateQuestions(personsWithTest);
+
+            List<List<CategoryStats>> allCategoryStats = new List<List<CategoryStats>>();
+            for (int i = 0; i < personsWithTest.Count; i++)
+            {
+                KeyValuePair<string, List<Question>> pair = dictPersonsWithQuestions.ElementAt(i);
+
+                List<List<Question>> categoryLists = GetCategoryLists(pair.Value);
+                List<CategoryStats> categoryStats = GetCategoryStats(categoryLists, pair.Key, personsWithTest[i].TestScore);
+                allCategoryStats.Add(categoryStats);
+            }
+            DataTable dt = CreateDataTable();
+            PopulateGridViews(allCategoryStats, dt);
         }
 
         private void PopulateDropDownLists()
@@ -306,12 +311,12 @@ namespace Uppg_4_Dry_Jos_Star
 
         protected void pickTestType_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            Initialize();
         }
 
         protected void pickTestCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            Initialize();
         }
 
         protected void gViewStatsCategory_RowDataBound(object sender, GridViewRowEventArgs e)

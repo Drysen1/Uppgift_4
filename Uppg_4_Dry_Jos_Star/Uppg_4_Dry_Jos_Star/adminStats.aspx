@@ -8,11 +8,11 @@
     <div class="fullBox">
         <div class="quarterBox" style="margin-bottom: 20px">
             <asp:Label ID="Label1" runat="server">Typ av prov:</asp:Label>
-            <asp:DropDownList  ID="pickTestType" runat="server" OnSelectedIndexChanged="pickTestType_SelectedIndexChanged"></asp:DropDownList>
+            <asp:DropDownList  ID="pickTestType" runat="server" AutoPostBack="True" OnSelectedIndexChanged="pickTestType_SelectedIndexChanged"></asp:DropDownList>
         </div>
         <div class="sevenFiveBox" style="margin-bottom: 20px">
             <asp:Label ID="Label2" runat="server">Kategori:</asp:Label>
-            <asp:DropDownList ID="pickTestCategory" runat="server" OnSelectedIndexChanged="pickTestCategory_SelectedIndexChanged"></asp:DropDownList>
+            <asp:DropDownList ID="pickTestCategory" runat="server" AutoPostBack="True" OnSelectedIndexChanged="pickTestCategory_SelectedIndexChanged"></asp:DropDownList>
         </div>
         <div id="gridCategory" class="fullBox" style="border: 1px solid black;">
             <h3 id="header" runat="server"></h3>
