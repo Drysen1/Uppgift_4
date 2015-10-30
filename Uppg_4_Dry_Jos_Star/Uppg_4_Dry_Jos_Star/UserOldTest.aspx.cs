@@ -24,10 +24,11 @@ namespace Uppg_4_Dry_Jos_Star
             //string fileName = GetUserXmlFileName();
             List<Question> questions = GetXmlContent();
             List<List<Question>> categoryLists = GetCategoryListsNoRandomize(questions);
-            PopulateRepeaters(categoryLists);
-            SetBackcBoxToChecked();
+            
+            //SetBackcBoxToChecked();
             CorrectTest();
-            finalResult.Visible = true;
+            //PopulateRepeaters(categoryLists);
+            //finalResult.Visible = true;
         }
 
         protected void Repeater1_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -70,23 +71,6 @@ namespace Uppg_4_Dry_Jos_Star
                 questions.Add(q);
             }
             return questions;
-        }
-
-
-
-        private bool IsAnswerCorrect(List<string> correctAnswers, List<string> userInput)
-        {
-            if (correctAnswers.Count == userInput.Count)
-            {
-                if (correctAnswers.OrderBy(x => x).SequenceEqual(userInput.OrderBy(x => x)))
-                    return true;
-                else
-                    return false;
-            }
-            else
-            {
-                return false;
-            }
         }
 
         private List<List<Question>> GetCategoryLists(List<Question> questionList) // Request.QueryString["typeofTest"] is needed to know which type of test is to be done
