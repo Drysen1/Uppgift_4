@@ -25,7 +25,7 @@ namespace Uppg_4_Dry_Jos_Star
             List<Question> questions = GetXmlContent();
             List<List<Question>> categoryLists = GetCategoryListsNoRandomize(questions);
             PopulateRepeaters(categoryLists);
-            SetBackcBoxToChecked();
+            //SetBackcBoxToChecked();
             CorrectTest();
             finalResult.Visible = true;
         }
