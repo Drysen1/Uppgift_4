@@ -110,6 +110,43 @@ namespace Uppg_4_Dry_Jos_Star
             return xmlList;
         }
 
+        /// <summary>
+        /// Method get latest test that user have done.
+        /// </summary>
+        /// <returns>returns list with xml.</returns>
+        public List<string> GetUserLatestTest(string userId)
+        {
+            List<string> xmlList = new List<string>();
+
+            try
+            {
+                using (NpgsqlConnection conn = new NpgsqlConnection(myConnection))
+                {
+                    conn.Open();
+                    string query = "SELECT xmlstring FROM testoccasion " +
+                                    "WHERE id_user = @userId ORDER BY date DESC LIMIT 1";
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("userId", int.Parse(userId));
+
+                        using (NpgsqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                xmlList.Add(dr[0].ToString());
+                            }
+                        }
+                    }
+                }
+            }
+            catch (NpgsqlException ex)
+            {
+                NpgsqlException = ex.Message;
+            }
+            return xmlList;
+        }
+
         public List<Person> RetrieveAllXmlDocuments(string testType)
         {
             List<Person> personWithXmlTest = new List<Person>();

@@ -18,12 +18,16 @@ namespace Uppg_4_Dry_Jos_Star
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            string fileName = GetUserXmlFileName();
-            List<Question> questions = GetXmlContent(fileName);
-            List<List<Question>> categoryLists = GetCategoryListsNoRandomize(questions);
+            string userName = Request.QueryString["userName"];
+            lblUserName.Text = userName;
 
+            //string fileName = GetUserXmlFileName();
+            List<Question> questions = GetXmlContent();
+            List<List<Question>> categoryLists = GetCategoryListsNoRandomize(questions);
             PopulateRepeaters(categoryLists);
-            finalResult.Visible = false;
+            SetBackcBoxToChecked();
+            CorrectTest();
+            finalResult.Visible = true;
         }
 
         protected void Repeater1_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -41,9 +45,10 @@ namespace Uppg_4_Dry_Jos_Star
             SetLabelInRepeaterHead(e, Repeater3);
         }
 
-        private List<Question> GetXmlContent(string xmlVirtualPath)
+        private List<Question> GetXmlContent()
         {
-            XDocument xDoc = XDocument.Load(Server.MapPath(xmlVirtualPath));
+            //XDocument xDoc = XDocument.Load(Server.MapPath(xmlVirtualPath));
+            XDocument xDoc = GetUserXmlFromDb(); //Uses method to get latest test from DB and read it to htmlpage.
             var xmlResult = from q in xDoc.Descendants("question")
                             select new Question
                             {
@@ -55,6 +60,8 @@ namespace Uppg_4_Dry_Jos_Star
                                                                     .Select(x => x.Value).ToList(),
                                 NumOfCorrect = String.Format("Antal korrekta svar: ({0})", q.Elements("answer").Where(x => x.Attribute("correct").Value == "yes")
                                                                     .Select(x => x.Value).ToList().Count.ToString()),
+                                UserInput = q.Elements("answer").Where(x => x.Attribute("input").Value == "yes")
+                                                                .Select(x => x.Value).ToList(),
                             };
 
             List<Question> questions = new List<Question>();
@@ -63,6 +70,23 @@ namespace Uppg_4_Dry_Jos_Star
                 questions.Add(q);
             }
             return questions;
+        }
+
+
+
+        private bool IsAnswerCorrect(List<string> correctAnswers, List<string> userInput)
+        {
+            if (correctAnswers.Count == userInput.Count)
+            {
+                if (correctAnswers.OrderBy(x => x).SequenceEqual(userInput.OrderBy(x => x)))
+                    return true;
+                else
+                    return false;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private List<List<Question>> GetCategoryLists(List<Question> questionList) // Request.QueryString["typeofTest"] is needed to know which type of test is to be done
@@ -418,8 +442,8 @@ namespace Uppg_4_Dry_Jos_Star
 
         private void CorrectTest()
         {
-            string fileName = GetUserXmlFileName();
-            List<Question> questions = GetXmlContent(fileName);
+            //string fileName = GetUserXmlFileName();
+            List<Question> questions = GetXmlContent();
             List<List<Question>> categoryLists = GetCategoryListsNoRandomize(questions);
 
             List<Repeater> reps = new List<Repeater>();
@@ -574,7 +598,7 @@ namespace Uppg_4_Dry_Jos_Star
             }
             SetDataOnCharts(allPercents, allScores, totalQuestions);
             SetTestResultImageUrl(allPercents);
-            UpdateDbWithResult(allScores, totalQuestions, allPercents);
+            //UpdateDbWithResult(allScores, totalQuestions, allPercents);
         }
 
         private int GetScoreFromList(List<Question> questions)
@@ -689,12 +713,16 @@ namespace Uppg_4_Dry_Jos_Star
             Session["IsFirstTime"] = false;
         }
 
+        /// <summary>
+        /// Updated to only get latest test from one specific user. 
+        /// </summary>
+        /// <returns></returns>
         private XDocument GetUserXmlFromDb()
         {
             DatabaseConnection db = new DatabaseConnection();
-            //string userName = Request.QueryString["userName"];
-            string id = db.GetUserId("stare"); //will be userName later, not "stare"
-            List<string> userXmls = db.RetrieveXmlDocument(id, DateTime.Today);
+            string userName = lblUserName.Text;
+            string id = db.GetUserId(userName); 
+            List<string> userXmls = db.GetUserLatestTest(id);
 
             XDocument xDoc = XDocument.Parse(userXmls[0]);
             XDeclaration xDec = xDoc.Declaration; //for some reason postgres changes encoding to utf-16, changing it back!
@@ -708,7 +736,7 @@ namespace Uppg_4_Dry_Jos_Star
 
         private string GetUserXmlFileName() //Request.QueryString["userName"]
         {
-            string userName = Request.QueryString["userName"];
+            string userName = lblUserName.Text;
             string userXmlFileName = string.Format("~/xml/{0}.xml", "stare"); //again will be userName later, not "stare"
             return userXmlFileName;
         }
