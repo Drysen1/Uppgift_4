@@ -119,7 +119,7 @@ namespace Uppg_4_Dry_Jos_Star
                 using (NpgsqlConnection conn = new NpgsqlConnection(myConnection))
                 {
                     conn.Open();
-                    string query = "SELECT firstname, lastname, username, xmlstring " +
+                    string query = "SELECT firstname, lastname, username, score, xmlstring " +
                                     "FROM testoccasion t JOIN person p ON t.id_user = p.id "+
                                     "WHERE testtype = @testType ";
 
@@ -137,7 +137,8 @@ namespace Uppg_4_Dry_Jos_Star
                                     FirstName = dr[0].ToString(),
                                     LastName = dr[1].ToString(),
                                     UserName = dr[2].ToString(),
-                                    xmlTest = XDocument.Parse(dr[3].ToString())
+                                    TestScore = dr[3].ToString(),
+                                    xmlTest = XDocument.Parse(dr[4].ToString())
                                 });
                             }
                         }

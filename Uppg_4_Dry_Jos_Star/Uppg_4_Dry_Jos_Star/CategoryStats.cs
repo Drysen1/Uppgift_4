@@ -9,8 +9,8 @@ namespace Uppg_4_Dry_Jos_Star
     {
         public string CategoryName { get; set; }
         public string FullName { get; set; }
-        public Dictionary<string, List<bool>> QuestionsResult { get; set; }
+        public Dictionary<string, bool> QuestionsResult { get; set; }
         public int CategoryScore { get; set; }
-        public int TotalScore { get; set; }
+        public string TotalScore { get; set; }
     }
 }
