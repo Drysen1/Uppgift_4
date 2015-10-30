@@ -24,10 +24,9 @@ namespace Uppg_4_Dry_Jos_Star
             //string fileName = GetUserXmlFileName();
             List<Question> questions = GetXmlContent();
             List<List<Question>> categoryLists = GetCategoryListsNoRandomize(questions);
-            
-            //SetBackcBoxToChecked();
+            PopulateRepeaters(categoryLists);
             CorrectTest();
-            //PopulateRepeaters(categoryLists);
+            
             //finalResult.Visible = true;
         }
 
@@ -487,19 +486,8 @@ namespace Uppg_4_Dry_Jos_Star
                 CheckBox cBox2 = (CheckBox)item.FindControl("cbox2");
                 CheckBox cBox3 = (CheckBox)item.FindControl("cbox3");
 
-                Question q = new Question();
-                List<string> list = new List<string>();
-                q = questions[i];
-                if (cBox1.Checked)
-                    list.Add(cBox1.Text);
-
-                if (cBox2.Checked)
-                    list.Add(cBox2.Text);
-
-                if (cBox3.Checked)
-                    list.Add(cBox3.Text);
-
-                q.UserInput = list;
+                Question q = questions[i];
+                
                 System.Web.UI.WebControls.Image image = (System.Web.UI.WebControls.Image)item.FindControl("questionImage");
 
                 if (IsAnswersCorrect(q))

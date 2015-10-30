@@ -49,6 +49,15 @@ namespace Uppg_4_Dry_Jos_Star {
         protected global::System.Web.UI.DataVisualization.Charting.Chart totalChart;
         
         /// <summary>
+        /// resultTotal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label resultTotal;
+        
+        /// <summary>
         /// categoryChart1 control.
         /// </summary>
         /// <remarks>
@@ -56,6 +65,15 @@ namespace Uppg_4_Dry_Jos_Star {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.DataVisualization.Charting.Chart categoryChart1;
+        
+        /// <summary>
+        /// resultCategory1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label resultCategory1;
         
         /// <summary>
         /// categoryChart2 control.
@@ -67,6 +85,15 @@ namespace Uppg_4_Dry_Jos_Star {
         protected global::System.Web.UI.DataVisualization.Charting.Chart categoryChart2;
         
         /// <summary>
+        /// resultCategory2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label resultCategory2;
+        
+        /// <summary>
         /// categoryChart3 control.
         /// </summary>
         /// <remarks>
@@ -74,6 +101,15 @@ namespace Uppg_4_Dry_Jos_Star {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.DataVisualization.Charting.Chart categoryChart3;
+        
+        /// <summary>
+        /// resultCategory3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label resultCategory3;
         
         /// <summary>
         /// testPassed control.

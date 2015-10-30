@@ -11,10 +11,7 @@
     <div class="fullBox" id="page-title">        
         <h3 class="home-h3">SENASTE PROV FÖR: <asp:Label ID="lblUserName" runat="server" Text="Label"></asp:Label></h3>
     </div>
-
     <div id="bodyContent" class="fullBox" runat="server">
-
-
         <div id="finalResult" style="margin-top: 20px;" class="fullBox" runat="server">
             <div class="quarterBox" style="text-align: center; border: 1px solid black;">
                 <asp:Chart ID="totalChart" CssClass="home-img" runat="server" Width="300" Height="300">
@@ -28,6 +25,7 @@
                         <asp:ChartArea Name="chartAreaTotal"></asp:ChartArea>
                     </ChartAreas>
                 </asp:Chart>
+                <asp:Label Style="font-weight: bold" ID="resultTotal" runat="server" Text="Label"></asp:Label>
             </div>
             <div class="quarterBox" style="text-align: center;">
                 <asp:Chart  ID="categoryChart1" CssClass="home-img" runat="server" Width="300" Height="300">
@@ -41,6 +39,7 @@
                         <asp:ChartArea Name="chartAreaCategory1"></asp:ChartArea>
                     </ChartAreas>
                 </asp:Chart>
+                <asp:Label ID="resultCategory1" runat="server" Text="Label"></asp:Label>
             </div>
             <div class="quarterBox" style="text-align: center;">
                 <asp:Chart ID="categoryChart2" CssClass="home-img" runat="server" Width="300" Height="300">
@@ -54,6 +53,7 @@
                         <asp:ChartArea Name="chartAreaCategory2"></asp:ChartArea>
                     </ChartAreas>
                 </asp:Chart>
+                <asp:Label ID="resultCategory2" runat="server" Text="Label"></asp:Label>
             </div>
             <div class="quarterBox" style="text-align: center;">
                 <asp:Chart ID="categoryChart3" CssClass="home-img" runat="server" Width="300" Height="300">
@@ -67,17 +67,13 @@
                         <asp:ChartArea Name="chartAreaCategory3"></asp:ChartArea>
                     </ChartAreas>
                 </asp:Chart>
+                <asp:Label ID="resultCategory3" runat="server" Text="Label"></asp:Label>
             </div>
-        </div>
-
-
-        <div class="fullBox" style="margin-top: 20px">
+            <div class="fullBox" style="margin-top: 20px">
             <asp:Label style="margin-right: 10px; font-weight:bold; font-size: 1.2em;" ID="testPassed" runat="server" >Provresultat:</asp:Label>
             <asp:Image style="vertical-align:middle;" ID="yesNoImg"  runat="server"/>
         </div>
-
-
-
+        </div>
         <div id="repeaters" class="fullBox" runat="server"> 
             <asp:Repeater ID="Repeater1" runat="server" OnItemDataBound="Repeater1_ItemDataBound">
                 <HeaderTemplate>
@@ -173,11 +169,6 @@
                     </div>
                 </FooterTemplate>
             </asp:Repeater>
-
         </div>
-
-
     </div>
-
-
 </asp:Content>
