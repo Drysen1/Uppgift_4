@@ -4,7 +4,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
 <div class="fullBox" id="page-title1">
-        <h1>Licensieringstest</h1>
+        <h1>Lämplig rubrik</h1>
     </div>
     <div class="fullBox">
        
@@ -13,9 +13,12 @@
 
     <div class="fullBox" >
         <div class="fullBox" id="page-title2">
-            <p>Provdeltagare som ska göra licencieringstestet. </p>
+            <p>Personer som har ett test att genomföra <br />
+                LST = Licensieringstest <br />
+                ÅKU = Årligt kunskapsprov
+            </p>
                 <br />
-                <asp:GridView ID="GridView1" runat="server" OnRowDataBound="GridView1_RowDataBound" OnRowCommand="GridView1_RowCommand" >
+                <asp:GridView ID="GridView1" runat="server" OnRowDataBound="GridView1_RowDataBound" >
                 </asp:GridView>
                 <br />
         </div>

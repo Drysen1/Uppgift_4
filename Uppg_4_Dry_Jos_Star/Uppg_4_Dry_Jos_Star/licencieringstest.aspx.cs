@@ -35,15 +35,17 @@ namespace Uppg_4_Dry_Jos_Star
             e.Row.Cells[3].Attributes["width"] = "150px";
             e.Row.Cells[4].Attributes["width"] = "150px";
             e.Row.Cells[5].Attributes["width"] = "150px";
+            e.Row.Cells[6].Attributes["width"] = "150px";
 
             if (e.Row.RowType == DataControlRowType.Header)
             {
                 e.Row.Cells[0].Text = "Förnamn";
                 e.Row.Cells[1].Text = "Efternamn";
-                e.Row.Cells[2].Text = "Datum";
-                e.Row.Cells[3].Text = "Provpoäng";
-                e.Row.Cells[4].Text = "Provresultat";
-                e.Row.Cells[5].Text = "Användarnamn";
+                e.Row.Cells[2].Text = "Användarnamn";
+                e.Row.Cells[3].Text = "Provtyp";
+                e.Row.Cells[4].Text = "Datum";
+                e.Row.Cells[5].Text = "Provresultat";
+                e.Row.Cells[6].Text = "Betyg";
             }
         }
     }

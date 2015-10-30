@@ -18,10 +18,12 @@ namespace Uppg_4_Dry_Jos_Star
                 Dictionary<string, List<Question>> dictPersonsWithQuestions = CreateQuestions(personsWithTest);
                 
                 List<List<CategoryStats>> allCategoryStats = new List<List<CategoryStats>>();
-                foreach(KeyValuePair<string, List<Question>> pair in dictPersonsWithQuestions)
+                for(int i = 0; i<personsWithTest.Count; i++)
                 {
+                    KeyValuePair<string, List<Question>> pair = dictPersonsWithQuestions.ElementAt(i);
+
                     List<List<Question>> categoryLists = GetCategoryLists(pair.Value);
-                    List<CategoryStats> categoryStats = GetCategoryStats(categoryLists, pair.Key);
+                    List<CategoryStats> categoryStats = GetCategoryStats(categoryLists, pair.Key, personsWithTest[i].TestScore);
                     allCategoryStats.Add(categoryStats);
                 }
             }
@@ -134,47 +136,43 @@ namespace Uppg_4_Dry_Jos_Star
             return dictQuestionsCategory;
         }
 
-        private List<CategoryStats> GetCategoryStats(List<List<Question>> categoryLists, string fullName)
+        private List<CategoryStats> GetCategoryStats(List<List<Question>> categoryLists, string fullName, string testScore)
         {
             List<Question> defaultQuestions = GetXmlContent("~/xml/questions.xml");
             List<CategoryStats> categoryStats = new List<CategoryStats>();
             
-            Dictionary<string, List<bool>> dictCorrectAnswers = new Dictionary<string, List<bool>>();
+            Dictionary<string, bool> dictCorrectAnswers = new Dictionary<string, bool>();
 
             for(int i = 0; i<categoryLists.Count; i++)
             {
                 List<Question> questions = categoryLists[i];
+                
                 if(questions[0].Category == "Etik och regelverk")
                 {
-                    categoryStats.Add(
-                    new CategoryStats
-                    {
-                        CategoryName = questions[0].Category,
-                        FullName = fullName,
-                        QuestionsResult = GetCategoryAnswers(defaultQuestions, questions)
-                    });
+                    categoryStats = GetChoosenCategoryStats(categoryStats, questions, fullName, testScore, defaultQuestions);
                 }
                 else if (questions[0].Category == "Ekonomi – nationalekonomi, finansiell ekonomi och privatekonomi")
                 {
-                    categoryStats.Add(
-                    new CategoryStats
-                    {
-                        CategoryName = questions[0].Category,
-                        FullName = fullName,
-                        QuestionsResult = GetCategoryAnswers(defaultQuestions, questions)
-                    });
+                    categoryStats = GetChoosenCategoryStats(categoryStats, questions, fullName, testScore, defaultQuestions);
                 }
                 else if (questions[0].Category == "Produkter och hantering av kundens affärer")
                 {
-                    categoryStats.Add(
+                    categoryStats = GetChoosenCategoryStats(categoryStats, questions, fullName, testScore, defaultQuestions);
+                }
+            }
+            return categoryStats;
+        }
+
+        private List<CategoryStats> GetChoosenCategoryStats(List<CategoryStats> categoryStats, List<Question> questions, string fullName, string testScore, List<Question> defaultQuestions)
+        {
+            categoryStats.Add(
                     new CategoryStats
                     {
                         CategoryName = questions[0].Category,
                         FullName = fullName,
+                        TotalScore = testScore,
                         QuestionsResult = GetCategoryAnswers(defaultQuestions, questions)
                     });
-                }
-            }
             return categoryStats;
         }
 
@@ -202,10 +200,10 @@ namespace Uppg_4_Dry_Jos_Star
             return questions;
         }
 
-        private Dictionary<string, List<bool>> GetCategoryAnswers(List<Question> defaultQuestions, List<Question> questions)
+        private Dictionary<string, bool> GetCategoryAnswers(List<Question> defaultQuestions, List<Question> questions)
         {
-            Dictionary<string, List<bool>> dictCorrectAnswers = new Dictionary<string, List<bool>>();
-            List<bool> isAnswerCorrect = new List<bool>();
+            Dictionary<string, bool> dictCorrectAnswers = new Dictionary<string, bool>();
+            bool isAnswerCorrect;
 
             for (int j = 0; j < defaultQuestions.Count; j++)
             {
@@ -216,12 +214,11 @@ namespace Uppg_4_Dry_Jos_Star
                                   select q;
                 foreach (Question q in resultQuery)
                 {
-                    isAnswerCorrect.Add(q.IsCorrect);
+                    isAnswerCorrect = q.IsCorrect;
                     dictCorrectAnswers.Add(q.Text, isAnswerCorrect);
                 }
             }
             return dictCorrectAnswers;
         }
-        
     }
 }
