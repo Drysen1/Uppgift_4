@@ -6,9 +6,15 @@
         <h1>Statistik</h1>
     </div>
     <div class="fullBox">
-        <div id="gridCategegor1" class="fullBox" style="border: 1px solid black;">
-            <h3>Etik och regelverk</h3>
-            <asp:GridView ID="gViewStatsCategory1" runat="server"></asp:GridView>
+        <div class="quarterBox">
+            <asp:DropDownList ID="pickTestType" runat="server" OnSelectedIndexChanged="pickTestType_SelectedIndexChanged"></asp:DropDownList>
+        </div>
+        <div class="quarterBox">
+            <asp:DropDownList ID="pickTestCategory" runat="server" OnSelectedIndexChanged="pickTestCategory_SelectedIndexChanged"></asp:DropDownList>
+        </div>
+        <div id="gridCategory" class="fullBox" style="border: 1px solid black;">
+            <h3 id="header" runat="server"></h3>
+            <asp:GridView ID="gViewStatsCategory" runat="server"></asp:GridView>
         </div>
     </div>
 </asp:Content>

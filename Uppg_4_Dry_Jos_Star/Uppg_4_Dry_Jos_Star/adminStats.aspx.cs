@@ -14,6 +14,7 @@ namespace Uppg_4_Dry_Jos_Star
         {
             if(!IsPostBack)
             {
+                PopulateDropDownLists();
                 List<Person> personsWithTest = GetAlltests();
                 Dictionary<string, List<Question>> dictPersonsWithQuestions = CreateQuestions(personsWithTest);
                 
@@ -26,13 +27,30 @@ namespace Uppg_4_Dry_Jos_Star
                     List<CategoryStats> categoryStats = GetCategoryStats(categoryLists, pair.Key, personsWithTest[i].TestScore);
                     allCategoryStats.Add(categoryStats);
                 }
+                PopulateGridViews(allCategoryStats);
             }
         }
 
-        private List<Person> GetAlltests() //hardcoded testtype right now, will get value from dropdownlist later
+        private void PopulateDropDownLists()
+        {
+            XDocument xDoc = XDocument.Load(Server.MapPath("~/xml/questions.xml"));
+
+            var queryResult = from c in xDoc.Descendants("category")
+                              orderby c.Attribute("type").Value
+                              select c.Attribute("type").Value;
+                              
+
+            pickTestCategory.DataSource = queryResult;
+            pickTestCategory.DataBind();
+
+            pickTestType.Items.Add("LST");
+            pickTestType.Items.Add("ÅKU");
+        }
+
+        private List<Person> GetAlltests()
         {
             DatabaseConnection dr = new DatabaseConnection();
-            return dr.RetrieveAllXmlDocuments("LST");
+            return dr.RetrieveAllXmlDocuments(pickTestType.Text);
         }
 
         private Dictionary<string, List<Question>> CreateQuestions(List<Person> persons)
@@ -165,13 +183,16 @@ namespace Uppg_4_Dry_Jos_Star
 
         private List<CategoryStats> GetChoosenCategoryStats(List<CategoryStats> categoryStats, List<Question> questions, string fullName, string testScore, List<Question> defaultQuestions)
         {
+            Dictionary<string, bool> correctedAnswers = GetCategoryAnswers(defaultQuestions, questions);
+
             categoryStats.Add(
                     new CategoryStats
                     {
                         CategoryName = questions[0].Category,
                         FullName = fullName,
+                        QuestionsResult = correctedAnswers,
+                        CategoryScore = GetCategoryScore(correctedAnswers),
                         TotalScore = testScore,
-                        QuestionsResult = GetCategoryAnswers(defaultQuestions, questions)
                     });
             return categoryStats;
         }
@@ -220,5 +241,33 @@ namespace Uppg_4_Dry_Jos_Star
             }
             return dictCorrectAnswers;
         }
+
+        private string GetCategoryScore(Dictionary<string, bool> correctedAnswers)
+        {
+            string totalQuestions = correctedAnswers.Count.ToString();
+            string numCorrect = correctedAnswers.Where(x => x.Value == true).Count().ToString();
+            return String.Format("{0}/{1}", numCorrect, totalQuestions);
+        }
+
+        private void PopulateGridViews(List<List<CategoryStats>> allCategoryStats) //hardcoded category right now, will get value from dropDownlist later
+        {
+            foreach (List<CategoryStats> csList in allCategoryStats)
+            {
+                var queryResult = csList.Where(x => x.CategoryName == pickTestCategory.Text);
+                gViewStatsCategory.DataSource = "";
+                gViewStatsCategory.DataBind();
+            }
+        }
+
+        protected void pickTestType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void pickTestCategory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
