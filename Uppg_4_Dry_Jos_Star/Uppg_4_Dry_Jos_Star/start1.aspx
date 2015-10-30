@@ -7,6 +7,7 @@
     </div>
     <div class="fullBox">
         <div class="halfBox" >
+            <asp:Label ID="lblTest" runat="server" Text="Label"></asp:Label>
             <h2 class="home-h2">Välkommen <asp:Label ID="lblUserName" runat="server" Text="Label"></asp:Label></h2>
             <p class="home-text">Välkommen till JE Bankens kompetensportal. På denna sida har du som anställd möjlighet att göra 
                 ditt licencieringstest som nyanställd och som licensierad anställd har du möjlighet att göra ditt årliga 

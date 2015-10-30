@@ -110,6 +110,43 @@ namespace Uppg_4_Dry_Jos_Star
             return xmlList;
         }
 
+        /// <summary>
+        /// Method get latest test that user have done.
+        /// </summary>
+        /// <returns>returns list with xml.</returns>
+        public List<string> GetUserLatestTest(string userId)
+        {
+            List<string> xmlList = new List<string>();
+
+            try
+            {
+                using (NpgsqlConnection conn = new NpgsqlConnection(myConnection))
+                {
+                    conn.Open();
+                    string query = "SELECT xmlstring FROM testoccasion " +
+                                    "WHERE id_user = @userId ORDER BY date DESC LIMIT 1";
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("userId", int.Parse(userId));
+
+                        using (NpgsqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                xmlList.Add(dr[0].ToString());
+                            }
+                        }
+                    }
+                }
+            }
+            catch (NpgsqlException ex)
+            {
+                NpgsqlException = ex.Message;
+            }
+            return xmlList;
+        }
+
         public List<Person> RetrieveAllXmlDocuments(string testType)
         {
             List<Person> personWithXmlTest = new List<Person>();
@@ -179,7 +216,7 @@ namespace Uppg_4_Dry_Jos_Star
             }
         }
 
-        //Personer som inte gjort ett LST eller ej blivit godkända. 
+        //Personer som inte gjort ett LST/ÅKU eller ej blivit godkända. 
         public List<Person> GetNoTestPersons()
         {
             //deffinerar koppling mot postgres
@@ -194,10 +231,10 @@ namespace Uppg_4_Dry_Jos_Star
                     conn.Open();
 
                     //kod för vad man vill göra mot databasen
-                    string query = "SELECT firstname, lastname, date, score, passed, username " +
+                    string query = "SELECT firstname, lastname, testtype, date, score, passed, username " +
                                     "FROM testoccasion t " +
                                     "RIGHT JOIN person p ON t.id_user = p.id " +
-                                    "WHERE id_user IS NULL OR (testtype ='LST' AND passed = false) " +
+                                    "WHERE id_user IS NULL OR (testtype ='LST' AND passed = false OR testtype ='ÅKU' AND passed = false) " +
                                     "ORDER BY lastname";
 
                     using (NpgsqlCommand command = new NpgsqlCommand(query, conn))
@@ -213,15 +250,17 @@ namespace Uppg_4_Dry_Jos_Star
                                 p.FirstName = dr[0].ToString();
                                 p.LastName = dr[1].ToString();
 
-                                p.TestDate = dr[2].ToString();
+                                p.TestType =dr[2].ToString();
+
+                                p.TestDate = dr[3].ToString();
                                 if (p.TestDate != "")
                                 {
                                     p.TestDate = p.TestDate.Substring(0, 10);
                                 }
 
-                                p.TestScore = dr[3].ToString();
+                                p.TestScore = dr[4].ToString();
 
-                                if(bool.TryParse(dr[4].ToString(), out isPassed ))
+                                if(bool.TryParse(dr[5].ToString(), out isPassed ))
                                 {
                                     if (isPassed)
                                         p.TestGrade = "Godkänd";
@@ -229,7 +268,7 @@ namespace Uppg_4_Dry_Jos_Star
                                         p.TestGrade = "Underkänd";
                                 }
 
-                                p.UserName = dr[5].ToString();
+                                p.UserName = dr[6].ToString();
 
                                 listOfPersons.Add(p);
                             }
@@ -246,77 +285,6 @@ namespace Uppg_4_Dry_Jos_Star
             //returnerar listan med personer som inte skrivit LST och de som inte blivit godkännda 
             return listOfPersons;
         }
-
-        //Personer som inte gjort ett ÅKU eller ej blivit godkända. 
-        public List<Person> GetNoTestPersonsAku()
-        {
-            //deffinerar koppling mot postgres
-            List<Person> listOfPersons2 = new List<Person>();
-            bool isPassed;
-
-            try
-            {
-                using (NpgsqlConnection conn = new NpgsqlConnection(myConnection))
-                {
-                    //öpnar koppling mot db
-                    conn.Open();
-
-                    //kod för vad man vill göra mot databasen
-                    string query = "SELECT firstname, lastname, date, score, passed, username " +
-                                    "FROM testoccasion t " +
-                                    "RIGHT JOIN person p ON t.id_user = p.id " +
-                                    "WHERE id_user IS NULL OR (testtype ='ÅKU' AND passed = false) " +
-                                    "ORDER BY lastname";
-
-                    using (NpgsqlCommand command = new NpgsqlCommand(query, conn))
-                    {
-                        //command.Parameters.AddWithValue("name", userName); 
-                        using (NpgsqlDataReader dr = command.ExecuteReader())
-                        {
-
-                            while (dr.Read())
-                            {
-
-                                Person p = new Person();
-                                p.FirstName = dr[0].ToString();
-                                p.LastName = dr[1].ToString();
-
-                                p.TestDate = dr[2].ToString();
-                                if (p.TestDate != "")
-                                {
-                                    p.TestDate = p.TestDate.Substring(0, 10);
-                                }
-
-                                p.TestScore = dr[3].ToString();
-
-                                if (bool.TryParse(dr[4].ToString(), out isPassed))
-                                {
-                                    if (isPassed)
-                                        p.TestGrade = "Godkänd";
-                                    else
-                                        p.TestGrade = "Underkänd";
-                                }
-
-                                p.UserName = dr[5].ToString();
-
-                                listOfPersons2.Add(p);
-                            }
-                        }
-                    }
-                }
-            }
-
-            catch (NpgsqlException ex)
-            {
-                NpgsqlException = ex.Message;
-
-            }
-            //returnerar listan med personer som inte skrivit ÅKU och de som inte blivit godkända 
-            return listOfPersons2;
-
-        }
-
-
 
     }
 }

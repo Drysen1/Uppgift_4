@@ -31,15 +31,6 @@ namespace Uppg_4_Dry_Jos_Star {
         protected global::System.Web.UI.WebControls.Button Button1;
         
         /// <summary>
-        /// Chart1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.DataVisualization.Charting.Chart Chart1;
-        
-        /// <summary>
         /// Button2 control.
         /// </summary>
         /// <remarks>
