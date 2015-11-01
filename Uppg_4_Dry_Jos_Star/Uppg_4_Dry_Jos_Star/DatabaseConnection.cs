@@ -334,5 +334,71 @@ namespace Uppg_4_Dry_Jos_Star
             return listOfPersons;
         } //Personer som inte gjort ett LST/ÅKU eller ej blivit godkända. 
 
+        public List<Person> GetTrueTestPersons()
+        {
+            List<Person> listOfPersons2 = new List<Person>();
+            bool isPassed;
+
+            try
+            {
+                using (NpgsqlConnection conn = new NpgsqlConnection(myConnection))
+                {
+                    conn.Open();
+
+                   
+                    string query = "SELECT firstname, lastname, testtype, date, score, passed, username " +
+                                    "FROM testoccasion t " +
+                                    "RIGHT JOIN person p ON t.id_user = p.id " +
+                                    "WHERE testtype ='LST' AND passed = true OR testtype ='ÅKU' AND passed = true " +
+                                    "ORDER BY lastname";
+
+                    using (NpgsqlCommand command = new NpgsqlCommand(query, conn))
+                    { 
+                        using (NpgsqlDataReader dr = command.ExecuteReader())
+                        {
+
+                            while (dr.Read())
+                            {
+
+                                Person p = new Person();
+                                p.FirstName = dr[0].ToString();
+                                p.LastName = dr[1].ToString();
+
+                                p.TestType = dr[2].ToString();
+
+                                p.TestDate = dr[3].ToString();
+                                if (p.TestDate != "")
+                                {
+                                    p.TestDate = p.TestDate.Substring(0, 10);
+                                }
+
+                                p.TestScore = dr[4].ToString();
+
+                                if (bool.TryParse(dr[5].ToString(), out isPassed))
+                                {
+                                    if (isPassed)
+                                        p.TestGrade = "Godkänd";
+                                    else
+                                        p.TestGrade = "Underkänd";
+                                }
+
+                                p.UserName = dr[6].ToString();
+
+                                listOfPersons2.Add(p);
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (NpgsqlException ex)
+            {
+                NpgsqlException = ex.Message;
+
+            }
+     
+            return listOfPersons2;
+        } //Personer som har godkända LST/ÅKU
+
     }
 }
