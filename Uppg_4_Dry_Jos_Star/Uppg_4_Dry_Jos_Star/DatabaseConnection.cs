@@ -193,6 +193,51 @@ namespace Uppg_4_Dry_Jos_Star
             return personWithXmlTest;
         }
 
+        public List<Person> RetrieveAllXmlDocuments(string userName)
+        {
+            List<Person> personWithXmlTest = new List<Person>();
+
+            try
+            {
+                using (NpgsqlConnection conn = new NpgsqlConnection(myConnection))
+                {
+                    conn.Open();
+                    string query = "SELECT firstname, lastname, username, date, score, xmlstring " +
+                                    "FROM testoccasion t JOIN person p ON t.id_user = p.id " +
+                                    "WHERE id_testadmin = " +
+                                    "(SELECT id FROM person WHERE username = @userName) " +
+                                    "ORDER BY date DESC ";
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("userName", userName);
+
+                        using (NpgsqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                personWithXmlTest.Add(
+                                new Person
+                                {
+                                    FirstName = dr[0].ToString(),
+                                    LastName = dr[1].ToString(),
+                                    UserName = dr[2].ToString(),
+                                    TestDate = dr[3].ToString().Substring(0, 10),
+                                    TestScore = dr[4].ToString(),
+                                    xmlTest = XDocument.Parse(dr[5].ToString())
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (NpgsqlException ex)
+            {
+                NpgsqlException = ex.Message;
+            }
+            return personWithXmlTest;
+        }
+
         public void UpdateAfterTestIsComplete(string userId, DateTime todayDate, string score, bool passed, string typeOfTest)
         {
             try

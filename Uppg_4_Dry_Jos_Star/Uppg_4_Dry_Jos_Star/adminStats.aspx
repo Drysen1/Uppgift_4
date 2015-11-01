@@ -14,10 +14,31 @@
             <asp:Label ID="Label2" runat="server">Kategori:</asp:Label>
             <asp:DropDownList ID="pickTestCategory" runat="server" AutoPostBack="True" OnSelectedIndexChanged="pickTestCategory_SelectedIndexChanged"></asp:DropDownList>
         </div>
-        <div id="gridCategory" class="fullBox" style="border: 1px solid black;">
+        <div id="gridCategory" class="fullBox">
             <h3 id="header" runat="server"></h3>
-            <asp:GridView ID="gViewStatsCategory" runat="server" OnRowDataBound="gViewStatsCategory_RowDataBound">
+            <asp:GridView ID="gViewStatsCategory" runat="server" OnRowDataBound="gViewStatsCategory_RowDataBound" Width="1200px">
             </asp:GridView>
+        </div>
+        <div class="fullBox" style="margin-top: 50px">
+            <asp:Chart ID="chartTotalStats" runat="server" Width="1200px">
+                <Titles>
+                    <asp:Title Name="title" Text="Stapeldiagram över alla frågor oavsett provtyp"></asp:Title>
+                </Titles>
+                <Legends>
+                    <asp:Legend Name="legend" >
+                    </asp:Legend>
+                </Legends>
+                <Series>
+                    <asp:Series Name="correctAnswers" IsValueShownAsLabel="True"></asp:Series>
+                    <asp:Series Name="totalAnswers" IsValueShownAsLabel="True"></asp:Series>
+                </Series>
+                <ChartAreas>
+                    <asp:ChartArea Name="chartArea">
+                        <AxisX Interval="1" Title="Fråga" TitleAlignment="Near" ></AxisX>
+                        <AxisY Interval="1" Title="Antal"></AxisY>
+                    </asp:ChartArea>
+                </ChartAreas>
+            </asp:Chart>
         </div>
     </div>
 </asp:Content>

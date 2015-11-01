@@ -1,109 +1,109 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <test>
-  <category type="Etik och regelverk">
-    <question id="1">
-      <text>Vad säger man först till en ny kund?</text>
-      <answer correct="yes">”Välkommen!”</answer>
-      <answer correct="no">”Var vänlig sitt ner”</answer>
-      <answer correct="no">”Tar detta lång tid?”</answer>
-    </question>
-    <question id="2">
-      <text>Vilka aktier är mest oetiska?</text>
-      <answer correct="yes">IS</answer>
-      <answer correct="no">Svenska motståndsrörelsen</answer>
-      <answer correct="yes">Telia</answer>
-    </question>
-    <question id="3">
-      <text>Får en anställd låna pengar från en kund utan att denna vet om det?</text>
-      <answer correct="yes">Ja</answer>
-      <answer correct="no">Nej</answer>
-      <answer correct="no">Ibland</answer>
-    </question>
-    <question id="4">
-      <text>Vilka husdjur är tillåtna enligt bankens regelverk?</text>
-      <answer correct="no">Hund</answer>
-      <answer correct="yes">Katt</answer>
-      <answer correct="yes">Fisk</answer>
-    </question>
-    <question id="5">
-      <text>Vid vilken ålder tar vi kunder på allvar?</text>
-      <answer correct="no">18</answer>
-      <answer correct="no">25</answer>
-      <answer correct="yes">38</answer>
-    </question>
-    <question id="6">
-      <text>Vilka ursäkter för att avsluta ett möte är godkända att använda gentemot kund?</text>
-      <answer correct="no">”Jag behöver verkligen äta…nu!”</answer>
-      <answer correct="yes">”Ibland blir jag bara trött på för många dumma frågar, nu går jag!”</answer>
-      <answer correct="yes">”Känner du också lukten av rök?”</answer>
-    </question>
-    <question id="7">
-      <text>Använder vi oss av kartelliknande verksamhet?</text>
-      <answer correct="yes">Ja</answer>
-      <answer correct="no">Nej</answer>
-      <answer correct="no">Vid behov</answer>
-    </question>
-    <question id="8">
-      <text>Vilken klädkod gäller som anställd?</text>
-      <answer correct="no">Kavaj och slips</answer>
-      <answer correct="no">Kjol och blus</answer>
-      <answer correct="yes">Valfri</answer>
-    </question>
-    <question id="9">
-      <text>Är det ok att inte plocka upp efter sig i fikarummet?</text>
-      <answer correct="yes">Ja</answer>
-      <answer correct="yes">Ja, om någon inte ser</answer>
-      <answer correct="no">Nej</answer>
-    </question>
-  </category>
   <category type="Ekonomi – nationalekonomi, finansiell ekonomi och privatekonomi">
-    <question id="10">
+    <question id="1">
       <text>Hur många olika konton bör en kund ha?</text>
       <answer correct="no">1</answer>
       <answer correct="no">2</answer>
       <answer correct="yes">10</answer>
     </question>
-    <question id="11">
+    <question id="2">
       <text>Vilka färger är bäst lämpade till våra bankkort?</text>
       <answer correct="yes">Röd</answer>
       <answer correct="yes">Grön</answer>
       <answer correct="yes">Svart</answer>
     </question>
-    <question id="12">
+    <question id="3">
       <text>Vilket konto är bäst?</text>
       <answer correct="no">Privatkonto</answer>
       <answer correct="yes">Servicekonto</answer>
       <answer correct="no">Framtidskonto</answer>
     </question>
-    <question id="13">
+    <question id="4">
       <text>Vilken av följande produkter ger vi inte ut till barn?</text>
       <answer correct="no">Nyckelring med bankens logo</answer>
       <answer correct="no">Pennor</answer>
       <answer correct="yes">Bankkort</answer>
     </question>
-    <question id="14">
+    <question id="5">
       <text>Vilken sparform rekommenderar vi alltid?</text>
       <answer correct="no">Individuellt Pensionsspar (IPS)</answer>
       <answer correct="yes">Kapitalförsäkring</answer>
       <answer correct="no">Aktier</answer>
     </question>
-    <question id="15">
+    <question id="6">
       <text>Vad är viktigast när kunder vill ha fondsparande?</text>
       <answer correct="yes">Rekommendera fond med högst förvaltningsavgift</answer>
       <answer correct="no">Att kunden själv får välja</answer>
       <answer correct="yes">Att banken tjänar pengar utan att kunden förstår det</answer>
     </question>
-    <question id="16">
+    <question id="7">
       <text>Vilket kreditkortföretag är bra?</text>
       <answer correct="yes">VISA</answer>
       <answer correct="no">MasterCard</answer>
       <answer correct="no">RE:Remember</answer>
     </question>
-    <question id="17">
+    <question id="8">
       <text>Hur många anställda har JE-Banken totalt?</text>
       <answer correct="yes">22 356</answer>
       <answer correct="no">21 345</answer>
       <answer correct="no">23 045</answer>
+    </question>
+  </category>
+  <category type="Etik och regelverk">
+    <question id="9">
+      <text>Vad säger man först till en ny kund?</text>
+      <answer correct="yes">”Välkommen!”</answer>
+      <answer correct="no">”Var vänlig sitt ner”</answer>
+      <answer correct="no">”Tar detta lång tid?”</answer>
+    </question>
+    <question id="10">
+      <text>Vilka aktier är mest oetiska?</text>
+      <answer correct="yes">IS</answer>
+      <answer correct="no">Svenska motståndsrörelsen</answer>
+      <answer correct="yes">Telia</answer>
+    </question>
+    <question id="11">
+      <text>Får en anställd låna pengar från en kund utan att denna vet om det?</text>
+      <answer correct="yes">Ja</answer>
+      <answer correct="no">Nej</answer>
+      <answer correct="no">Ibland</answer>
+    </question>
+    <question id="12">
+      <text>Vilka husdjur är tillåtna enligt bankens regelverk?</text>
+      <answer correct="no">Hund</answer>
+      <answer correct="yes">Katt</answer>
+      <answer correct="yes">Fisk</answer>
+    </question>
+    <question id="13">
+      <text>Vid vilken ålder tar vi kunder på allvar?</text>
+      <answer correct="no">18</answer>
+      <answer correct="no">25</answer>
+      <answer correct="yes">38</answer>
+    </question>
+    <question id="14">
+      <text>Vilka ursäkter för att avsluta ett möte är godkända att använda gentemot kund?</text>
+      <answer correct="no">”Jag behöver verkligen äta…nu!”</answer>
+      <answer correct="yes">”Ibland blir jag bara trött på för många dumma frågar, nu går jag!”</answer>
+      <answer correct="yes">”Känner du också lukten av rök?”</answer>
+    </question>
+    <question id="15">
+      <text>Använder vi oss av kartelliknande verksamhet?</text>
+      <answer correct="yes">Ja</answer>
+      <answer correct="no">Nej</answer>
+      <answer correct="no">Vid behov</answer>
+    </question>
+    <question id="16">
+      <text>Vilken klädkod gäller som anställd?</text>
+      <answer correct="no">Kavaj och slips</answer>
+      <answer correct="no">Kjol och blus</answer>
+      <answer correct="yes">Valfri</answer>
+    </question>
+    <question id="17">
+      <text>Är det ok att inte plocka upp efter sig i fikarummet?</text>
+      <answer correct="yes">Ja</answer>
+      <answer correct="yes">Ja, om någon inte ser</answer>
+      <answer correct="no">Nej</answer>
     </question>
   </category>
   <category type="Produkter och hantering av kundens affärer">

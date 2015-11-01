@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.Linq;
+using System.Web.UI.DataVisualization.Charting;
 
 namespace Uppg_4_Dry_Jos_Star
 {
@@ -21,15 +22,65 @@ namespace Uppg_4_Dry_Jos_Star
             }
         }
 
+        protected void pickTestType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Initialize();
+        }
+
+        protected void pickTestCategory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Initialize();
+        }
+
+        protected void gViewStatsCategory_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.Header)
+            {
+                e.Row.BackColor = Color.BlanchedAlmond;
+            }
+            else
+            {
+                for (int i = 2; i < e.Row.Cells.Count - 2; i++) //first two columns is already taken, last two columns is not to be populated in loop
+                {
+                    if (e.Row.Cells[i].Text == "R&#228;tt") // makes ä = &#228;
+                        e.Row.Cells[i].BackColor = Color.LightGreen;
+                    else if (e.Row.Cells[i].Text.StartsWith("#"))
+                        e.Row.Cells[i].BackColor = Color.BlanchedAlmond;
+                    else if (e.Row.Cells[i].Text == "Fel")
+                        e.Row.Cells[i].BackColor = Color.Tomato;
+                    else if (!e.Row.Cells[i].Text.StartsWith("#"))
+                        e.Row.Cells[i].Text = "Ingår ej";
+                }
+            }
+        }
+
+        //----------------------------------------------------------------------------------------------
+
+        private void PopulateDropDownLists()
+        {
+            XDocument xDoc = XDocument.Load(Server.MapPath("~/xml/questions.xml"));
+
+            var queryResult = from c in xDoc.Descendants("category")
+                              orderby c.Attribute("type").Value
+                              select c.Attribute("type").Value;
+
+
+            pickTestCategory.DataSource = queryResult;
+            pickTestCategory.DataBind();
+
+            pickTestType.Items.Add("LST");
+            pickTestType.Items.Add("ÅKU");
+        }
+
         private void Initialize()
         {
-            List<Person> personsWithTest = GetAlltests();
-            List<List<Question>> dictPersonsWithQuestions = CreateQuestions(personsWithTest);
+            List<Person> personsWithTest = GetAllTests();
+            List<List<Question>> allPersonsWithQuestions = CreateQuestions(personsWithTest);
 
             List<List<CategoryStats>> allCategoryStats = new List<List<CategoryStats>>();
             for (int i = 0; i < personsWithTest.Count; i++)
             {
-                List<Question> questions = dictPersonsWithQuestions.ElementAt(i);
+                List<Question> questions = allPersonsWithQuestions.ElementAt(i);
                 List<List<Question>> categoryLists = GetCategoryLists(questions);
 
                 string fullName = personsWithTest[i].FirstName + " " + personsWithTest[i].LastName;
@@ -40,30 +91,23 @@ namespace Uppg_4_Dry_Jos_Star
             }
             DataTable dt = CreateDataTable();
             PopulateGridViews(allCategoryStats, dt);
+            PopulateChart();
         }
 
-        private void PopulateDropDownLists()
-        {
-            XDocument xDoc = XDocument.Load(Server.MapPath("~/xml/questions.xml"));
-
-            var queryResult = from c in xDoc.Descendants("category")
-                              orderby c.Attribute("type").Value
-                              select c.Attribute("type").Value;
-                              
-
-            pickTestCategory.DataSource = queryResult;
-            pickTestCategory.DataBind();
-
-            pickTestType.Items.Add("LST");
-            pickTestType.Items.Add("ÅKU");
-        }
-
-        private List<Person> GetAlltests() //Request.Querystring["username"]
+        private List<Person> GetAllTests() //Request.Querystring["username"]
         {
             DatabaseConnection dr = new DatabaseConnection();
             string userName = Request.QueryString["userName"];
             //string userName = "tomKar"; //will be replaced by above code later
             return dr.RetrieveAllXmlDocuments(pickTestType.Text, userName);
+        }
+
+        private List<Person> GetAllTestsRegardlessType() //Request.Querystring["username"]
+        {
+            DatabaseConnection dr = new DatabaseConnection();
+            string userName = Request.QueryString["userName"];
+            //string userName = "tomKar"; //will be replaced by above code later
+            return dr.RetrieveAllXmlDocuments(userName);
         }
 
         private List<List<Question>> CreateQuestions(List<Person> persons)
@@ -92,7 +136,13 @@ namespace Uppg_4_Dry_Jos_Star
                 {
                     questions.Add(q);
                 }
-                allTests.Add(questions);
+                List<Question> defaultQuestions = GetXmlContent("~/xml/questions.xml");
+                var queryResult = from d in defaultQuestions
+                                  join q in questions
+                                  on d.Id equals q.Id
+                                  select q;
+
+                allTests.Add(queryResult.ToList());
             }
             CorrectTest(allTests);
             return allTests;
@@ -271,20 +321,31 @@ namespace Uppg_4_Dry_Jos_Star
             
             DataTable dt = new DataTable();
             DataColumn clmName = new DataColumn("Namn");
-            dt.Columns.Add(clmName);
             DataColumn clmTestDate = new DataColumn("Provdatum");
+            dt.Columns.Add(clmName);
             dt.Columns.Add(clmTestDate);
+
+            List<string> idNumbers = new List<string>();
             
             foreach(Question q in queryResult)
             {
                 DataColumn clmQuestion = new DataColumn(q.Text);
                 dt.Columns.Add(clmQuestion);
+                idNumbers.Add("#" + q.Id);
             }
+
             DataColumn clmCategoryScore = new DataColumn("Poäng kategori");
             dt.Columns.Add(clmCategoryScore);
             DataColumn clmTotalScore = new DataColumn("Totalpoäng");
             dt.Columns.Add(clmTotalScore);
-            
+
+            DataRow dr = dt.NewRow();
+            for (int i = 2; i < dt.Columns.Count - 2; i++)
+            {
+                string columnName = dt.Columns[i].ColumnName;
+                dr[columnName] = idNumbers[i - 2];
+            }
+            dt.Rows.Add(dr);
             return dt;
         }
 
@@ -320,35 +381,78 @@ namespace Uppg_4_Dry_Jos_Star
             gViewStatsCategory.DataBind();
         }
 
-        protected void pickTestType_SelectedIndexChanged(object sender, EventArgs e)
+        private void PopulateChart()
         {
-            Initialize();
+            List<Person> personsWithTest = GetAllTestsRegardlessType();
+            List<List<Question>> allPersonsWithQuestions = CreateQuestions(personsWithTest);
+            BindChart(allPersonsWithQuestions);
         }
 
-        protected void pickTestCategory_SelectedIndexChanged(object sender, EventArgs e)
+        private void BindChart(List<List<Question>> allPersonsWithQuestions)
         {
-            Initialize();
-        }
+            List<Question> defaultQuestions = GetXmlContent("~/xml/questions.xml");
 
-        protected void gViewStatsCategory_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            if(e.Row.RowType == DataControlRowType.Header)
+            List<int> listOfCorrectAnswers = new List<int>();
+            List<int> listOfTotalAnswers = new List<int>();
+            
+            for (int i = 0; i < defaultQuestions.Count; i++)
             {
-                e.Row.BackColor = Color.BlanchedAlmond;
+                int correctAnswers = 0;
+                int totalAnswers = 0;
+
+                foreach (List<Question> list in allPersonsWithQuestions)
+                {
+                    Tuple <bool, Question> returnedItems = DoesAnswerExist(defaultQuestions[i], list);
+                    if (returnedItems.Item1 == true)
+                    {
+                        if(returnedItems.Item2.IsCorrect)
+                        {
+                            correctAnswers++;
+                            totalAnswers++;
+                        }
+                        else
+                        {
+                            totalAnswers++;
+                        }
+                    }
+                }
+                listOfCorrectAnswers.Add(correctAnswers);
+                listOfTotalAnswers.Add(totalAnswers);
             }
+            SetChart(listOfCorrectAnswers, listOfTotalAnswers);
+        }
+
+        private Tuple<bool, Question> DoesAnswerExist(Question checkQuestion, List<Question> personsWithQuestions)
+        {
+            
+            Question q = personsWithQuestions.FirstOrDefault(x => x.Id == checkQuestion.Id);
+            if (q != null)
+            {
+                Tuple<bool, Question> tuple = new Tuple<bool, Question>(true,q);
+                return tuple;
+            }
+                
             else
             {
-                for (int i = 2; i < e.Row.Cells.Count - 2; i++) //first two columns is already taken, last two columns is not to be populated in loop
-                {
-                    if (e.Row.Cells[i].Text == "R&#228;tt") // makes ä = &#228;
-                        e.Row.Cells[i].BackColor = Color.LightGreen;
-                    else if (e.Row.Cells[i].Text == "Fel")
-                        e.Row.Cells[i].BackColor = Color.Tomato;
-                    else
-                        e.Row.Cells[i].Text = "Ingår ej";
-                }
+                Tuple<bool, Question> tuple2 = new Tuple<bool, Question>(false, personsWithQuestions[0]);
+                return tuple2;
             }
         }
 
+        private void SetChart(List<int> listOfCorrectAnswers, List<int> listOfTotalAnswers)
+        {
+            chartTotalStats.Series["correctAnswers"].Points.DataBindY(listOfCorrectAnswers);
+            chartTotalStats.Series["correctAnswers"].Color = Color.LightGreen;
+            chartTotalStats.Series["totalAnswers"].Points.DataBindY(listOfTotalAnswers);
+            chartTotalStats.Series["totalAnswers"].Color = Color.Gray;
+
+            chartTotalStats.Legends["legend"].Docking = Docking.Bottom;
+            chartTotalStats.Series["correctAnswers"].LegendText = "Antal rätt";
+            chartTotalStats.Series["totalAnswers"].LegendText = "Totalantal svar";
+
+            chartTotalStats.Titles["title"].Font = new System.Drawing.Font("Trebuchet MS", 10, System.Drawing.FontStyle.Bold);
+            chartTotalStats.ChartAreas["chartArea"].AxisX.TitleFont = new System.Drawing.Font("Trebuchet MS", 10, System.Drawing.FontStyle.Bold);
+            chartTotalStats.ChartAreas["chartArea"].AxisY.TitleFont = new System.Drawing.Font("Trebuchet MS", 10, System.Drawing.FontStyle.Bold);
+        }
     }
 }
