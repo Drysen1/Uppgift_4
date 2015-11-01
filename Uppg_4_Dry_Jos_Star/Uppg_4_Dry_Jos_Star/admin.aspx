@@ -2,7 +2,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-<div class="fullBox" id="page-title">
+    <div class="fullBox" id="page-title">
         <h1>Administration</h1>
     </div>
     <div class="fullBox">
@@ -29,12 +29,12 @@
             <h2 class="home-h2">&nbsp;</h2>
         </div>
         <div class="halfBox" id="center-home">
-            <h3 class="home-h3" >Licencieringstest</h3>
-            <p class="home-text">Namn - label<br /> </p>
-            <p class="home-text">Namn 123</p>
+            <h3 class="home-h3" >Medarbetare</h3>
+            <p class="home-text"><br /> </p>
+            <p class="home-text">&nbsp;</p>
             <br />
             <br />
-            <asp:Button ID="Button1" runat="server" Text="TEXT" CssClass="my-button button-80" OnClick="Button1_Click" />
+            <asp:Button ID="Button1" runat="server" Text="Provdel" CssClass="my-button button-80" OnClick="Button1_Click" />
         </div>
         <div class="halfBox" id="center-home">
             <h3 class="home-h3">Statistik</h3>

@@ -13,6 +13,10 @@
 
     <div class="fullBox" >
         <div class="fullBox" id="page-title2">
+
+            <asp:DropDownList ID="DropDownList1" runat="server"></asp:DropDownList>
+            <br />
+            <br />
             <p>Personer som har ett test att genomföra <br />
                 LST = Licensieringstest <br />
                 ÅKU = Årligt kunskapsprov
