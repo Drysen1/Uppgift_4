@@ -64,7 +64,6 @@ namespace Uppg_4_Dry_Jos_Star
                               orderby c.Attribute("type").Value
                               select c.Attribute("type").Value;
 
-
             pickTestCategory.DataSource = queryResult;
             pickTestCategory.DataBind();
 

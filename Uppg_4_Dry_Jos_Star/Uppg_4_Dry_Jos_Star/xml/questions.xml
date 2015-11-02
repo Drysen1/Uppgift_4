@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <test>
   <category type="Ekonomi – nationalekonomi, finansiell ekonomi och privatekonomi">
-    <question id="1">
+    <question id="1" questionPictureUrl="~/img/bild01.jpg">
       <text>Hur många olika konton bör en kund ha?</text>
       <answer correct="no">1</answer>
       <answer correct="no">2</answer>
       <answer correct="yes">10</answer>
     </question>
-    <question id="2">
+    <question id="2" questionPictureUrl="~/img/bild02.jpg">
       <text>Vilka färger är bäst lämpade till våra bankkort?</text>
       <answer correct="yes">Röd</answer>
       <answer correct="yes">Grön</answer>
       <answer correct="yes">Svart</answer>
     </question>
-    <question id="3">
+    <question id="3" questionPictureUrl="~/img/bild03.jpg">
       <text>Vilket konto är bäst?</text>
       <answer correct="no">Privatkonto</answer>
       <answer correct="yes">Servicekonto</answer>
@@ -51,19 +51,19 @@
     </question>
   </category>
   <category type="Etik och regelverk">
-    <question id="9">
+    <question id="9" questionPictureUrl="~/img/bild04.jpg">
       <text>Vad säger man först till en ny kund?</text>
       <answer correct="yes">”Välkommen!”</answer>
       <answer correct="no">”Var vänlig sitt ner”</answer>
       <answer correct="no">”Tar detta lång tid?”</answer>
     </question>
-    <question id="10">
+    <question id="10" questionPictureUrl="~/img/bild05.jpg">
       <text>Vilka aktier är mest oetiska?</text>
       <answer correct="yes">IS</answer>
       <answer correct="no">Svenska motståndsrörelsen</answer>
       <answer correct="yes">Telia</answer>
     </question>
-    <question id="11">
+    <question id="11" questionPictureUrl="~/img/bild06.jpg">
       <text>Får en anställd låna pengar från en kund utan att denna vet om det?</text>
       <answer correct="yes">Ja</answer>
       <answer correct="no">Nej</answer>
@@ -107,13 +107,13 @@
     </question>
   </category>
   <category type="Produkter och hantering av kundens affärer">
-    <question id="18">
+    <question id="18" questionPictureUrl="~/img/bild07.jpg">
       <text>Vilken inkomstnivå är lämplig för ett lån på 2 miljoner?</text>
       <answer correct="no">30.000kr/mån</answer>
       <answer correct="no">25.000kr/mån</answer>
       <answer correct="yes">15.000kr/mån</answer>
     </question>
-    <question id="19">
+    <question id="19" questionPictureUrl="~/img/bild08.jpg">
       <text>Vilken finansminister var bäst genom tiderna?</text>
       <answer correct="no">Gustaf Lagercrantz</answer>
       <answer correct="yes">Felix Hamrin</answer>

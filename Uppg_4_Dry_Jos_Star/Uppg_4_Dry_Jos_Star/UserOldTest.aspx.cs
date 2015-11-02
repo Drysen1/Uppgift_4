@@ -69,6 +69,14 @@ namespace Uppg_4_Dry_Jos_Star
             {
                 questions.Add(q);
             }
+            var queryResult = from e in xDoc.Descendants("question")
+                              where e.Attribute("questionPictureUrl") != null
+                              select e;
+            foreach (XElement xe in queryResult)
+            {
+                Question q = questions.FirstOrDefault(x => x.Text == xe.Element("text").Value);
+                q.QuestionPictureUrl = xe.Attribute("questionPictureUrl").Value;
+            }
             return questions;
         }
 
@@ -493,13 +501,13 @@ namespace Uppg_4_Dry_Jos_Star
                 if (IsAnswersCorrect(q))
                 {
                     q.IsCorrect = true;
-                    q.ImageUrl = "~/img/btn_correct.png";
+                    q.AnswerImageUrl = "~/img/btn_correct.png";
                     SetCssClasses(q);
                 }
                 else
                 {
                     q.IsCorrect = false;
-                    q.ImageUrl = "~/img/btn_incorrect.png";
+                    q.AnswerImageUrl = "~/img/btn_incorrect.png";
                     SetCssClasses(q);
                 }
             }

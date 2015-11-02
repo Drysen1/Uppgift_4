@@ -17,6 +17,7 @@ namespace Uppg_4_Dry_Jos_Star
         public List<string> UserInput { get; set; }
         public bool IsCorrect { get; set; }
         public List<string> CssClasses { get; set; }
-        public string ImageUrl { get; set; }
+        public string AnswerImageUrl { get; set; }
+        public string QuestionPictureUrl { get; set; }
     }
 }

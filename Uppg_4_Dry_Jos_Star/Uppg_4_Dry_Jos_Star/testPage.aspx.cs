@@ -114,16 +114,16 @@ namespace Uppg_4_Dry_Jos_Star
         private List<Question> GetXmlContent(string xmlVirtualPath) 
         {
             XDocument xDoc = XDocument.Load(Server.MapPath(xmlVirtualPath));
-            var xmlResult = from q in xDoc.Descendants("question")
+            var xmlResult = from a in xDoc.Descendants("question")
                             select new Question
                             {
-                                Id = q.Attribute("id").Value,
-                                Text = q.Element("text").Value,
-                                Category = q.Parent.Attribute("type").Value,
-                                Answers = q.Elements("answer").Select(x => x.Value).ToList(),
-                                CorrectAnswer = q.Elements("answer").Where(x => x.Attribute("correct").Value == "yes")
+                                Id = a.Attribute("id").Value,
+                                Text = a.Element("text").Value,
+                                Category = a.Parent.Attribute("type").Value,
+                                Answers = a.Elements("answer").Select(x => x.Value).ToList(),
+                                CorrectAnswer = a.Elements("answer").Where(x => x.Attribute("correct").Value == "yes")
                                                                     .Select(x => x.Value).ToList(),
-                                NumOfCorrect = String.Format("Antal korrekta svar: ({0})", q.Elements("answer").Where(x => x.Attribute("correct").Value == "yes")
+                                NumOfCorrect = String.Format("Antal korrekta svar: ({0})", a.Elements("answer").Where(x => x.Attribute("correct").Value == "yes")
                                                                     .Select(x => x.Value).ToList().Count.ToString()),
                             };
 
@@ -131,6 +131,14 @@ namespace Uppg_4_Dry_Jos_Star
             foreach (Question q in xmlResult)
             {
                 questions.Add(q);
+            }
+            var queryResult = from e in xDoc.Descendants("question")
+                              where e.Attribute("questionPictureUrl") != null
+                              select e;
+            foreach(XElement xe in queryResult)
+            {
+                Question q = questions.FirstOrDefault(x => x.Text == xe.Element("text").Value);
+                q.QuestionPictureUrl = xe.Attribute("questionPictureUrl").Value;
             }
             return questions;
         }
@@ -317,10 +325,6 @@ namespace Uppg_4_Dry_Jos_Star
             {
                 string category = list.ElementAt(0).Category;
 
-                var categoryElement = from el in xDoc.Root.Elements("category")
-                                      where (string)el.Attribute("type") == category
-                                      select el;
-
                 xDoc.Element("test").Elements("category")
                     .Where(x => x.Attribute("type").Value == category).FirstOrDefault()
                     .Add(
@@ -334,10 +338,22 @@ namespace Uppg_4_Dry_Jos_Star
                 
                 foreach(Question q in list) //to set correct="yes"/"no" as attributes
                 {
+                    if(q.QuestionPictureUrl != null)
+                    {
+                        var queryResult = from b in xDoc.Descendants("question")
+                                          where b.Attribute("id").Value == q.Id
+                                          select b;
+                                        
+                        foreach(XElement xe in queryResult)
+                        {
+                            xe.Add(new XAttribute("questionPictureUrl", q.QuestionPictureUrl));
+                        }
+                    }
+
                     foreach(string answer in q.CorrectAnswer)
                     {
                         var element = from e in xDoc.Descendants("question")
-                                      where e.Element("text").Value == q.Text
+                                      where e.Attribute("id").Value == q.Id
                                       select e.Elements("answer");
                         foreach(var a in element)
                         {
@@ -351,6 +367,7 @@ namespace Uppg_4_Dry_Jos_Star
                         }
                     }
                 }
+
                 var answers = from e in xDoc.Descendants("answer") //is needed otherwise attribute will be duplicated by else above
                               where e.Attribute("correct") == null
                               select e;
@@ -361,12 +378,12 @@ namespace Uppg_4_Dry_Jos_Star
             }
             string fileName = GetUserXmlFileName();
             xDoc.Save(Server.MapPath(fileName));
-            
         }
 
         private string GetUserXmlFileName() //Request.QueryString["userName"]
         {
             string userName = Request.QueryString["userName"];
+            //string userName = "stare";
             string userXmlFileName = string.Format("~/xml/{0}.xml", userName);
             return userXmlFileName;
         }
@@ -574,13 +591,13 @@ namespace Uppg_4_Dry_Jos_Star
                 if (IsAnswersCorrect(q))
                 {
                     q.IsCorrect = true;
-                    q.ImageUrl = "~/img/btn_correct.png";
+                    q.AnswerImageUrl = "~/img/btn_correct.png";
                     SetCssClasses(q);
                 }
                 else
                 {
                     q.IsCorrect = false;
-                    q.ImageUrl = "~/img/btn_incorrect.png";
+                    q.AnswerImageUrl = "~/img/btn_incorrect.png";
                     SetCssClasses(q);
                 }
             }
@@ -783,11 +800,10 @@ namespace Uppg_4_Dry_Jos_Star
             return xDoc;
         }
 
-
         /// <summary>
         /// Just sets the username for label.
         /// </summary>
-        private void SetUserNameAndTestTypeLbl()
+        private void SetUserNameAndTestTypeLbl() //request.querystring
         {
             string userName = Request.QueryString["userName"];
             string typeOfTest = Request.QueryString["typeOfTest"];
@@ -799,7 +815,7 @@ namespace Uppg_4_Dry_Jos_Star
         /// Tick event for timer. At the moment its on 3 minutes.
         /// Calls methods in databaseconnection to failuser.
         /// </summary>
-        protected void Timer1_Tick(object sender, EventArgs e)
+        protected void Timer1_Tick(object sender, EventArgs e) //request.querystring
         {
             DatabaseConnection dc = new DatabaseConnection();
             string userName = lblUserName1.Text;
