@@ -27,7 +27,7 @@ namespace Uppg_4_Dry_Jos_Star
                 finalResult.Visible = false;
                 Session["IsPageReloadAllowed"] = false;
                 Session["StartTime"] = DateTime.Now; //When test is started starttime is saved in session.
-                SetUserNameLbl();
+                SetUserNameAndTestTypeLbl();
             }
             else if (Session["IsPageReloadAllowed"] != null && Session["IsFirstTime"] == null) //page reload before button has been clicked
             {
@@ -67,8 +67,9 @@ namespace Uppg_4_Dry_Jos_Star
             {
                 //Response.Write("Mer än 30 minuter"); //Test purpose
                 DatabaseConnection dc = new DatabaseConnection();
+                string typeOfTest = Request.QueryString["typeOfTest"];
                 string userName = lblUserName1.Text;
-                dc.FailUser(userName);
+                dc.FailUser(userName, typeOfTest);
                 btnSend.Enabled = false;
                 Response.Redirect("~/FailPage.aspx"); //Sends user to a page to inform user that he/she failed.
             }
@@ -786,10 +787,12 @@ namespace Uppg_4_Dry_Jos_Star
         /// <summary>
         /// Just sets the username for label.
         /// </summary>
-        private void SetUserNameLbl()
+        private void SetUserNameAndTestTypeLbl()
         {
             string userName = Request.QueryString["userName"];
+            string typeOfTest = Request.QueryString["typeOfTest"];
             lblUserName1.Text = userName;
+            lblTestType.Text = typeOfTest;
         }
 
         /// <summary>
@@ -800,7 +803,8 @@ namespace Uppg_4_Dry_Jos_Star
         {
             DatabaseConnection dc = new DatabaseConnection();
             string userName = lblUserName1.Text;
-            dc.FailUser(userName);
+            string typeOfTest = Request.QueryString["typeOfTest"];
+            dc.FailUser(userName, typeOfTest);
             Response.Redirect("~/start1.aspx");
         }
 

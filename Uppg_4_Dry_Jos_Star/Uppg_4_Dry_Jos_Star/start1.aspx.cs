@@ -1,6 +1,6 @@
 ﻿//Start1.aspx.cs code behind for page start1.aspx.
 //Erik Drysén 2015-10-22.
-//Revised 2015-10-29 by Erik Drysén.
+//Revised 2015-11-02 by Erik Drysén.
 
 using System;
 using System.Collections.Generic;
@@ -16,6 +16,8 @@ namespace Uppg_4_Dry_Jos_Star
 {
     public partial class start1 : System.Web.UI.Page
     {
+        int userId = 4; //To get the user you would like, choose users id here. 
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if(!IsPostBack)
@@ -36,7 +38,8 @@ namespace Uppg_4_Dry_Jos_Star
         /// </summary>
         private void CheckPrivilegeHideNavButton()
         {
-            DataTable dt = GetPersonInfo();
+            DatabaseConnection dc = new DatabaseConnection();
+            DataTable dt = dc.GetPersonInfo(userId);
             string userType = dt.Rows[0]["privilege"].ToString();
 
             if (userType != "Admin")
@@ -51,90 +54,21 @@ namespace Uppg_4_Dry_Jos_Star
         }
 
         /// <summary>
-        /// Method assumes that a user has been redirected from a loginpage. 
-        /// Retrieves all information in person table and test occasion table
-        /// and stores in a datatable.
-        /// </summary>
-        /// <returns>Returns a datatable with all information regarding user</returns>
-        private DataTable GetPersonAndTestInfo()
-        {
-            NpgsqlConnection conn = new NpgsqlConnection("Database=kompetensportal;Server=localhost;User Id=postgres;Password=anna;");
-            string userName = lblUserName.Text;
-            try
-            {
-                conn.Open();
-                NpgsqlCommand cmdGetUserInfo = new NpgsqlCommand("SELECT * FROM person " +
-                                                                 "INNER JOIN testoccasion ON person.id = id_user " +
-                                                                 "WHERE person.id = (SELECT id FROM person WHERE username = @userName) " + 
-                                                                 "ORDER BY date DESC LIMIT 1; ", conn);
-                cmdGetUserInfo.Parameters.AddWithValue("@userName", userName);
-                NpgsqlDataAdapter nda = new NpgsqlDataAdapter();
-                nda.SelectCommand = cmdGetUserInfo;
-                DataSet ds = new DataSet();
-                nda.Fill(ds);
-                DataTable dt = ds.Tables[0];
-                
-                return dt;
-            }
-            catch (NpgsqlException ex)
-            {
-                Response.Write(ex.Message);
-                return null;
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
-
-        private DataTable GetPersonInfo()
-        {
-            NpgsqlConnection conn = new NpgsqlConnection("Database=kompetensportal;Server=localhost;User Id=postgres;Password=anna;");
-            int userId = 4;//Change id here to get the user you want to find.
-            //Assume id or something has been passed from log in page in order to retrieve correct info.
-            //This is only for simulations purpose for this iteration.
-            try
-            {
-                conn.Open();
-                NpgsqlCommand cmdGetUserInfo = new NpgsqlCommand("SELECT * FROM person " +
-                                                                 "WHERE person.id = @id; ", conn);
-                cmdGetUserInfo.Parameters.AddWithValue("@id", userId);
-                NpgsqlDataAdapter nda = new NpgsqlDataAdapter();
-                nda.SelectCommand = cmdGetUserInfo;
-                DataSet ds = new DataSet();
-                nda.Fill(ds);
-                DataTable dt = ds.Tables[0];             
-
-                return dt;
-            }
-            catch (NpgsqlException ex)
-            {
-                Response.Write(ex.Message);
-                return null;
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
-
-        /// <summary>
         /// Method updates labels on start1.aspx with relevant values.
         /// Uses method GetLoggedInUserInfo to retrieve said information,
         /// </summary>
         private void UpdateWebsiteGUI()
         {
+            DatabaseConnection dc = new DatabaseConnection();
             DataTable dt = new DataTable();
             DataTable dtAllInfo = new DataTable();
 
-            dt = GetPersonInfo();
+            dt = dc.GetPersonInfo(userId);
             string userName = dt.Rows[0]["username"].ToString();
             lblUserName.Text = userName;
 
-            dtAllInfo = GetPersonAndTestInfo();
+            dtAllInfo = dc.GetPersonAndTestInfo(userName);
 
-            //lblNextTestDate.Text = dtAllInfo.Rows.Count.ToString();
-            //lblresult.Text = dt.Rows.Count.ToString();
             if (dtAllInfo.Rows.Count <= 0)
             {
                 lblresult.Text = "Inget test hittat";
@@ -242,7 +176,9 @@ namespace Uppg_4_Dry_Jos_Star
         /// <returns>Returns new string value.</returns>
         private string SetTypeOfTest()
         {
-            DataTable dt = GetPersonAndTestInfo();
+            DatabaseConnection dc = new DatabaseConnection();  
+            string userName = lblUserName.Text;
+            DataTable dt = dc.GetPersonAndTestInfo(userName);
             string typeOfTest = string.Empty;
             string passTest = string.Empty;
 
@@ -291,56 +227,5 @@ namespace Uppg_4_Dry_Jos_Star
 
             Response.Redirect("~/UserOldTest.aspx?userName=" + userName);
         }
-
-        // TEST PURPOSES CODE BELOW ***************************************************************************************************
-        private DataTable CreateFakeDB()
-        {
-            //ASSUME that there is a query to database which retrieves one row and stores in datatable.
-            DataTable dt = new DataTable();
-            dt.Columns.Add("employee_id", typeof(int));
-            dt.Columns.Add("userName", typeof(string));
-            dt.Columns.Add("latest_date", typeof(DateTime));
-            dt.Columns.Add("status", typeof(string));
-            dt.Columns.Add("secLevel", typeof(string));
-            //SHould be a column with the test itself saved as an xml I think?
-
-            DateTime myDate = new DateTime(2014, 10, 05);
-            dt.Rows.Add(1, "FakeUserNo1", DateTime.Now.Date, "PASS", "Admin"); //Fake user no1
-            dt.Rows.Add(2, "FakeUserNo2", myDate, "FAIL", "NotAdmin");         //Fake user no2
-
-            return dt;
-        }
-
-        private void GetDbInfo()
-        {
-            DataTable dt = CreateFakeDB();
-
-            string passTest = dt.Rows[0]["status"].ToString();
-            DateTime date = DateTime.Parse(dt.Rows[0]["latest_date"].ToString());
-
-            DateTime today = DateTime.Now;
-            TimeSpan test = today - date;
-            int totalDays = test.Days;
-            int year = 365;
-            string toDoTest = string.Empty;
-
-            if (totalDays > year)
-            {
-                toDoTest = "1";
-            }
-            else
-            {
-                toDoTest = "0";
-                //Disable button
-            }
-
-            lbltestToDo.Text = toDoTest.ToString();
-            lblresult.Text = passTest.ToString();
-            lbldate.Text = date.ToString("yyyy-MM-dd");
-            lblUserName.Text = dt.Rows[0]["userName"].ToString();
-
-        }
-
-
     }
 }

@@ -20,6 +20,7 @@
     </div>
     <div class="fullBox"> 
         <h3 class="home-h3">Provdeltagare: <asp:Label ID="lblUserName1" runat="server" Text="Label"></asp:Label></h3>
+        <h3 class ="home-h3">Provtyp: <asp:Label ID="lblTestType" runat="server" Text="Label"></asp:Label></h3>
     </div>
 
     <!-- PIE CHARTS ======================================================================= -->

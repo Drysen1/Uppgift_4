@@ -410,33 +410,19 @@ namespace Uppg_4_Dry_Jos_Star
         /// 3 minutes. Do 31 minutes in live scenario.
         /// Code also te be found with slight modification in testmaster.cs
         /// </summary>
-        public void FailUser(string userName)
-        {
-                DataTable dt = GetPersonAndTestInfo(userName);
-                int rows = dt.Rows.Count;
-
-                if (rows <= 0)
-                {
-                    FailUserInsert(userName);
-                }
-            else
-                {
-                    FailUserUpdate(userName);
-                }
-        }
-
-        private void FailUserUpdate(string userName)
+        public void FailUser(string userName, string typeOfTest)
         {
             NpgsqlConnection conn = new NpgsqlConnection("Database=kompetensportal;Server=localhost;User Id=postgres;Password=anna;");
             DateTime dateNow = DateTime.Now;
             try
             {
                 conn.Open();
-                NpgsqlCommand cmdUpdateAndFailUser = new NpgsqlCommand("UPDATE testoccasion " +
-                                                                 "SET passed = false, date = @date " +
-                                                                 "WHERE id_user = (SELECT id FROM person WHERE username = @userName);", conn);
+                NpgsqlCommand cmdUpdateAndFailUser = new NpgsqlCommand("INSERT INTO testoccasion (passed, date, testtype, id_user)" +
+                                                                 "VALUES (false, @date, @testType, (SELECT id FROM person WHERE username = @userName));", conn);
                 cmdUpdateAndFailUser.Parameters.AddWithValue("@userName", userName);
                 cmdUpdateAndFailUser.Parameters.AddWithValue("@date", dateNow);
+                cmdUpdateAndFailUser.Parameters.AddWithValue("@testType", typeOfTest);
+
                 cmdUpdateAndFailUser.ExecuteNonQuery();
             }
             catch (NpgsqlException ex)
@@ -449,30 +435,12 @@ namespace Uppg_4_Dry_Jos_Star
             }
         }
 
-        private void FailUserInsert(string userName)
-        {
-            NpgsqlConnection conn = new NpgsqlConnection("Database=kompetensportal;Server=localhost;User Id=postgres;Password=anna;");
-            DateTime dateNow = DateTime.Now;
-            try
-            {
-                conn.Open();
-                NpgsqlCommand cmdUpdateAndFailUser = new NpgsqlCommand("INSERT INTO testoccasion (passed, date, id_user)" +
-                                                                 "VALUES (false, @date, (SELECT id FROM person WHERE username = @userName));", conn);
-                cmdUpdateAndFailUser.Parameters.AddWithValue("@userName", userName);
-                cmdUpdateAndFailUser.Parameters.AddWithValue("@date", dateNow);
-                cmdUpdateAndFailUser.ExecuteNonQuery();
-            }
-            catch (NpgsqlException ex)
-            {
-                NpgsqlException = ex.Message;
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
 
-        private DataTable GetPersonAndTestInfo(string userName)
+        /// <summary>
+        /// Method gets both person table and testoccasion table.
+        /// </summary>
+        /// <returns>Returns datatable with one row holding all info regarding a user and what test he or she have done</returns>
+        public DataTable GetPersonAndTestInfo(string userName)
         {
             NpgsqlConnection conn = new NpgsqlConnection("Database=kompetensportal;Server=localhost;User Id=postgres;Password=anna;");
             try
@@ -483,6 +451,38 @@ namespace Uppg_4_Dry_Jos_Star
                                                                  "WHERE person.id = (SELECT id FROM person WHERE username = @userName) " +
                                                                  "ORDER BY date DESC LIMIT 1; ", conn);
                 cmdGetUserInfo.Parameters.AddWithValue("@userName", userName);
+                NpgsqlDataAdapter nda = new NpgsqlDataAdapter();
+                nda.SelectCommand = cmdGetUserInfo;
+                DataSet ds = new DataSet();
+                nda.Fill(ds);
+                DataTable dt = ds.Tables[0];
+
+                return dt;
+            }
+            catch (NpgsqlException ex)
+            {
+                NpgsqlException = ex.Message;
+                return null;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        /// <summary>
+        /// Gets only person info.
+        /// </summary>
+        /// <returns>Returns datatalbe with one row with the persons info</returns>
+        public DataTable GetPersonInfo(int userId)
+        {
+            NpgsqlConnection conn = new NpgsqlConnection("Database=kompetensportal;Server=localhost;User Id=postgres;Password=anna;");
+            try
+            {
+                conn.Open();
+                NpgsqlCommand cmdGetUserInfo = new NpgsqlCommand("SELECT * FROM person " +
+                                                                 "WHERE person.id = @id; ", conn);
+                cmdGetUserInfo.Parameters.AddWithValue("@id", userId);
                 NpgsqlDataAdapter nda = new NpgsqlDataAdapter();
                 nda.SelectCommand = cmdGetUserInfo;
                 DataSet ds = new DataSet();

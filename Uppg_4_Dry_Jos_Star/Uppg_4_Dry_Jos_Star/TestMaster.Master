@@ -92,7 +92,7 @@
     </section>
 
     <!-- Page Content ================================================== -->
-                                <noscript>
+    <noscript>
               <style type="text/css">
             .pagecontainer {display:none;}
         </style>
@@ -109,7 +109,8 @@
           </div>
 
         </div>
-        </noscript>        
+        </noscript>     
+           
         <div class="pagecontainer">
         <div class="page-overlay">
             <div class="overlay-message">

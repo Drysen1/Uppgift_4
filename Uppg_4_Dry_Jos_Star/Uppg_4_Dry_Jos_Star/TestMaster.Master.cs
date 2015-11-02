@@ -17,9 +17,7 @@ namespace Uppg_4_Dry_Jos_Star
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            var test = this.ContentPlaceHolder1.FindControl("lblUserName1") as Label;
-            //string test1 = test.Text;
-            //Response.Write(test1);
+
         }
 
         /// <summary>
@@ -31,56 +29,21 @@ namespace Uppg_4_Dry_Jos_Star
             var test = this.ContentPlaceHolder1.FindControl("lblUserName") as Label;
             string test1 = test.Text;
             Response.Write(test1);
-            //Response.Redirect("~/admin.aspx?userName=" + test1);
         }
 
         /// <summary>
         /// Button event for user to click if use exceeds the time limit of the test.
         /// Calls method failuser and redirects to start1.aspx.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         protected void Button_Go_To_Start_Click(object sender, EventArgs e)
         {
             DatabaseConnection dc = new DatabaseConnection();
             var labelUserName1 = this.ContentPlaceHolder1.FindControl("lblUserName1") as Label;
+            var labelTestType = this.ContentPlaceHolder1.FindControl("lblTestType") as Label;
             string userName = labelUserName1.Text;
-            dc.FailUser(userName);
-            //var labelUserName = this.ContentPlaceHolder1.FindControl("lblUserName") as Label;
-            //string userName = labelUserName.Text;
-            //Response.Write(userName); //Test purpose
+            string typeOfTest = labelTestType.Text;
+            dc.FailUser(userName, typeOfTest);
             Response.Redirect("~/start1.aspx");
-        }
-
-
-        /// <summary>
-        /// Method sends data to database and fails current user if 
-        /// the time for the test has been exceeded.
-        /// Code also te be found with slight modification in test.aspx.cs
-        /// </summary>
-        private void FailUser()
-        {
-            NpgsqlConnection conn = new NpgsqlConnection("Database=kompetensportal;Server=localhost;User Id=postgres;Password=anna;");
-            var labelUserName1 = this.ContentPlaceHolder1.FindControl("lblUserName1") as Label;
-            string userName = labelUserName1.Text;
-            DateTime dateNow = DateTime.Now;
-            try
-            {
-                conn.Open();
-                NpgsqlCommand cmdUpdateAndFailUser = new NpgsqlCommand("INSERT INTO testoccasion (passed, date, id_user)" +
-                                                                 "VALUES (false, @date, (SELECT id FROM person WHERE username = @userName));", conn);
-                cmdUpdateAndFailUser.Parameters.AddWithValue("@userName", userName);
-                cmdUpdateAndFailUser.Parameters.AddWithValue("@date", dateNow);
-                cmdUpdateAndFailUser.ExecuteNonQuery();
-            }
-            catch (NpgsqlException ex)
-            {
-                Response.Write(ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
         }
     }
 }
