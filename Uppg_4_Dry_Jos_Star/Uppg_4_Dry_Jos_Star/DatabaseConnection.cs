@@ -349,8 +349,8 @@ namespace Uppg_4_Dry_Jos_Star
                    
                     string query = "SELECT firstname, lastname, testtype, date, score, passed, username " +
                                     "FROM testoccasion t " +
-                                    "RIGHT JOIN person p ON t.id_user = p.id " +
-                                    "WHERE testtype ='LST' AND passed = true OR testtype ='ÅKU' AND passed = true " +
+                                    "RIGHT JOIN person on testoccasion.id_user = person.id " +
+                                    "WHERE id_user IS NULL OR (testtype ='LST' AND passed = false OR testtype ='ÅKU' AND passed = false) OR  (testtype ='LST' AND passed = true OR testtype ='ÅKU' AND passed = true) " +
                                     "ORDER BY lastname";
 
                     using (NpgsqlCommand command = new NpgsqlCommand(query, conn))
