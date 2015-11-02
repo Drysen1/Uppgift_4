@@ -21,4 +21,5 @@
             <asp:Label ID="Label5" runat="server" Text="Label"></asp:Label><br />
             <asp:Button ID="Button1" runat="server" Text="Button" OnClick="Button1_Click" />       
         </div>
+    <script type="text/javascript"></script> 
 </asp:Content>
