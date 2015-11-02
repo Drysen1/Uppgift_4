@@ -26,6 +26,8 @@ namespace Uppg_4_Dry_Jos_Star
                 PopulateRepeaters(categoryLists);
                 finalResult.Visible = false;
                 Session["IsPageReloadAllowed"] = false;
+                Session["StartTime"] = DateTime.Now; //When test is started starttime is saved in session.
+                SetUserNameLbl();
             }
             else if (Session["IsPageReloadAllowed"] != null && Session["IsFirstTime"] == null) //page reload before button has been clicked
             {
@@ -61,36 +63,50 @@ namespace Uppg_4_Dry_Jos_Star
 
         protected void btnSend_Click(object sender, EventArgs e)
         {
-            if(Session["IsFirstTime"] != null) //after buttonclick page reload will trigger onClick-event
+            if(CheckTestTime() == true)
             {
-                CorrectTest();
+                //Response.Write("Mer än 30 minuter"); //Test purpose
+                DatabaseConnection dc = new DatabaseConnection();
+                string userName = lblUserName1.Text;
+                dc.FailUser(userName);
+                btnSend.Enabled = false;
+                Response.Redirect("~/FailPage.aspx"); //Sends user to a page to inform user that he/she failed.
             }
             else
             {
-                string fileName = GetUserXmlFileName();
-                XDocument xDoc = XDocument.Load(Server.MapPath(fileName));
-
-                List<Repeater> reps = new List<Repeater>();
-                foreach (Repeater rep in repeaters.Controls.OfType<Repeater>())
+                //Response.Write("MIndre än 30 minuter"); //Test purpose.
+                if (Session["IsFirstTime"] != null) //after buttonclick page reload will trigger onClick-event
                 {
-                    reps.Add(rep);
+                    CorrectTest();
                 }
-
-                foreach (Repeater rep in reps)
+                else
                 {
-                    foreach (RepeaterItem item in rep.Items)
+                    string fileName = GetUserXmlFileName();
+                    XDocument xDoc = XDocument.Load(Server.MapPath(fileName));
+
+                    List<Repeater> reps = new List<Repeater>();
+                    foreach (Repeater rep in repeaters.Controls.OfType<Repeater>())
                     {
-                        Label lbl = (Label)item.FindControl("question");
-                        CheckBox chBox1 = (CheckBox)item.FindControl("cBox1");
-                        CheckBox chBox2 = (CheckBox)item.FindControl("cBox2");
-                        CheckBox chBox3 = (CheckBox)item.FindControl("cBox3");
-                        CheckBox[] cBoxes = { chBox1, chBox2, chBox3 };
-                        AddXmlAttribute(lbl.Text, cBoxes, xDoc);
+                        reps.Add(rep);
                     }
+
+                    foreach (Repeater rep in reps)
+                    {
+                        foreach (RepeaterItem item in rep.Items)
+                        {
+                            Label lbl = (Label)item.FindControl("question");
+                            CheckBox chBox1 = (CheckBox)item.FindControl("cBox1");
+                            CheckBox chBox2 = (CheckBox)item.FindControl("cBox2");
+                            CheckBox chBox3 = (CheckBox)item.FindControl("cBox3");
+                            CheckBox[] cBoxes = { chBox1, chBox2, chBox3 };
+                            AddXmlAttribute(lbl.Text, cBoxes, xDoc);
+                        }
+                    }
+                    SendUserXmlToDb();
+                    CorrectTest();
                 }
-                SendUserXmlToDb();
-                CorrectTest();
             }
+
         }
         //-------------------------------------------------------------------------------------
         
@@ -766,6 +782,53 @@ namespace Uppg_4_Dry_Jos_Star
             return xDoc;
         }
 
-        
+
+        /// <summary>
+        /// Just sets the username for label.
+        /// </summary>
+        private void SetUserNameLbl()
+        {
+            string userName = Request.QueryString["userName"];
+            lblUserName1.Text = userName;
+        }
+
+        /// <summary>
+        /// Tick event for timer. At the moment its on 3 minutes.
+        /// Calls methods in databaseconnection to failuser.
+        /// </summary>
+        protected void Timer1_Tick(object sender, EventArgs e)
+        {
+            DatabaseConnection dc = new DatabaseConnection();
+            string userName = lblUserName1.Text;
+            dc.FailUser(userName);
+            Response.Redirect("~/start1.aspx");
+        }
+
+        /// <summary>
+        /// Evaluates starttime and endtime to see if its more than 30 minutes.
+        /// </summary>
+        /// <returns>Returns true if more than 30 minutes.</returns>
+        private bool CheckTestTime()
+        {
+            DateTime TheStartTime = Convert.ToDateTime(Session["StartTime"]);
+            DateTime endTime = DateTime.Now;
+
+            TimeSpan elapsedTime = endTime - TheStartTime;
+            TimeSpan thirtyMinutes = TimeSpan.FromMinutes(30); //Change name to thirtyMinutes and FromMInutes(30)
+            int result = elapsedTime.CompareTo(thirtyMinutes);
+            bool moreThan30 = true;
+
+            if (result == 1)
+            {
+                moreThan30 = true;
+                return moreThan30;
+            }
+            else
+            {
+                moreThan30 = false;
+                return moreThan30;
+            } 
+        }
+
     }
 }

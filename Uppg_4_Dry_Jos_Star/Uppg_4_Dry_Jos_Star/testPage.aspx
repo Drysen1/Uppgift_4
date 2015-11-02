@@ -1,13 +1,28 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/SiteMaster.Master" AutoEventWireup="true" CodeBehind="testPage.aspx.cs" Inherits="Uppg_4_Dry_Jos_Star._default" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/TestMaster.Master" AutoEventWireup="true" CodeBehind="testPage.aspx.cs" Inherits="Uppg_4_Dry_Jos_Star._default" %>
 
 <%@ Register Assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Namespace="System.Web.UI.DataVisualization.Charting" TagPrefix="asp" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+    <asp:Timer ID="Timer1" runat="server" OnTick="Timer1_Tick" Interval="1830000"></asp:Timer>
+
+
+    <!-- DIV AND HOLDER FOR TIMER ======================================================================= -->
+     <div class="timer-holder">
+          <p id="timer">30:00</p>
+      </div>
+    <!-- CONTENT START ======================================================================= -->
     <div class="fullBox" id="page-title">        
-        <h1>KOMPETENSPORTALEN</h1>
+        <h1>PROV</h1>
     </div>
+    <div class="fullBox"> 
+        <h3 class="home-h3">Provdeltagare: <asp:Label ID="lblUserName1" runat="server" Text="Label"></asp:Label></h3>
+    </div>
+
+    <!-- PIE CHARTS ======================================================================= -->
     <div id="bodyContent" class="fullBox" runat="server">
         <div id="finalResult" style="margin-top: 20px;" class="fullBox" runat="server">
             <div class="quarterBox" style="text-align: center; border: 1px solid black;">
@@ -71,6 +86,8 @@
                 <asp:Image style="vertical-align:middle;" ID="yesNoImg"  runat="server"/>
             </div>
         </div>
+
+        <!-- REPEATERS ======================================================================= -->
         <div id="repeaters" class="fullBox" runat="server"> 
             <asp:Repeater ID="Repeater1" runat="server" OnItemDataBound="Repeater1_ItemDataBound">
                 <HeaderTemplate>
@@ -102,6 +119,7 @@
                     </div>
                 </FooterTemplate>
             </asp:Repeater>
+
             <asp:Repeater ID="Repeater2" runat="server" OnItemDataBound="Repeater2_ItemDataBound">
                 <HeaderTemplate>
                     <div id="category_container" style="border:1px solid black; margin: 20px 0;">
@@ -132,6 +150,7 @@
                     </div>
                 </FooterTemplate>
             </asp:Repeater>
+
             <asp:Repeater ID="Repeater3" runat="server" OnItemDataBound="Repeater3_ItemDataBound">
                 <HeaderTemplate>
                     <div id="category_container" style="border:1px solid black; margin: 20px 0;">
@@ -163,6 +182,8 @@
                 </FooterTemplate>
             </asp:Repeater>
         </div>
+
+        <!-- BUTTON ======================================================================= -->
         <asp:Button ID="btnSend" runat="server" Text="Lämna in" OnClick="btnSend_Click"/>
     </div>
 </asp:Content>

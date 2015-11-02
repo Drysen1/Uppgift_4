@@ -2,13 +2,13 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="clock-holder">
-          <p id="clock">clock</p>
+    <div class="timer-holder">
+          <p id="timer">clock</p>
       </div>
     <div class="fullBox">
 
 
-
+        <asp:Label ID="lbltestitest" runat="server" Text="Label"></asp:Label>
             <asp:Label ID="lblUserName" runat="server" Text="Label"></asp:Label>
             <asp:Label ID="lblTypeOfTest" runat="server" Text="Label"></asp:Label>
             <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>

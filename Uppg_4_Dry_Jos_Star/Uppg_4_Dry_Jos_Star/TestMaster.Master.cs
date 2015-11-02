@@ -17,9 +17,9 @@ namespace Uppg_4_Dry_Jos_Star
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            var test = this.ContentPlaceHolder1.FindControl("lblUserName") as Label;
-            string test1 = test.Text;
-            Response.Write(test1);
+            var test = this.ContentPlaceHolder1.FindControl("lblUserName1") as Label;
+            //string test1 = test.Text;
+            //Response.Write(test1);
         }
 
         /// <summary>
@@ -42,9 +42,12 @@ namespace Uppg_4_Dry_Jos_Star
         /// <param name="e"></param>
         protected void Button_Go_To_Start_Click(object sender, EventArgs e)
         {
-            FailUser();
-            var labelUserName = this.ContentPlaceHolder1.FindControl("lblUserName") as Label;
-            string userName = labelUserName.Text;
+            DatabaseConnection dc = new DatabaseConnection();
+            var labelUserName1 = this.ContentPlaceHolder1.FindControl("lblUserName1") as Label;
+            string userName = labelUserName1.Text;
+            dc.FailUser(userName);
+            //var labelUserName = this.ContentPlaceHolder1.FindControl("lblUserName") as Label;
+            //string userName = labelUserName.Text;
             //Response.Write(userName); //Test purpose
             Response.Redirect("~/start1.aspx");
         }
@@ -58,15 +61,14 @@ namespace Uppg_4_Dry_Jos_Star
         private void FailUser()
         {
             NpgsqlConnection conn = new NpgsqlConnection("Database=kompetensportal;Server=localhost;User Id=postgres;Password=anna;");
-            var labelUserName = this.ContentPlaceHolder1.FindControl("lblUserName") as Label;
-            string userName = labelUserName.Text;
+            var labelUserName1 = this.ContentPlaceHolder1.FindControl("lblUserName1") as Label;
+            string userName = labelUserName1.Text;
             DateTime dateNow = DateTime.Now;
             try
             {
                 conn.Open();
-                NpgsqlCommand cmdUpdateAndFailUser = new NpgsqlCommand("UPDATE testoccasion " +
-                                                                 "SET passed = false, date = @date " +
-                                                                 "WHERE id_user = (SELECT id FROM person WHERE username = @userName);", conn);
+                NpgsqlCommand cmdUpdateAndFailUser = new NpgsqlCommand("INSERT INTO testoccasion (passed, date, id_user)" +
+                                                                 "VALUES (false, @date, (SELECT id FROM person WHERE username = @userName));", conn);
                 cmdUpdateAndFailUser.Parameters.AddWithValue("@userName", userName);
                 cmdUpdateAndFailUser.Parameters.AddWithValue("@date", dateNow);
                 cmdUpdateAndFailUser.ExecuteNonQuery();

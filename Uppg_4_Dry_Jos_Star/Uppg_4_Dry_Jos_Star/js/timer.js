@@ -2,7 +2,7 @@
 //2015-10-28 Erik Drysén
 
 window.onload = function() {
-    var countdown = 2 * 60 * 1000;
+    var countdown = 30 * 60 * 1000;
     var timerId = setInterval(countDownTimer, 1000);
         $('.page-overlay').hide();   
 
@@ -12,16 +12,16 @@ window.onload = function() {
       var sec = Math.floor((countdown - (min * 60 * 1000)) / 1000);  
       if (sec < 10)
       {
-         $("#clock").html(min + " : 0" + sec);
+         $("#timer").html(min + " : 0" + sec);
 
       }
       else
       {
-          $("#clock").html(min + " : " + sec);
+          $("#timer").html(min + " : " + sec);
       }
       if (min < 1)
       {
-        $("#clock").css("background", "red");
+        $(".timer-holder").css("background", "red");
       }
 
       if (countdown <= 0) {

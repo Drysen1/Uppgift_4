@@ -13,7 +13,7 @@ namespace Uppg_4_Dry_Jos_Star
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            testSuperTest();
             if (Session["IsPageReloadAllowed"] == null ) 
             {
                 Label1.Text = "Första gång";
@@ -38,6 +38,14 @@ namespace Uppg_4_Dry_Jos_Star
         protected void LinkButton1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void testSuperTest()
+        {
+            //DatabaseConnection dc = new DatabaseConnection();
+            //DataTable dt = new DataTable();
+            //dt = dc.GetPersonInfo();
+            //lbltestitest.Text = dt.Rows.Count.ToString();
         }
 
         /// <summary>

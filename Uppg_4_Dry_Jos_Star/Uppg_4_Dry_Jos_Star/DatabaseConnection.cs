@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Web.Configuration;
 using System.Xml.Linq;
 using Npgsql;
+using System.Data;
 
 namespace Uppg_4_Dry_Jos_Star
 {
@@ -400,5 +401,105 @@ namespace Uppg_4_Dry_Jos_Star
             return listOfPersons2;
         } //Personer som har godkända LST/ÅKU
 
+
+
+        /// <summary>
+        /// Method sends data to database and fails current user if 
+        /// the time for the test has been exceeded. Method is triggered from
+        /// timer1_tick which has an intervall for the moment of 180000 which is 
+        /// 3 minutes. Do 31 minutes in live scenario.
+        /// Code also te be found with slight modification in testmaster.cs
+        /// </summary>
+        public void FailUser(string userName)
+        {
+                DataTable dt = GetPersonAndTestInfo(userName);
+                int rows = dt.Rows.Count;
+
+                if (rows <= 0)
+                {
+                    FailUserInsert(userName);
+                }
+            else
+                {
+                    FailUserUpdate(userName);
+                }
+        }
+
+        private void FailUserUpdate(string userName)
+        {
+            NpgsqlConnection conn = new NpgsqlConnection("Database=kompetensportal;Server=localhost;User Id=postgres;Password=anna;");
+            DateTime dateNow = DateTime.Now;
+            try
+            {
+                conn.Open();
+                NpgsqlCommand cmdUpdateAndFailUser = new NpgsqlCommand("UPDATE testoccasion " +
+                                                                 "SET passed = false, date = @date " +
+                                                                 "WHERE id_user = (SELECT id FROM person WHERE username = @userName);", conn);
+                cmdUpdateAndFailUser.Parameters.AddWithValue("@userName", userName);
+                cmdUpdateAndFailUser.Parameters.AddWithValue("@date", dateNow);
+                cmdUpdateAndFailUser.ExecuteNonQuery();
+            }
+            catch (NpgsqlException ex)
+            {
+                NpgsqlException = ex.Message;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        private void FailUserInsert(string userName)
+        {
+            NpgsqlConnection conn = new NpgsqlConnection("Database=kompetensportal;Server=localhost;User Id=postgres;Password=anna;");
+            DateTime dateNow = DateTime.Now;
+            try
+            {
+                conn.Open();
+                NpgsqlCommand cmdUpdateAndFailUser = new NpgsqlCommand("INSERT INTO testoccasion (passed, date, id_user)" +
+                                                                 "VALUES (false, @date, (SELECT id FROM person WHERE username = @userName));", conn);
+                cmdUpdateAndFailUser.Parameters.AddWithValue("@userName", userName);
+                cmdUpdateAndFailUser.Parameters.AddWithValue("@date", dateNow);
+                cmdUpdateAndFailUser.ExecuteNonQuery();
+            }
+            catch (NpgsqlException ex)
+            {
+                NpgsqlException = ex.Message;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        private DataTable GetPersonAndTestInfo(string userName)
+        {
+            NpgsqlConnection conn = new NpgsqlConnection("Database=kompetensportal;Server=localhost;User Id=postgres;Password=anna;");
+            try
+            {
+                conn.Open();
+                NpgsqlCommand cmdGetUserInfo = new NpgsqlCommand("SELECT * FROM person " +
+                                                                 "INNER JOIN testoccasion ON person.id = id_user " +
+                                                                 "WHERE person.id = (SELECT id FROM person WHERE username = @userName) " +
+                                                                 "ORDER BY date DESC LIMIT 1; ", conn);
+                cmdGetUserInfo.Parameters.AddWithValue("@userName", userName);
+                NpgsqlDataAdapter nda = new NpgsqlDataAdapter();
+                nda.SelectCommand = cmdGetUserInfo;
+                DataSet ds = new DataSet();
+                nda.Fill(ds);
+                DataTable dt = ds.Tables[0];
+
+                return dt;
+            }
+            catch (NpgsqlException ex)
+            {
+                NpgsqlException = ex.Message;
+                return null;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }
