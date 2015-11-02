@@ -72,6 +72,14 @@
     <Content Include="admin.aspx" />
     <Content Include="adminStats.aspx" />
     <Content Include="FailPage.aspx" />
+    <Content Include="img\bild01.jpg" />
+    <Content Include="img\bild02.jpg" />
+    <Content Include="img\bild03.jpg" />
+    <Content Include="img\bild04.jpg" />
+    <Content Include="img\bild05.jpg" />
+    <Content Include="img\bild06.jpg" />
+    <Content Include="img\bild07.jpg" />
+    <Content Include="img\bild08.jpg" />
     <Content Include="img\btn_correct.png" />
     <Content Include="img\btn_incorrect.png" />
     <Content Include="js\timer.js" />

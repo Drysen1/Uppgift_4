@@ -407,7 +407,8 @@ h3 {
 	font-size: 2em;
 	width: 300px;
 	height: 2em;
-	background: green;
+	background: white;
+    border: 1px solid #595959;
 	bottom: 0;
 	right: 0;
 	float: right;
