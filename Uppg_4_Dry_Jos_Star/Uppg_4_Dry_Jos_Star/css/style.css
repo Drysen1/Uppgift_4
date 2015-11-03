@@ -395,12 +395,23 @@ h3 {
 
 .checkbox-style {
     margin-bottom: 0.6em;
-    padding-left: 0.6em;
+    padding-left: 1em;
 }
 
 .num-text {
     font-style: italic;
-    margin-left: 0.6em;
+    margin-left: 1em;
+    font-size: 1em;
+}
+
+.test-img {
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+    margin-left: 1em;
+}
+
+.result-box {
+    margin-top: 2em;
 }
 /*****************************************************
 	TIMER AND NOSCRIPT CSS
