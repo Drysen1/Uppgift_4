@@ -21,6 +21,17 @@ namespace Uppg_4_Dry_Jos_Star
             //FillGrid(GetNoTestPersons()); alt 2
         }
 
+        protected void pick_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            //kod att skriva
+        }
+
+
         private void FillGrid(List<Person> people)
         {
             GridView1.DataSource = people;
