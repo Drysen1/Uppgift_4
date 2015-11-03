@@ -266,7 +266,7 @@ namespace Uppg_4_Dry_Jos_Star
             }
         }
 
-        public List<Person> GetTeamMembers(string query)
+        public List<Person> GetTeamMembers(string query, string userName)
         {
             List<Person> listOfPersons = new List<Person>();
             bool isPassed;
@@ -281,7 +281,7 @@ namespace Uppg_4_Dry_Jos_Star
                     {
                         using (NpgsqlDataReader dr = command.ExecuteReader())
                         {
-
+                            command.Parameters.AddWithValue("userName", userName);
                             while (dr.Read())
                             {
 

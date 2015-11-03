@@ -23,11 +23,17 @@ namespace Uppg_4_Dry_Jos_Star
         {
             string userName = Request.QueryString["userName"];
             lblUserName.Text = userName;
+            PopulatePieChart(userName);
         }
 
-        private void PopulatePieChart()
+        private void PopulatePieChart(string userName)
         {
-
+            DatabaseConnection dr = new DatabaseConnection();
+            string query = "SELECT firstname, lastname, testtype, date, score, passed, username " +
+                            "FROM person p LEFT JOIN testoccasion t ON p.id = t.id_user " +
+                            "WHERE id_testadmin = @userName ";
+            
+            dr.GetTeamMembers(query, userName);
         }
 
         protected void Button1_Click(object sender, EventArgs e)
