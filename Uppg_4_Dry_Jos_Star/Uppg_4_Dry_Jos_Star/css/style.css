@@ -550,27 +550,60 @@ h3 {
 	GRID - för gridview om man vill använda det.
 *****************************************************/
 .Grid {
-    background-color: #fff; 
+    width: 100%;
+    /*background-color: #fff; 
     margin: 5px 0 10px 0; 
     border: solid 1px #525252; 
     border-collapse:collapse; 
     font-family:'latolight'; 
-    color: #474747;
+    color: #474747;*/
 }
 
 .Grid td {
       padding: 1em;
-      border: solid 1px #c1c1c1; 
-      width: 200px;
 }
 .Grid th  {
-      padding : 1em;
+      /*padding : 1em;
       color: #fff;
       background: #AF3C3C;
       border-left: solid 1px #525252;
-      font-size: 1.3em; 
+      font-size: 1.3em;*/ 
+}
+/*@media (max-width: 768px) {
+    .Grid,
+    .Grid thead,
+    .Grid tbody,
+    .Grid td,
+    .Grid th,
+    .Grid tr {
+        display: block;
+    }
 }
 
+@media (max-width: 768px) {
+    .Grid tr th {
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+    }
+}
+
+@media (max-width: 768px) {
+    .Grid tr:nth-of-type(2) {
+        position: absolute;
+		top: -9999px;
+		left: -9999px; 
+    }
+}
+
+@media (max-width: 768px) {
+    .Grid tr {
+        border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+    }
+}*/
 /*****************************************************
 	MOBIL ANPASSAT
 *****************************************************/
