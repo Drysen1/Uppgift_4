@@ -17,6 +17,7 @@ namespace Uppg_4_Dry_Jos_Star
 
             //string userName = Request.QueryString["userName"];
             string userName = "tomKar";
+
             string query = "SELECT firstname, lastname, testtype, date, score, passed, username " +
                             "FROM person p LEFT JOIN testoccasion t ON p.id = t.id_user " +
                             "WHERE id_testadmin = (SELECT id FROM person WHERE username = @userName) ";
@@ -36,21 +37,33 @@ namespace Uppg_4_Dry_Jos_Star
 
         private void Initialize()
         {
-            if (DropDownList1.Text == "")
+  
+            if (DropDownList1.Text == "Alla")
             {
-                // Alla i teamet 
+                // Alla personer i ens eget team
             }
             else if (DropDownList1.Text == "")
             {
                 //De som har ett test att genomföra
             }
-            else if (DropDownList1.Text == "")
+            else if (DropDownList1.Text == "LST") 
             {
                 //De som har ett LST att genomföra
+
+                // "SELECT firstname, lastname, testtype, date, score, passed, username "+ 
+                //             "FROM person p LEFT JOIN testoccasion t ON p.id = t.id_user "+
+                //             "WHERE id_testadmin = (SELECT id FROM person WHERE username = @userName) "+
+                //             "AND testtype = 'LST' AND passed = false "; 
             }
-            else if (DropDownList1.Text == "")
+            else if (DropDownList1.Text == "ÅKU") 
             {
                 //De som har ett ÅKU att genomföra
+
+                
+                //"SELECT firstname, lastname, testtype, date, score, passed, username "+
+                //             "FROM person p LEFT JOIN testoccasion t ON p.id = t.id_user "+
+                //             "WHERE id_testadmin = (SELECT id FROM person WHERE username = @userName) "+
+                //             "AND testtype = 'ÅKU' AND passed = false ";
             }
         }
 
