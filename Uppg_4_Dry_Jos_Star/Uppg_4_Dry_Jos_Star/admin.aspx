@@ -19,24 +19,38 @@
         </div>
         <div class="halfBox">
             <div class="fullBox">
-                <img class="home-img" src="img/mote.jpg">
+                <img class="home-img" src="img/mote.jpg" />
             </div>
         </div>
     </div>
-
     <div class="fullBox" >
-        <div class="fullBox" id="page-title">
+        <div class="fullBox" id="page-body">
             <h2 class="home-h2">&nbsp;</h2>
         </div>
-        <div class="halfBox" id="center-home">
-            <h3 class="home-h3" >Medarbetare</h3>
-            <p class="home-text"><br /> </p>
+        <div class="halfBox" id="center-team">
+            <h3 class="home-h3">Medarbetare</h3>
+            <p class="home-text">
+                <br />
+            </p>
             <p class="home-text">&nbsp;</p>
             <br />
             <br />
+            <div>
+                <asp:Chart ID="Chart1" runat="server" Width="300" Height="300">
+                    <Titles>
+                        <asp:Title></asp:Title>
+                    </Titles>
+                    <Series>
+                        <asp:Series Name="Series1" ChartType="Pie"></asp:Series>
+                    </Series>
+                    <ChartAreas>
+                        <asp:ChartArea Name="ChartArea1"></asp:ChartArea>
+                    </ChartAreas>
+                </asp:Chart>
+            </div>
             <asp:Button ID="Button1" runat="server" Text="Provdel" CssClass="my-button button-80" OnClick="Button1_Click" />
         </div>
-        <div class="halfBox" id="center-home">
+        <div class="halfBox" id="center-stats">
             <h3 class="home-h3">Statistik</h3>
             <p class="home-text">&nbsp;</p>
             <p class="home-text">&nbsp;</p> 

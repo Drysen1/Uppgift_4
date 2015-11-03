@@ -11,14 +11,20 @@ namespace Uppg_4_Dry_Jos_Star
 {
     public partial class licencieringstest : System.Web.UI.Page
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected void Page_Load(object sender, EventArgs e) //request.querystring [username]
         {
-            // metoden ligger i DatabaseConnections 
-            DatabaseConnection db = new DatabaseConnection(); 
-            List<Person> personer = db.GetNoTestPersons();
+            DatabaseConnection db = new DatabaseConnection();
+
+            //string userName = Request.QueryString["userName"];
+            string userName = "tomKar";
+
+            string query = "SELECT firstname, lastname, testtype, date, score, passed, username " +
+                            "FROM person p LEFT JOIN testoccasion t ON p.id = t.id_user " +
+                            "WHERE id_testadmin = (SELECT id FROM person WHERE username = @userName) ";
+
+            List<Person> personer = db.GetTeamMembers(query, userName);
            
             FillGrid(personer);
-            //FillGrid(GetNoTestPersons()); alt 2
 
 
             if (!IsPostBack)
@@ -31,15 +37,33 @@ namespace Uppg_4_Dry_Jos_Star
 
         private void Initialize()
         {
-            if (DropDownList1.SelectedValue == "")
+  
+            if (DropDownList1.Text == "Alla")
             {
-                //kod för att göra om värdet är sannt 
-                // Alla i teamet 
+                // Alla personer i ens eget team
             }
-            else if (DropDownList1.SelectedValue == "")
+            else if (DropDownList1.Text == "")
             {
-                //kod för att göra om värdet är sannt 
                 //De som har ett test att genomföra
+            }
+            else if (DropDownList1.Text == "LST") 
+            {
+                //De som har ett LST att genomföra
+
+                // "SELECT firstname, lastname, testtype, date, score, passed, username "+ 
+                //             "FROM person p LEFT JOIN testoccasion t ON p.id = t.id_user "+
+                //             "WHERE id_testadmin = (SELECT id FROM person WHERE username = @userName) "+
+                //             "AND testtype = 'LST' AND passed = false "; 
+            }
+            else if (DropDownList1.Text == "ÅKU") 
+            {
+                //De som har ett ÅKU att genomföra
+
+                
+                //"SELECT firstname, lastname, testtype, date, score, passed, username "+
+                //             "FROM person p LEFT JOIN testoccasion t ON p.id = t.id_user "+
+                //             "WHERE id_testadmin = (SELECT id FROM person WHERE username = @userName) "+
+                //             "AND testtype = 'ÅKU' AND passed = false ";
             }
         }
 
@@ -47,6 +71,8 @@ namespace Uppg_4_Dry_Jos_Star
         {
             DropDownList1.Items.Add("Alla");
             DropDownList1.Items.Add("Prov att göra");
+            DropDownList1.Items.Add("LST");
+            DropDownList1.Items.Add("ÅKU");
         }
 
 
