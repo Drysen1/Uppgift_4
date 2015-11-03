@@ -19,8 +19,12 @@
         <h1>PROV</h1>
     </div>
     <div class="fullBox"> 
-        <h3 class="home-h3">Provdeltagare: <asp:Label ID="lblUserName1" runat="server" Text="Label"></asp:Label></h3>
-        <h3 class ="home-h3">Provtyp: <asp:Label ID="lblTestType" runat="server" Text="Label"></asp:Label></h3>
+        <div class="halfBox center-text">       
+            <h3 class="home-h3">Provdeltagare: <asp:Label ID="lblUserName1" runat="server" Text="Label"></asp:Label></h3>
+        </div>
+        <div class="halfBox center-text">        
+            <h3 class ="home-h3">Provtyp: <asp:Label ID="lblTestType" runat="server" Text="Label"></asp:Label></h3>
+        </div>
     </div>
 
     <!-- PIE CHARTS ======================================================================= -->
@@ -92,11 +96,14 @@
         <div id="repeaters" class="fullBox" runat="server"> 
             <asp:Repeater ID="Repeater1" runat="server" OnItemDataBound="Repeater1_ItemDataBound">
                 <HeaderTemplate>
-                    <div id="category_container" style="border:1px solid black; margin: 20px 0;">
-                        <asp:Label ID="categoryText" style="font-size: 30px; font-weight: bold;" runat="server"></asp:Label>
+                    <div id="category_container" class="fullBox" >
+                        <div class="fullBox" id="page-title">
+                            <h3 class="category-h3"><asp:Label ID="categoryText" runat="server"></asp:Label></h3>
+                        </div>
                 </HeaderTemplate>
+
                 <ItemTemplate>
-                        <div style="margin:20px 0;">
+                        <div class="fullBox" style="margin:20px 0;">
                             <asp:Label ID="questionId" style="font-weight:bold;" Text=<%# Eval("AnswerOrder") %> runat="server"></asp:Label>
                             <asp:Label ID="question" style="font-weight:bold;" text=<%# Eval("Text") %> runat="server"></asp:Label>
                             <asp:Image ID="questionImage" ImageUrl=<%# Eval("AnswerImageUrl") %> runat="server" />
@@ -119,18 +126,23 @@
                             </table>
                         </div>
                 </ItemTemplate>
+
                 <FooterTemplate>
                     </div>
                 </FooterTemplate>
+
             </asp:Repeater>
 
             <asp:Repeater ID="Repeater2" runat="server" OnItemDataBound="Repeater2_ItemDataBound">
                 <HeaderTemplate>
-                    <div id="category_container" style="border:1px solid black; margin: 20px 0;">
-                        <asp:Label ID="categoryText" style="font-size: 30px; font-weight: bold;" runat="server"></asp:Label>
+                    <div id="category_container"  class="fullBox">
+                        <div class="fullBox" id="page-title">
+                            <h3 class="category-h3"><asp:Label ID="categoryText" runat="server"></asp:Label></h3>
+                        </div>
                 </HeaderTemplate>
+
                 <ItemTemplate>
-                        <div style="margin:20px 0;">
+                        <div class="fullBox" style="margin:20px 0;">
                             <asp:Label ID="questionId" style="font-weight:bold;" Text=<%# Eval("AnswerOrder") %> runat="server"></asp:Label>
                             <asp:Label ID="question" style="font-weight:bold;" Text=<%# Eval("Text") %> runat="server"></asp:Label>
                             <asp:Image ID="questionImage" ImageUrl=<%# Eval("AnswerImageUrl") %> runat="server" />
@@ -153,18 +165,23 @@
                             </table>
                         </div>
                 </ItemTemplate>
+
                 <FooterTemplate>
                     </div>
                 </FooterTemplate>
+
             </asp:Repeater>
 
             <asp:Repeater ID="Repeater3" runat="server" OnItemDataBound="Repeater3_ItemDataBound">
                 <HeaderTemplate>
-                    <div id="category_container" style="border:1px solid black; margin: 20px 0;">
-                        <asp:Label ID="categoryText" style="font-size: 30px; font-weight: bold;" runat="server"></asp:Label>
+                    <div id="category_container" class="fullBox">
+                        <div class="fullBox" id="page-title">
+                            <h3 class="category-h3"><asp:Label ID="categoryText" runat="server"></asp:Label></h3>
+                        </div>
                 </HeaderTemplate>
+
                 <ItemTemplate>
-                        <div style="margin:20px 0;">
+                        <div class="fullBox" style="margin:20px 0;">
                             <asp:Label ID="questionId" style="font-weight:bold;" Text=<%# Eval("AnswerOrder") %> runat="server"></asp:Label>
                             <asp:Label ID="question" style="font-weight:bold;" Text=<%# Eval("Text") %> runat="server"></asp:Label>
                             <asp:Image ID="questionImage" ImageUrl=<%# Eval("AnswerImageUrl") %> runat="server" />
@@ -187,9 +204,11 @@
                             </table>
                         </div>
                 </ItemTemplate>
+
                 <FooterTemplate>
                     </div>
                 </FooterTemplate>
+
             </asp:Repeater>
         </div>
 
