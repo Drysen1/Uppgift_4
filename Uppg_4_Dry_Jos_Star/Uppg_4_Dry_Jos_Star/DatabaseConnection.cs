@@ -279,9 +279,10 @@ namespace Uppg_4_Dry_Jos_Star
 
                     using (NpgsqlCommand command = new NpgsqlCommand(query, conn))
                     {
+                        command.Parameters.AddWithValue("userName", userName);
+
                         using (NpgsqlDataReader dr = command.ExecuteReader())
                         {
-                            command.Parameters.AddWithValue("userName", userName);
                             while (dr.Read())
                             {
 
