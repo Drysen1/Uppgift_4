@@ -4,7 +4,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
 <div class="fullBox" id="page-title1">
-        <h1>Lämplig rubrik</h1>
+        <h1>Översikt</h1>
     </div>
     <div class="fullBox">
        
