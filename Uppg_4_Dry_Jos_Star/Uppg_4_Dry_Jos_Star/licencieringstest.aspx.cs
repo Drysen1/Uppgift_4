@@ -31,9 +31,16 @@ namespace Uppg_4_Dry_Jos_Star
 
         private void Initialize()
         {
-            //kod att skriva för de olika valen 
-            // if sats? 
-            
+            if (DropDownList1.SelectedValue == "")
+            {
+                //kod för att göra om värdet är sannt 
+                // Alla i teamet 
+            }
+            else if (DropDownList1.SelectedValue == "")
+            {
+                //kod för att göra om värdet är sannt 
+                //De som har ett test att genomföra
+            }
         }
 
         private void DropDownList()
