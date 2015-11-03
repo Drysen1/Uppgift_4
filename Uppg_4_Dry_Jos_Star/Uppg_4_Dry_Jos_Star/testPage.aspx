@@ -106,15 +106,15 @@
                         <div class="fullBox">
                             <div class="fullBox">
                                 <h4 class="category-h4">
-                                    <asp:Label ID="questionId" style="font-weight:bold;" Text=<%# Eval("AnswerOrder") %> runat="server"></asp:Label>
-                                    <asp:Label ID="question" style="font-weight:bold;" text=<%# Eval("Text") %> runat="server"></asp:Label>
+                                    <asp:Label ID="questionId" Text=<%# Eval("AnswerOrder") %> runat="server"></asp:Label>
+                                    <asp:Label ID="question" text=<%# Eval("Text") %> runat="server"></asp:Label>
                                     <asp:Image ID="questionImage" ImageUrl=<%# Eval("AnswerImageUrl") %> runat="server" />
                                 </h4>
                             </div>
-                            <div style="margin: 5px 0 10px 0;">
-                                <asp:Label ID="numOfcorrect" style="font-style: italic;" Text=<%# Eval("NumOfCorrect") %> runat="server"></asp:Label>
+                            <div class="fullBox">
+                                <p class="num-text"><asp:Label ID="numOfcorrect" Text=<%# Eval("NumOfCorrect") %> runat="server"></asp:Label></p>
                             </div>
-                            <div>
+                            <div class="fullBox">
                                 <asp:Image ID="questionPicture" ImageUrl=<%# Eval("QuestionPictureUrl") %> runat="server" />
                             </div>
                                 <div class="fullBox checkbox-style">
@@ -147,13 +147,13 @@
                         <div class="fullBox">
                             <div class="fullBox">
                                 <h4 class="category-h4">
-                                    <asp:Label ID="questionId" style="font-weight:bold;" Text=<%# Eval("AnswerOrder") %> runat="server"></asp:Label>
-                                    <asp:Label ID="question" style="font-weight:bold;" Text=<%# Eval("Text") %> runat="server"></asp:Label>
+                                    <asp:Label ID="questionId" Text=<%# Eval("AnswerOrder") %> runat="server"></asp:Label>
+                                    <asp:Label ID="question" Text=<%# Eval("Text") %> runat="server"></asp:Label>
                                     <asp:Image ID="questionImage" ImageUrl=<%# Eval("AnswerImageUrl") %> runat="server" />
                                 </h4>
                             </div>                            
-                                    <div style="margin: 5px 0 10px 0;">
-                                <asp:Label ID="numOfcorrect" style="font-style: italic;" Text=<%# Eval("NumOfCorrect") %> runat="server"></asp:Label>
+                            <div class="fullBox">
+                                <p class="num-text"><asp:Label ID="numOfcorrect" Text=<%# Eval("NumOfCorrect") %> runat="server"></asp:Label></p>
                             </div>
                             <div>
                                 <asp:Image ID="questionPicture" ImageUrl=<%# Eval("QuestionPictureUrl") %> runat="server" />
@@ -188,13 +188,13 @@
                         <div class="fullBox">
                             <div class="fullBox">
                                 <h4 class="category-h4">
-                                    <asp:Label ID="questionId" style="font-weight:bold;" Text=<%# Eval("AnswerOrder") %> runat="server"></asp:Label>
-                                    <asp:Label ID="question" style="font-weight:bold;" Text=<%# Eval("Text") %> runat="server"></asp:Label>
+                                    <asp:Label ID="questionId" Text=<%# Eval("AnswerOrder") %> runat="server"></asp:Label>
+                                    <asp:Label ID="question" Text=<%# Eval("Text") %> runat="server"></asp:Label>
                                     <asp:Image ID="questionImage" ImageUrl=<%# Eval("AnswerImageUrl") %> runat="server" />
                                 </h4>
                             </div>
-                            <div style="margin: 5px 0 10px 0;">
-                                <asp:Label ID="numOfcorrect" style="font-style: italic;" Text=<%# Eval("NumOfCorrect") %> runat="server"></asp:Label>
+                            <div class="fullBox">
+                                <p class="num-text"><asp:Label ID="numOfcorrect" Text=<%# Eval("NumOfCorrect") %> runat="server"></asp:Label></p>
                             </div>
                             <div>
                                 <asp:Image ID="questionPicture" ImageUrl=<%# Eval("QuestionPictureUrl") %> runat="server" />
