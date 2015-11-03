@@ -387,6 +387,14 @@ h3 {
     font-weight: bold;
 }
 
+.category-h4 {
+    margin-left: 0.3em;
+}
+
+.checkbox-style {
+    margin-bottom: 0.4em;
+}
+
 /*****************************************************
 	TIMER AND NOSCRIPT CSS
 *****************************************************/

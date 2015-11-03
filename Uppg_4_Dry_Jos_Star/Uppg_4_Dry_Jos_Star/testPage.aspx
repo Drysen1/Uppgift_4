@@ -103,27 +103,29 @@
                 </HeaderTemplate>
 
                 <ItemTemplate>
-                        <div class="fullBox" style="margin:20px 0;">
-                            <asp:Label ID="questionId" style="font-weight:bold;" Text=<%# Eval("AnswerOrder") %> runat="server"></asp:Label>
-                            <asp:Label ID="question" style="font-weight:bold;" text=<%# Eval("Text") %> runat="server"></asp:Label>
-                            <asp:Image ID="questionImage" ImageUrl=<%# Eval("AnswerImageUrl") %> runat="server" />
+                        <div class="fullBox">
+                            <div class="fullBox">
+                                <h4 class="category-h4">
+                                    <asp:Label ID="questionId" style="font-weight:bold;" Text=<%# Eval("AnswerOrder") %> runat="server"></asp:Label>
+                                    <asp:Label ID="question" style="font-weight:bold;" text=<%# Eval("Text") %> runat="server"></asp:Label>
+                                    <asp:Image ID="questionImage" ImageUrl=<%# Eval("AnswerImageUrl") %> runat="server" />
+                                </h4>
+                            </div>
                             <div style="margin: 5px 0 10px 0;">
                                 <asp:Label ID="numOfcorrect" style="font-style: italic;" Text=<%# Eval("NumOfCorrect") %> runat="server"></asp:Label>
                             </div>
                             <div>
                                 <asp:Image ID="questionPicture" ImageUrl=<%# Eval("QuestionPictureUrl") %> runat="server" />
                             </div>
-                            <table>
-                                <tr>
-                                    <td><asp:CheckBox ID="cBox1" class=<%# Eval("CssClasses[0]") %> runat="server" Text=<%# Eval("Answers[0]") %> /></td>
-                                </tr> 
-                                <tr>
-                                    <td><asp:CheckBox ID="cBox2" class=<%# Eval("CssClasses[1]") %> runat="server" Text=<%# Eval("Answers[1]") %> /></td>
-                                </tr> 
-                                <tr>
-                                    <td><asp:CheckBox ID="CBox3" class=<%# Eval("CssClasses[2]") %> runat="server" Text=<%# Eval("Answers[2]") %> /></td>
-                                </tr> 
-                            </table>
+                                <div class="fullBox checkbox-style">
+                                    <asp:CheckBox ID="cBox1" class=<%# Eval("CssClasses[0]") %> runat="server" Text=<%# Eval("Answers[0]") %> />
+                                </div> 
+                                <div class="fullBox checkbox-style">
+                                    <asp:CheckBox ID="cBox2" class=<%# Eval("CssClasses[1]") %> runat="server" Text=<%# Eval("Answers[1]") %> />
+                                </div> 
+                                <div class="fullBox checkbox-style">
+                                    <asp:CheckBox ID="CBox3" class=<%# Eval("CssClasses[2]") %> runat="server" Text=<%# Eval("Answers[2]") %> />
+                                </div> 
                         </div>
                 </ItemTemplate>
 
@@ -142,27 +144,29 @@
                 </HeaderTemplate>
 
                 <ItemTemplate>
-                        <div class="fullBox" style="margin:20px 0;">
-                            <asp:Label ID="questionId" style="font-weight:bold;" Text=<%# Eval("AnswerOrder") %> runat="server"></asp:Label>
-                            <asp:Label ID="question" style="font-weight:bold;" Text=<%# Eval("Text") %> runat="server"></asp:Label>
-                            <asp:Image ID="questionImage" ImageUrl=<%# Eval("AnswerImageUrl") %> runat="server" />
-                            <div style="margin: 5px 0 10px 0;">
+                        <div class="fullBox">
+                            <div class="fullBox">
+                                <h4 class="category-h4">
+                                    <asp:Label ID="questionId" style="font-weight:bold;" Text=<%# Eval("AnswerOrder") %> runat="server"></asp:Label>
+                                    <asp:Label ID="question" style="font-weight:bold;" Text=<%# Eval("Text") %> runat="server"></asp:Label>
+                                    <asp:Image ID="questionImage" ImageUrl=<%# Eval("AnswerImageUrl") %> runat="server" />
+                                </h4>
+                            </div>                            
+                                    <div style="margin: 5px 0 10px 0;">
                                 <asp:Label ID="numOfcorrect" style="font-style: italic;" Text=<%# Eval("NumOfCorrect") %> runat="server"></asp:Label>
                             </div>
                             <div>
                                 <asp:Image ID="questionPicture" ImageUrl=<%# Eval("QuestionPictureUrl") %> runat="server" />
                             </div>
-                            <table>
-                                <tr>
-                                    <td><asp:CheckBox ID="cBox1" class=<%# Eval("CssClasses[0]") %> runat="server" Text=<%# Eval("Answers[0]") %> /></td>
-                                </tr> 
-                                <tr>
-                                    <td><asp:CheckBox ID="cBox2" class=<%# Eval("CssClasses[1]") %> runat="server" Text=<%# Eval("Answers[1]") %> /></td>
-                                </tr> 
-                                <tr>
-                                    <td><asp:CheckBox ID="CBox3" class=<%# Eval("CssClasses[2]") %> runat="server" Text=<%# Eval("Answers[2]") %> /></td>
-                                </tr> 
-                            </table>
+                                <div class="fullBox checkbox-style">
+                                    <asp:CheckBox ID="cBox1" class=<%# Eval("CssClasses[0]") %> runat="server" Text=<%# Eval("Answers[0]") %> />
+                                </div> 
+                                <div class="fullBox checkbox-style">
+                                    <asp:CheckBox ID="cBox2" class=<%# Eval("CssClasses[1]") %> runat="server" Text=<%# Eval("Answers[1]") %> />
+                                </div> 
+                                <div class="fullBox checkbox-style">
+                                    <asp:CheckBox ID="CBox3" class=<%# Eval("CssClasses[2]") %> runat="server" Text=<%# Eval("Answers[2]") %> />
+                                </div> 
                         </div>
                 </ItemTemplate>
 
@@ -181,27 +185,29 @@
                 </HeaderTemplate>
 
                 <ItemTemplate>
-                        <div class="fullBox" style="margin:20px 0;">
-                            <asp:Label ID="questionId" style="font-weight:bold;" Text=<%# Eval("AnswerOrder") %> runat="server"></asp:Label>
-                            <asp:Label ID="question" style="font-weight:bold;" Text=<%# Eval("Text") %> runat="server"></asp:Label>
-                            <asp:Image ID="questionImage" ImageUrl=<%# Eval("AnswerImageUrl") %> runat="server" />
+                        <div class="fullBox">
+                            <div class="fullBox">
+                                <h4 class="category-h4">
+                                    <asp:Label ID="questionId" style="font-weight:bold;" Text=<%# Eval("AnswerOrder") %> runat="server"></asp:Label>
+                                    <asp:Label ID="question" style="font-weight:bold;" Text=<%# Eval("Text") %> runat="server"></asp:Label>
+                                    <asp:Image ID="questionImage" ImageUrl=<%# Eval("AnswerImageUrl") %> runat="server" />
+                                </h4>
+                            </div>
                             <div style="margin: 5px 0 10px 0;">
                                 <asp:Label ID="numOfcorrect" style="font-style: italic;" Text=<%# Eval("NumOfCorrect") %> runat="server"></asp:Label>
                             </div>
                             <div>
                                 <asp:Image ID="questionPicture" ImageUrl=<%# Eval("QuestionPictureUrl") %> runat="server" />
                             </div>
-                            <table>
-                                <tr>
-                                    <td><asp:CheckBox ID="cBox1" class=<%# Eval("CssClasses[0]") %> runat="server" Text=<%# Eval("Answers[0]") %> /></td>
-                                </tr> 
-                                <tr>
-                                    <td><asp:CheckBox ID="cBox2" class=<%# Eval("CssClasses[1]") %> runat="server" Text=<%# Eval("Answers[1]") %> /></td>
-                                </tr> 
-                                <tr>
-                                    <td><asp:CheckBox ID="CBox3" class=<%# Eval("CssClasses[2]") %> runat="server" Text=<%# Eval("Answers[2]") %> /></td>
-                                </tr> 
-                            </table>
+                                <div class="fullBox checkbox-style">
+                                    <asp:CheckBox ID="cBox1" class=<%# Eval("CssClasses[0]") %> runat="server" Text=<%# Eval("Answers[0]") %> />
+                                </div> 
+                                <div class="fullBox checkbox-style">
+                                    <asp:CheckBox ID="cBox2" class=<%# Eval("CssClasses[1]") %> runat="server" Text=<%# Eval("Answers[1]") %> />
+                                </div> 
+                                <div class="fullBox checkbox-style">
+                                    <asp:CheckBox ID="CBox3" class=<%# Eval("CssClasses[2]") %> runat="server" Text=<%# Eval("Answers[2]") %> />
+                                </div> 
                         </div>
                 </ItemTemplate>
 
@@ -213,6 +219,6 @@
         </div>
 
         <!-- BUTTON ======================================================================= -->
-        <asp:Button ID="btnSend" runat="server" Text="Lämna in" OnClick="btnSend_Click"/>
+        <asp:Button ID="btnSend" runat="server" CssClass="my-button" Text="Lämna in" OnClick="btnSend_Click"/>
     </div>
 </asp:Content>
