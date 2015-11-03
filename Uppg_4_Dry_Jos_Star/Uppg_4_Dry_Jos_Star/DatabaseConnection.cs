@@ -265,10 +265,9 @@ namespace Uppg_4_Dry_Jos_Star
                 NpgsqlException = ex.Message;
             }
         }
-        
-        public List<Person> GetNoTestPersons()
+
+        public List<Person> GetTeamMembers(string query)
         {
-            //deffinerar koppling mot postgres
             List<Person> listOfPersons = new List<Person>();
             bool isPassed;
 
@@ -276,19 +275,10 @@ namespace Uppg_4_Dry_Jos_Star
             {
                 using (NpgsqlConnection conn = new NpgsqlConnection(myConnection))
                 {
-                    //öpnar koppling mot db
                     conn.Open();
-
-                    //kod för vad man vill göra mot databasen
-                    string query = "SELECT firstname, lastname, testtype, date, score, passed, username " +
-                                    "FROM testoccasion t " +
-                                    "RIGHT JOIN person p ON t.id_user = p.id " +
-                                    "WHERE id_user IS NULL OR (testtype ='LST' AND passed = false OR testtype ='ÅKU' AND passed = false) " +
-                                    "ORDER BY lastname";
 
                     using (NpgsqlCommand command = new NpgsqlCommand(query, conn))
                     {
-                        //command.Parameters.AddWithValue("name", userName); 
                         using (NpgsqlDataReader dr = command.ExecuteReader())
                         {
 
@@ -331,77 +321,9 @@ namespace Uppg_4_Dry_Jos_Star
                 NpgsqlException = ex.Message;
 
             }
-            //returnerar listan med personer som inte skrivit LST och de som inte blivit godkännda 
+            
             return listOfPersons;
-        } //Personer som inte gjort ett LST/ÅKU eller ej blivit godkända. 
-
-        public List<Person> GetTrueTestPersons()
-        {
-            List<Person> listOfPersons2 = new List<Person>();
-            bool isPassed;
-
-            try
-            {
-                using (NpgsqlConnection conn = new NpgsqlConnection(myConnection))
-                {
-                    conn.Open();
-
-                   
-                    string query = "SELECT firstname, lastname, testtype, date, score, passed, username " +
-                                    "FROM testoccasion t " +
-                                    "RIGHT JOIN person on testoccasion.id_user = person.id " +
-                                    "WHERE id_user IS NULL OR (testtype ='LST' AND passed = false OR testtype ='ÅKU' AND passed = false) OR  (testtype ='LST' AND passed = true OR testtype ='ÅKU' AND passed = true) " +
-                                    "ORDER BY lastname";
-
-                    using (NpgsqlCommand command = new NpgsqlCommand(query, conn))
-                    { 
-                        using (NpgsqlDataReader dr = command.ExecuteReader())
-                        {
-
-                            while (dr.Read())
-                            {
-
-                                Person p = new Person();
-                                p.FirstName = dr[0].ToString();
-                                p.LastName = dr[1].ToString();
-
-                                p.TestType = dr[2].ToString();
-
-                                p.TestDate = dr[3].ToString();
-                                if (p.TestDate != "")
-                                {
-                                    p.TestDate = p.TestDate.Substring(0, 10);
-                                }
-
-                                p.TestScore = dr[4].ToString();
-
-                                if (bool.TryParse(dr[5].ToString(), out isPassed))
-                                {
-                                    if (isPassed)
-                                        p.TestGrade = "Godkänd";
-                                    else
-                                        p.TestGrade = "Underkänd";
-                                }
-
-                                p.UserName = dr[6].ToString();
-
-                                listOfPersons2.Add(p);
-                            }
-                        }
-                    }
-                }
-            }
-
-            catch (NpgsqlException ex)
-            {
-                NpgsqlException = ex.Message;
-
-            }
-     
-            return listOfPersons2;
-        } //Personer som har godkända LST/ÅKU
-
-
+        }
 
         /// <summary>
         /// Method sends data to database and fails current user if 
@@ -434,7 +356,6 @@ namespace Uppg_4_Dry_Jos_Star
                 conn.Close();
             }
         }
-
 
         /// <summary>
         /// Method gets both person table and testoccasion table.
