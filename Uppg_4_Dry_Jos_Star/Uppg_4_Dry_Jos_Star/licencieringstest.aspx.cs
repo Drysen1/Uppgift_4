@@ -19,16 +19,27 @@ namespace Uppg_4_Dry_Jos_Star
            
             FillGrid(personer);
             //FillGrid(GetNoTestPersons()); alt 2
-        }
 
-        protected void pick_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Initialize();
+
+            if (!IsPostBack)
+            {
+                DropDownList();
+                //Initialize();
+            }
+
         }
 
         private void Initialize()
         {
-            //kod att skriva
+            //kod att skriva för de olika valen 
+            // if sats? 
+            
+        }
+
+        private void DropDownList()
+        {
+            DropDownList1.Items.Add("Alla");
+            DropDownList1.Items.Add("Prov att göra");
         }
 
 
@@ -58,6 +69,11 @@ namespace Uppg_4_Dry_Jos_Star
                 e.Row.Cells[5].Text = "Provresultat";
                 e.Row.Cells[6].Text = "Betyg";
             }
+        }
+
+        protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           Initialize();
         }
     }
 }

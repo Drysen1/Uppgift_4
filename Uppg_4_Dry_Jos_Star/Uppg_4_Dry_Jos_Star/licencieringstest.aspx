@@ -14,7 +14,7 @@
     <div class="fullBox" >
         <div class="fullBox" id="page-title2">
 
-            <asp:DropDownList ID="DropDownList1" runat="server" OnSelectedIndexChanged="pick_SelectedIndexChanged"></asp:DropDownList>
+            <asp:DropDownList ID="DropDownList1" runat="server" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
             <br />
             <br />
             <p>Personer som har ett test att genomföra <br />
