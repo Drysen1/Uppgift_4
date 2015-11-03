@@ -123,7 +123,7 @@ h3 {
 .button-80 {
     width: 80%;
 }
-#center-home {
+.center-text {
     text-align:center;
 }
 /*****************************************************
@@ -376,6 +376,31 @@ h3 {
 
 .third-section{
 	margin-top: 5em;
+}
+
+/*****************************************************
+	TESTPAGE
+*****************************************************/
+.category-h3 {
+    margin-left: 0.3em;
+	margin-top: 1.2em;
+    font-weight: bold;
+}
+
+.category-h4 {
+    margin-top: 1.2em;
+    margin-left: 0.3em;
+    font-weight: bold;
+}
+
+.checkbox-style {
+    margin-bottom: 0.6em;
+    padding-left: 0.6em;
+}
+
+.num-text {
+    font-style: italic;
+    margin-left: 0.6em;
 }
 /*****************************************************
 	TIMER AND NOSCRIPT CSS
