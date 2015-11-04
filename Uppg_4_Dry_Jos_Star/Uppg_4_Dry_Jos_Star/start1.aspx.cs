@@ -142,7 +142,7 @@ namespace Uppg_4_Dry_Jos_Star
                     lblNextTestDate.Text = nextTestDate.ToString("yyyy-MM-dd");
                     toDoTest = "1";
                     btnStartTest.Enabled = true;
-                    btnGoToOldTest.Enabled = false;
+                    //btnGoToOldTest.Enabled = false;
                     return toDoTest;
                 }
                 else
@@ -151,7 +151,7 @@ namespace Uppg_4_Dry_Jos_Star
                     lblNextTestDate.Text = nextTestDate.ToString("yyyy-MM-dd");
                     toDoTest = "1";
                     btnStartTest.Enabled = false;
-                    btnGoToOldTest.Enabled = false;
+                    //btnGoToOldTest.Enabled = false;
                     return toDoTest;
                 }
             }

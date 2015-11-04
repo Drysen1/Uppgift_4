@@ -1,5 +1,5 @@
-﻿//http://declanbright.awardspace.info/jquery-plugin-responsive-table
-// http://johnpolacek.github.io/stacktable.js/
+﻿//This is a jquery plugin from:
+//http://declanbright.awardspace.info/jquery-plugin-responsive-table
 
 (function ($) {
     var defaults, w,

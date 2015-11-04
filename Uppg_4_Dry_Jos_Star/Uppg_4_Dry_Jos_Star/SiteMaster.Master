@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>HEM</title>
+
     <meta charset="utf-8"/>
       <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
       <meta name="description" content="En skoluppgift"/>
@@ -66,8 +66,8 @@
         <div class="contentRow">
             
             <ul class="main-navbar">
-              <li><a class="active" href='default.aspx'>HEM</a></li>
-              <li><a id="adminButton" runat="server" href="#" onserverclick="adminButton_ServerClick">ADMINPANEL</a></li>                                                                  
+              <li><a class="active" href='start1.aspx'>START</a></li>
+              <li><a id="adminButton" runat="server" href="admin.aspx" onserverclick="adminButton_ServerClick">ADMINPANEL</a></li>                                                                  
             </ul>
             <ul class="main-navbar right">
               <li><a href='logout.aspx'>LOGGA UT</a></li>                               
@@ -77,8 +77,8 @@
             <div class="responsive-navbar-holder" id="open-menu">
               <ul class="responsive-navbar">
                 <li><a  href="#">☰ STÄNG MENY</a></li>
-                <li><a class="active" href='index.html'>HEM</a></li>
-                <li><a id="a1" runat="server" href='admin.aspx'>ADMINPANEL</a></li>      
+                <li><a class="active" href='start1.aspx'>START</a></li>
+                <li><a id="a1" runat="server" href='admin.aspx' onserverclick="adminButton_ServerClick">ADMINPANEL</a></li>      
                 <li><a href="logout.aspx">LOGGA UT</a></li>                                 
               </ul>
             </div>

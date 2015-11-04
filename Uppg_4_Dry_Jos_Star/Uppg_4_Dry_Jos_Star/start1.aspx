@@ -1,13 +1,16 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/SiteMaster.Master" AutoEventWireup="true" CodeBehind="start1.aspx.cs" Inherits="Uppg_4_Dry_Jos_Star.start1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
+        <title>START</title>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <script src="startButtons.js"></script>
     <div class="fullBox" id="page-title">
         <h1>START</h1>
     </div>
     <div class="fullBox">
         <div class="halfBox" >
-            <h2 class="home-h2">Välkommen <asp:Label ID="lblUserName" runat="server" Text="Label"></asp:Label></h2>
+            <h2 class="home-h2" id="test">Välkommen <asp:Label ID="lblUserName" runat="server" Text="Label"></asp:Label></h2>
             <p class="home-text">Välkommen till JE Bankens kompetensportal. På denna sida har du som anställd möjlighet att göra 
                 ditt licencieringstest som nyanställd och som licensierad anställd har du möjlighet att göra ditt årliga 
                 kunskapstest. 
@@ -42,7 +45,7 @@
             <p class="home-text">Provdatum: <asp:Label ID="lbldate" runat="server" Text="Label"></asp:Label></p>  
             <p class="home-text">Provtyp: <asp:Label ID="lblTestTypeDone" runat="server" Text="Label"></asp:Label></p>
             <br />
-            <asp:Button ID="btnGoToOldTest" runat="server" Text="SE SENASTE PROVET" CssClass="my-button button-80" OnClick="Button2_Click" />
+            <asp:Button ID="btnGoToOldTest" runat="server" Text="SE SENASTE PROVET" CssClass="my-button button-80"  OnClick="Button2_Click" />
         </div>
     </div>
 </asp:Content>

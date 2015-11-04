@@ -2,14 +2,24 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="fullBox" id="page-title1">
-        <h1>Översikt</h1>
+    <script src="js/jquery.responsivetable.js"></script>
+    <script src="js/screensize.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('table').responsiveTable({
+                staticColumns: 0
+            });
+        });
+    </script>
+
+    <div class="fullBox" id="page-title">
+        <h1>ÖVERSIKT</h1>
     </div>
     <div class="fullBox" id="body-content">
-        <asp:DropDownList ID="DropDownList1" runat="server" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
-        <br />
-        <br />
-        <p>
+        <p class="home-text">
+            Filtrera: <asp:DropDownList ID="DropDownList1" runat="server" CssClass="DropDown" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+        </p>
+        <p class="home-text">
             Personer som har ett test att genomföra
             <br />
             LST = Licensieringstest
@@ -17,7 +27,7 @@
             ÅKU = Årligt kunskapsprov
         </p>
         <br />
-        <asp:GridView ID="GridView1" runat="server" OnRowDataBound="GridView1_RowDataBound">
+        <asp:GridView ID="GridView1" CssClass="lst-grid" runat="server" OnRowDataBound="GridView1_RowDataBound">
         </asp:GridView>
         <br />
     </div>
