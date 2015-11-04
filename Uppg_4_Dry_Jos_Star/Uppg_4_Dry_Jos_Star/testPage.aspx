@@ -20,17 +20,20 @@
     </div>
     <div class="fullBox"> 
         <div class="halfBox center-text">       
-            <h3 class="home-h3">Provdeltagare: <asp:Label ID="lblUserName1" runat="server" Text="Label"></asp:Label></h3>
+            <h3 class="home-h3">PROVDELTAGARE: <asp:Label ID="lblUserName1" runat="server" Text="Label"></asp:Label></h3>
         </div>
         <div class="halfBox center-text">        
-            <h3 class ="home-h3">Provtyp: <asp:Label ID="lblTestType" runat="server" Text="Label"></asp:Label></h3>
+            <h3 class ="home-h3">PROVTYP: <asp:Label ID="lblTestType" runat="server" Text="Label"></asp:Label></h3>
         </div>
     </div>
 
     <!-- PIE CHARTS ======================================================================= -->
     <div id="bodyContent" class="fullBox" runat="server">
-        <div id="finalResult" style="margin-top: 20px;" class="fullBox" runat="server">
-            <div class="quarterBox" style="text-align: center; border: 1px solid black;">
+        <div id="finalResult" class="fullBox result-box" runat="server">
+            <div class="fullBox" id="page-title">
+                <h2 class="home-h2">PROVRESULTAT</h2>
+            </div>
+            <div class="quarterBox">
                 <asp:Chart ID="totalChart" CssClass="home-img" runat="server" Width="300" Height="300">
                     <Titles>
                         <asp:Title Text=""></asp:Title>
@@ -44,7 +47,7 @@
                 </asp:Chart>
                 <asp:Label Style="font-weight: bold" ID="resultTotal" runat="server" Text="Label"></asp:Label>
             </div>
-            <div class="quarterBox" style="text-align: center;">
+            <div class="quarterBox center-text">
                 <asp:Chart ID="categoryChart1" CssClass="home-img" runat="server" Width="300" Height="300">
                     <Titles>
                         <asp:Title Text=""></asp:Title>
@@ -58,7 +61,7 @@
                 </asp:Chart>
                 <asp:Label ID="resultCategory1" runat="server" Text="Label"></asp:Label>
             </div>
-            <div class="quarterBox" style="text-align: center">
+            <div class="quarterBox center-text">
                 <asp:Chart ID="categoryChart2" CssClass="home-img" runat="server" Width="300" Height="300">
                     <Titles>
                         <asp:Title Text=""></asp:Title>
@@ -72,7 +75,7 @@
                 </asp:Chart>
                 <asp:Label ID="resultCategory2" runat="server" Text="Label"></asp:Label>
             </div>
-            <div class="quarterBox" style="text-align: center">
+            <div class="quarterBox center-text">
                 <asp:Chart ID="categoryChart3" CssClass="home-img" runat="server" Width="300" Height="300">
                     <Titles>
                         <asp:Title Text=""></asp:Title>
@@ -86,9 +89,9 @@
                 </asp:Chart>
                 <asp:Label ID="resultCategory3" runat="server" Text="Label"></asp:Label>
             </div>
-            <div class="fullBox" style="margin-top: 20px">
-                <asp:Label style="margin-right: 10px; font-weight:bold; font-size: 1.2em;" ID="testPassed" runat="server" >Provresultat:</asp:Label>
-                <asp:Image style="vertical-align:middle;" ID="yesNoImg"  runat="server"/>
+            <div class="fullBox">
+                <h3 class="category-h3"><asp:Label ID="testPassed" runat="server" >Provresultat:</asp:Label> <asp:Image  ID="yesNoImg"  runat="server"/></h3>
+
             </div>
         </div>
 
@@ -115,7 +118,7 @@
                                 <p class="num-text"><asp:Label ID="numOfcorrect" Text=<%# Eval("NumOfCorrect") %> runat="server"></asp:Label></p>
                             </div>
                             <div class="fullBox">
-                                <asp:Image ID="questionPicture" ImageUrl=<%# Eval("QuestionPictureUrl") %> runat="server" />
+                                <asp:Image ID="questionPicture" CssClass="test-img" ImageUrl=<%# Eval("QuestionPictureUrl") %> runat="server" />
                             </div>
                                 <div class="fullBox checkbox-style">
                                     <asp:CheckBox ID="cBox1" class=<%# Eval("CssClasses[0]") %> runat="server" Text=<%# Eval("Answers[0]") %> />
@@ -156,7 +159,7 @@
                                 <p class="num-text"><asp:Label ID="numOfcorrect" Text=<%# Eval("NumOfCorrect") %> runat="server"></asp:Label></p>
                             </div>
                             <div>
-                                <asp:Image ID="questionPicture" ImageUrl=<%# Eval("QuestionPictureUrl") %> runat="server" />
+                                <asp:Image ID="questionPicture" CssClass="test-img" ImageUrl=<%# Eval("QuestionPictureUrl") %> runat="server" />
                             </div>
                                 <div class="fullBox checkbox-style">
                                     <asp:CheckBox ID="cBox1" class=<%# Eval("CssClasses[0]") %> runat="server" Text=<%# Eval("Answers[0]") %> />
@@ -197,7 +200,7 @@
                                 <p class="num-text"><asp:Label ID="numOfcorrect" Text=<%# Eval("NumOfCorrect") %> runat="server"></asp:Label></p>
                             </div>
                             <div>
-                                <asp:Image ID="questionPicture" ImageUrl=<%# Eval("QuestionPictureUrl") %> runat="server" />
+                                <asp:Image ID="questionPicture" CssClass="test-img" ImageUrl=<%# Eval("QuestionPictureUrl") %> runat="server" />
                             </div>
                                 <div class="fullBox checkbox-style">
                                     <asp:CheckBox ID="cBox1" class=<%# Eval("CssClasses[0]") %> runat="server" Text=<%# Eval("Answers[0]") %> />
@@ -219,6 +222,6 @@
         </div>
 
         <!-- BUTTON ======================================================================= -->
-        <asp:Button ID="btnSend" runat="server" CssClass="my-button" Text="Lämna in" OnClick="btnSend_Click"/>
+        <asp:Button ID="btnSend" runat="server" CssClass="my-button button-80" Text="Lämna in" OnClick="btnSend_Click"/>
     </div>
 </asp:Content>

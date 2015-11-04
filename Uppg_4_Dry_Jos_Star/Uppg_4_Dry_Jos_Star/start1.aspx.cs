@@ -74,6 +74,7 @@ namespace Uppg_4_Dry_Jos_Star
                 lblresult.Text = "Inget test hittat";
                 lbldate.Text = "Inget datum";
                 lbltestToDo.Text = "1";
+                lblTestType.Text = "LST";
                 DateTime today = DateTime.Now;
                 lblNextTestDate.Text = today.ToString("yyyy-MM-dd");
                 btnGoToOldTest.Enabled = false;
@@ -81,10 +82,13 @@ namespace Uppg_4_Dry_Jos_Star
             else
             {
                 string passTest = dtAllInfo.Rows[0]["passed"].ToString();
+
                 DateTime date = DateTime.Parse(dtAllInfo.Rows[0]["date"].ToString());
                 lblresult.Text = SetPassOrFail(passTest);
                 lbltestToDo.Text = CheckDateOfLastTest(date, passTest);
                 lbldate.Text = date.ToString("yyyy-MM-dd");
+                lblTestType.Text = SetTypeOfTest();
+                lblTestTypeDone.Text = dtAllInfo.Rows[0]["testtype"].ToString();
             }
         }
 

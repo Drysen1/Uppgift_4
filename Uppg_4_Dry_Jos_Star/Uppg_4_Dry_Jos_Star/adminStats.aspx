@@ -2,25 +2,38 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+<script src="jquery.responsivetable.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('table').responsiveTable({
+                staticColumns: 1
+            });
+        });
+    </script>
     <div class="fullBox" id="page-title">
-        <h1>Statistik</h1>
+        <h1>STATISTIK</h1>
     </div>
     <div class="fullBox">
+
         <div class="quarterBox" style="margin-bottom: 20px">
             <asp:Label ID="Label1" runat="server">Typ av prov:</asp:Label>
             <asp:DropDownList  ID="pickTestType" runat="server" AutoPostBack="True" OnSelectedIndexChanged="pickTestType_SelectedIndexChanged"></asp:DropDownList>
         </div>
+
         <div class="sevenFiveBox" style="margin-bottom: 20px">
             <asp:Label ID="Label2" runat="server">Kategori:</asp:Label>
             <asp:DropDownList ID="pickTestCategory" runat="server" AutoPostBack="True" OnSelectedIndexChanged="pickTestCategory_SelectedIndexChanged"></asp:DropDownList>
         </div>
+
         <div id="gridCategory" class="fullBox">
             <h3 id="header" runat="server"></h3>
-            <asp:GridView ID="gViewStatsCategory" runat="server" OnRowDataBound="gViewStatsCategory_RowDataBound" Width="1200px">
+            <asp:GridView ID="gViewStatsCategory" runat="server" OnRowDataBound="gViewStatsCategory_RowDataBound" RowStyle-Wrap="false" CssClass="Grid">
+
             </asp:GridView>
         </div>
+
         <div class="fullBox" style="margin-top: 50px">
-            <asp:Chart ID="chartTotalStats" runat="server" Width="1200px">
+            <asp:Chart ID="chartTotalStats" runat="server" Width="1024px">
                 <Titles>
                     <asp:Title Name="title" Text="Stapeldiagram över alla frågor oavsett provtyp"></asp:Title>
                 </Titles>
@@ -40,5 +53,7 @@
                 </ChartAreas>
             </asp:Chart>
         </div>
+
     </div>
+    <script type="text/javascript" src="js/responsive_grid.js"></script>
 </asp:Content>

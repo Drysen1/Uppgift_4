@@ -40,6 +40,15 @@ namespace Uppg_4_Dry_Jos_Star {
         protected global::System.Web.UI.WebControls.Label lblNextTestDate;
         
         /// <summary>
+        /// lblTestType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTestType;
+        
+        /// <summary>
         /// btnStartTest control.
         /// </summary>
         /// <remarks>
@@ -65,6 +74,15 @@ namespace Uppg_4_Dry_Jos_Star {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbldate;
+        
+        /// <summary>
+        /// lblTestTypeDone control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTestTypeDone;
         
         /// <summary>
         /// btnGoToOldTest control.
