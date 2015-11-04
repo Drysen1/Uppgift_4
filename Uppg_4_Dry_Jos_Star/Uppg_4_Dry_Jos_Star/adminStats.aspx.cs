@@ -93,19 +93,17 @@ namespace Uppg_4_Dry_Jos_Star
             PopulateChart();
         }
 
-        private List<Person> GetAllTests() //Request.Querystring["username"]
+        private List<Person> GetAllTests() //Session["username"]
         {
             DatabaseConnection dr = new DatabaseConnection();
-            string userName = Request.QueryString["userName"];
-            //string userName = "tomKar"; //will be replaced by above code later
+            string userName = Session["userName"].ToString();
             return dr.RetrieveAllXmlDocuments(pickTestType.Text, userName);
         }
 
-        private List<Person> GetAllTestsRegardlessType() //Request.Querystring["username"]
+        private List<Person> GetAllTestsRegardlessType() //Session["username"]
         {
             DatabaseConnection dr = new DatabaseConnection();
-            string userName = Request.QueryString["userName"];
-            //string userName = "tomKar"; //will be replaced by above code later
+            string userName = Session["userName"].ToString();
             return dr.RetrieveAllXmlDocuments(userName);
         }
 

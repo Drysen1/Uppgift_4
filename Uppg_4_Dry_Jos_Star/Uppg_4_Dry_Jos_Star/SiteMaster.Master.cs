@@ -27,11 +27,7 @@ namespace Uppg_4_Dry_Jos_Star
 
         protected void adminButton_ServerClick(object sender, EventArgs e)
         {
-            var test = this.ContentPlaceHolder1.FindControl("lblUserName") as Label;
-            string test1 = test.Text;
-            //Response.Write(test1);
-            Response.Redirect("~/admin.aspx?userName=" + test1);
-            
+            Response.Redirect("~/admin.aspx");
         }
     }
 }

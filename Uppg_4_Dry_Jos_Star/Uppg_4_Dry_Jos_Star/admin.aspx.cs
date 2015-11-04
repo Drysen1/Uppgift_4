@@ -20,10 +20,9 @@ namespace Uppg_4_Dry_Jos_Star
             }
 		}
 
-        private void SetUpPage()  //request.querystring[username]
+        private void SetUpPage()  //session[username]
         {
-            //string userName = Request.QueryString["userName"];
-            string userName = "tomKar";
+            string userName = Session["userName"].ToString();
             lblUserName.Text = userName;
             GetTeamMembers(userName);
         }
@@ -97,26 +96,27 @@ namespace Uppg_4_Dry_Jos_Star
             int toDoTestCount = personsWithUndoneTests.Count;
             int notToDoTest = allTeamMembers - toDoTestCount;
 
-            Chart1.Series["series"].Points.AddXY(toDoTestCount.ToString(), toDoTestCount);
-            Chart1.Series["series"].Points.AddY(notToDoTest);
+            Chart1.Series["series"].Points.AddXY(toDoTestCount.ToString() + " st", toDoTestCount);
+            
+            if(notToDoTest != 0)
+                Chart1.Series["series"].Points.AddXY(notToDoTest.ToString() +" st", notToDoTest);
+            else
+                Chart1.Series["series"].Points.AddY(notToDoTest);
+
             Chart1.Series[0].Points[0].Color = Color.Red;
             Chart1.Series[0].Points[1].Color = Color.LightGreen;
-            Chart1.Series[0].Points[1]["Exploded"] = "true";
 
             Chart1.Titles["title"].Font = new System.Drawing.Font("Trebuchet MS", 10, System.Drawing.FontStyle.Bold);
         }
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            string userName = Request.QueryString["userName"];
             Response.Redirect("~/licencieringstest.aspx"); 
-
         }
 
         protected void Button2_Click(object sender, EventArgs e)
         {
-            string userName = Request.QueryString["userName"];
-            Response.Redirect("~/adminStats.aspx?userName=" + userName);
+            Response.Redirect("~/adminStats.aspx");
         }
 	}
 }

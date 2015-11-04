@@ -2,30 +2,24 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-
-<div class="fullBox" id="page-title1">
+    <div class="fullBox" id="page-title1">
         <h1>Översikt</h1>
     </div>
-    <div class="fullBox">
-       
-        
-    </div>
-
-    <div class="fullBox" >
-        <div class="fullBox" id="page-title2">
-
-            <asp:DropDownList ID="DropDownList1" runat="server" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+    <div class="fullBox" id="body-content">
+        <asp:DropDownList ID="DropDownList1" runat="server" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+        <br />
+        <br />
+        <p>
+            Personer som har ett test att genomföra
             <br />
+            LST = Licensieringstest
             <br />
-            <p>Personer som har ett test att genomföra <br />
-                LST = Licensieringstest <br />
-                ÅKU = Årligt kunskapsprov
-            </p>
-                <br />
-                <asp:GridView ID="GridView1" runat="server" OnRowDataBound="GridView1_RowDataBound" >
-                </asp:GridView>
-                <br />
-        </div>
+            ÅKU = Årligt kunskapsprov
+        </p>
+        <br />
+        <asp:GridView ID="GridView1" runat="server" OnRowDataBound="GridView1_RowDataBound">
+        </asp:GridView>
+        <br />
     </div>
 </asp:Content>
 

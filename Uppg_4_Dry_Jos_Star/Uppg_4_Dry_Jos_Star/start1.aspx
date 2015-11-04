@@ -31,7 +31,7 @@
         <div class="halfBox center-text">
             <h3 class="home-h3" >PROVSTATUS</h3>
             <p class="home-text">Du har för närvarande <asp:Label ID="lbltestToDo" runat="server" Text="Label"></asp:Label> prov att genomföra.</p>
-            <p class="home-text">Prov kan tidigast geonomföras: <asp:Label ID="lblNextTestDate" runat="server" Text="Label"></asp:Label></p>
+            <p class="home-text">Prov kan tidigast genomföras: <asp:Label ID="lblNextTestDate" runat="server" Text="Label"></asp:Label></p>
             <p class="home-text">Provtyp att göra: <asp:Label ID="lblTestType" runat="server" Text="Label"></asp:Label></p>
             <br />
             <asp:Button ID="btnStartTest" runat="server" Text="STARTA PROV" CssClass="my-button button-80" OnClick="Button1_Click" />

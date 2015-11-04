@@ -12,7 +12,7 @@
                
                 <br />
             </p>
-            <p class="home-text">Du kan även titta statistiskt på ditt teams utförda prov.<br />
+            <p class="home-text">Du kan även se statistik över ditt teams utförda prov.<br />
             </p>
             <p class="home-text">Om du upplever några problem med kompetensportalen eller saknar personer i ditt team eller prov. Kontakta då JE bankens IT-support för hjälp.
             </p>
@@ -41,13 +41,13 @@
                         <asp:ChartArea Name="ChartArea1" ></asp:ChartArea>
                     </ChartAreas>
                 </asp:Chart>
-                <asp:Button ID="Button1" runat="server" Text="Se team" CssClass="my-button button-80" OnClick="Button1_Click" />
+                <asp:Button ID="Button1" runat="server" Text="Se Team" CssClass="my-button button-80" OnClick="Button1_Click" />
             </div>
         </div>
         <div class="halfBox" id="center-stats">
             <h3 class="home-h3">Statistik</h3>
             <img src="img/statsImage.jpg" style="margin: 70px 0 34px 20px" />
-            <asp:Button ID="Button2" runat="server" Text="Se statistik" CssClass="my-button button-80" OnClick="Button2_Click" />
+            <asp:Button ID="Button2" runat="server" Text="Se Statistik" CssClass="my-button button-80" OnClick="Button2_Click" />
         </div>
     </div>
 </asp:Content>

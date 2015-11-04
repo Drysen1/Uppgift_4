@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.DataVisualization.Charting;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Xml;
 using System.Xml.Linq;
@@ -29,15 +30,15 @@ namespace Uppg_4_Dry_Jos_Star
                 Session["StartTime"] = DateTime.Now; //When test is started starttime is saved in session.
                 SetUserNameAndTestTypeLbl();
             }
-            else if (Session["IsPageReloadAllowed"] != null && Session["IsFirstTime"] == null) //page reload before button has been clicked
+            else if (Session["IsPageReloadAllowed"] != null && Session["IsFirstTime"] == null) //this happens in page reload before button has been clicked, also if user clicks back and starts tests again.
             {
                 if(!IsAnythingChecked()) //when button is clicked something will be checked
                 {
                     string fileName = GetUserXmlFileName();
                     List<Question> questions = GetXmlContent(fileName);
                     List<List<Question>> categoryLists = GetCategoryListsNoRandomize(questions);
-
                     PopulateRepeaters(categoryLists);
+                    SetUserNameAndTestTypeLbl();
                     finalResult.Visible = false;
                 }
             }
@@ -61,13 +62,13 @@ namespace Uppg_4_Dry_Jos_Star
             SetLabelInRepeaterHead(e, Repeater3);
         }
 
-        protected void btnSend_Click(object sender, EventArgs e)
+        protected void btnSend_Click(object sender, EventArgs e) //session[typeofTest]
         {
             if(CheckTestTime() == true)
             {
                 //Response.Write("Mer än 30 minuter"); //Test purpose
                 DatabaseConnection dc = new DatabaseConnection();
-                string typeOfTest = Request.QueryString["typeOfTest"];
+                string typeOfTest = Session["typeOfTest"].ToString();
                 string userName = lblUserName1.Text;
                 dc.FailUser(userName, typeOfTest);
                 btnSend.Enabled = false;
@@ -143,9 +144,9 @@ namespace Uppg_4_Dry_Jos_Star
             return questions;
         }
 
-        private List<List<Question>> GetCategoryLists(List<Question> questionList) // Request.QueryString["typeofTest"]
+        private List<List<Question>> GetCategoryLists(List<Question> questionList) // Session["typeofTest"]
         {
-            string typeOfTest = Request.QueryString["typeOfTest"];
+            string typeOfTest = Session["typeOfTest"].ToString();
             int numberOfQuestions = GetAmountOfQuestionsForSpecificTest(typeOfTest);
 
             Dictionary<string, List<Question>> dictCategoryQuestions = new Dictionary<string, List<Question>>();
@@ -380,18 +381,17 @@ namespace Uppg_4_Dry_Jos_Star
             xDoc.Save(Server.MapPath(fileName));
         }
 
-        private string GetUserXmlFileName() //Request.QueryString["userName"]
+        private string GetUserXmlFileName() //Session["userName"]
         {
-            string userName = Request.QueryString["userName"];
-            //string userName = "stare";
+            string userName = Session["userName"].ToString();
             string userXmlFileName = string.Format("~/xml/{0}.xml", userName);
             return userXmlFileName;
         }
 
-        private void SendUserXmlToDb() //Request.QueryString["userName"]
+        private void SendUserXmlToDb() //Session["userName"]
         {
             DatabaseConnection db = new DatabaseConnection();
-            string userName = Request.QueryString["userName"];
+            string userName = Session["userName"].ToString();
             string id = db.GetUserId(userName);
             List<string> userXmls = db.RetrieveXmlDocument(id, DateTime.Today);
 
@@ -766,13 +766,12 @@ namespace Uppg_4_Dry_Jos_Star
                 yesNoImg.ImageUrl = "~/img/btn_incorrect.png";
         }
 
-        private void UpdateDbWithResult(Dictionary<string, int> allScores, List<int> totalQuestions, Dictionary<string, double> allPercents) // Request.QueryString["userName"] & Request.QueryString["typeofTest"]
+        private void UpdateDbWithResult(Dictionary<string, int> allScores, List<int> totalQuestions, Dictionary<string, double> allPercents) // Session["userName"] & Session["typeofTest"]
         {
             DatabaseConnection db = new DatabaseConnection();
-            string userName = Request.QueryString["userName"];
+            string userName = Session["userName"].ToString();
             string id = db.GetUserId(userName);
-            string typeOfTest = Request.QueryString["typeofTest"];
-            //string typeOfTest = "LST"; //will be typeOfTest later
+            string typeOfTest = Session["typeofTest"].ToString();
             string totalScore = String.Format("{0}/{1}", allScores["Totalt"], totalQuestions[0]);
             
             db.UpdateAfterTestIsComplete(id, DateTime.Today, totalScore, IsTestPassed(allPercents), typeOfTest);
@@ -783,10 +782,10 @@ namespace Uppg_4_Dry_Jos_Star
             Session["IsFirstTime"] = false;
         }
 
-        private XDocument GetUserXmlFromDb() //Request.QueryString["userName"]
+        private XDocument GetUserXmlFromDb() //Session["userName"]
         {
             DatabaseConnection db = new DatabaseConnection();
-            string userName = Request.QueryString["userName"];
+            string userName = Session["userName"].ToString();
             string id = db.GetUserId(userName);
             List<string> userXmls = db.RetrieveXmlDocument(id, DateTime.Today);
 
@@ -803,10 +802,10 @@ namespace Uppg_4_Dry_Jos_Star
         /// <summary>
         /// Just sets the username for label.
         /// </summary>
-        private void SetUserNameAndTestTypeLbl() //request.querystring
+        private void SetUserNameAndTestTypeLbl() //Session["userName"] && Session[typeoftest]
         {
-            string userName = Request.QueryString["userName"];
-            string typeOfTest = Request.QueryString["typeOfTest"];
+            string userName = Session["userName"].ToString();
+            string typeOfTest = Session["typeOfTest"].ToString();
             lblUserName1.Text = userName;
             lblTestType.Text = typeOfTest;
         }
@@ -815,11 +814,11 @@ namespace Uppg_4_Dry_Jos_Star
         /// Tick event for timer. At the moment its on 3 minutes.
         /// Calls methods in databaseconnection to failuser.
         /// </summary>
-        protected void Timer1_Tick(object sender, EventArgs e) //request.querystring
+        protected void Timer1_Tick(object sender, EventArgs e) //session[typeoftest]
         {
             DatabaseConnection dc = new DatabaseConnection();
             string userName = lblUserName1.Text;
-            string typeOfTest = Request.QueryString["typeOfTest"];
+            string typeOfTest = Session["typeOfTest"].ToString();
             dc.FailUser(userName, typeOfTest);
             Response.Redirect("~/start1.aspx");
         }
