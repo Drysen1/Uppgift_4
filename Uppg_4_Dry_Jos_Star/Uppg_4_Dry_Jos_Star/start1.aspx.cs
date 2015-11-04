@@ -18,12 +18,13 @@ namespace Uppg_4_Dry_Jos_Star
     {
         int userId = 5; //To get the user you would like, choose users id here. 
 
-        protected void Page_Load(object sender, EventArgs e)
+        protected void Page_Load(object sender, EventArgs e) //Session[username] gets set here
         {
             if(!IsPostBack)
             {
                 CheckPrivilegeHideNavButton();
                 UpdateWebsiteGUI();
+                Session["userName"] = lblUserName.Text;
             }
         }
 
@@ -213,13 +214,11 @@ namespace Uppg_4_Dry_Jos_Star
         /// btnStartTest event click, redirects user to testpage so he or she can
         /// start the test. Sends value to testPage with a querystring.
         /// </summary>
-        protected void Button1_Click(object sender, EventArgs e)
+        protected void Button1_Click(object sender, EventArgs e) //Session[typeOfTest] gets set here
         {
-
-            string userName = lblUserName.Text;
             string typeOfTest = SetTypeOfTest();
-
-            Response.Redirect("~/testPage.aspx?userName=" + userName + "&typeOfTest=" + typeOfTest); //Currently sending data to test.aspx for test purpose. Change this to testPage to receieve data in testpage.
+            Session["typeOfTest"] = typeOfTest;
+            Response.Redirect("~/testPage.aspx");
         }
 
         /// <summary>
@@ -227,9 +226,7 @@ namespace Uppg_4_Dry_Jos_Star
         /// </summary>
         protected void Button2_Click(object sender, EventArgs e)
         {
-            string userName = lblUserName.Text;
-
-            Response.Redirect("~/UserOldTest.aspx?userName=" + userName);
+            Response.Redirect("~/UserOldTest.aspx");
         }
     }
 }

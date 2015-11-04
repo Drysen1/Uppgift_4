@@ -14,7 +14,7 @@ namespace Uppg_4_Dry_Jos_Star
     public partial class licencieringstest : System.Web.UI.Page
     {
         bool visibleTestWaitingColumn = true;
-        protected void Page_Load(object sender, EventArgs e) //request.querystring [username]
+        protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
@@ -70,10 +70,9 @@ namespace Uppg_4_Dry_Jos_Star
 
         private string GetUserName()
         {
-            string userName = Request.QueryString["userName"];
-            //string userName = "tomKar";
+            string userName = Session["userName"].ToString();
             return userName;
-        }
+        } //Session[userName]
 
         private void PopulateDropDownList()
         {
