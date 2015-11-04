@@ -4,7 +4,7 @@
 
 window.onload = function () {
 
-    $('.page-overlay').hide();
+    //$('.page-overlay').hide();
     if (sessionStorage.getItem("is_reloaded"))
     {
         //alert('Reloaded!');
@@ -20,7 +20,7 @@ window.onload = function () {
 }
 
 function countDown() {
-    var countdown = 30 * 60 * 1000;
+    var countdown = 0.2 * 60 * 1000;
     var timerId = setInterval(countDownTimer, 1000);
 
     function countDownTimer() {
@@ -39,8 +39,10 @@ function countDown() {
         }
 
         if (countdown <= 0) {
-            alert("30 min!");
+            //alert("30 min!");
             clearInterval(timerId);
+            //$('.page-overlay').css("display", "block");
+            //$('.page-overlay').hide();
             $('.page-overlay').fadeIn('slow');
         }
     }
