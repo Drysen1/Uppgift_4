@@ -15,6 +15,7 @@ namespace Uppg_4_Dry_Jos_Star
         public string TestDate { get; set; }
         public string TestScore { get; set; }
         public string TestGrade { get; set; }
+        public string TestWaiting { get; set; }
         public XDocument xmlTest { get; set; }
     }
 }

@@ -29,26 +29,22 @@
         </div>
         <div class="halfBox" id="center-team">
             <h3 class="home-h3">Medarbetare</h3>
-            <p class="home-text">
-                <br />
-            </p>
-            <p class="home-text">&nbsp;</p>
-            <br />
-            <br />
-            <div>
+            <br/>
+            <p class="home-text"></p>
+            <div style="text-align:center;">
                 <asp:Chart ID="Chart1" runat="server" Width="300" Height="300">
                     <Titles>
-                        <asp:Title></asp:Title>
+                        <asp:Title Name="title" Text="Teammedlemmar med test att utföra"></asp:Title>
                     </Titles>
                     <Series>
-                        <asp:Series Name="Series1" ChartType="Pie"></asp:Series>
+                        <asp:Series Name="series" ChartType="Pie"></asp:Series>
                     </Series>
                     <ChartAreas>
-                        <asp:ChartArea Name="ChartArea1"></asp:ChartArea>
+                        <asp:ChartArea Name="ChartArea1" ></asp:ChartArea>
                     </ChartAreas>
                 </asp:Chart>
+                <asp:Button ID="Button1" runat="server" Text="Se team" CssClass="my-button button-80" OnClick="Button1_Click" />
             </div>
-            <asp:Button ID="Button1" runat="server" Text="Provdel" CssClass="my-button button-80" OnClick="Button1_Click" />
         </div>
         <div class="halfBox" id="center-stats">
             <h3 class="home-h3">Statistik</h3>
