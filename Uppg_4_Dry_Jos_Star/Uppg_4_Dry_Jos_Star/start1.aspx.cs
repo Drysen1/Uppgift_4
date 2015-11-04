@@ -16,7 +16,7 @@ namespace Uppg_4_Dry_Jos_Star
 {
     public partial class start1 : System.Web.UI.Page
     {
-        int userId = 5; //To get the user you would like, choose users id here. 
+        int userId = 2; //To get the user you would like, choose users id here. 
 
         protected void Page_Load(object sender, EventArgs e) //Session[username] gets set here
         {

@@ -131,6 +131,10 @@ namespace Uppg_4_Dry_Jos_Star
             List<Question> questions = new List<Question>();
             foreach (Question q in xmlResult)
             {
+                if (q.NumOfCorrect == "Antal korrekta svar: (1)")
+                {
+                    q.NumOfCorrect = "";
+                }
                 questions.Add(q);
             }
             var queryResult = from e in xDoc.Descendants("question")
