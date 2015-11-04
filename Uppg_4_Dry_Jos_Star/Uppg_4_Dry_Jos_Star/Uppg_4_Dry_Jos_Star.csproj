@@ -86,7 +86,6 @@
     <Content Include="js\jquery.responsivetable.js" />
     <Content Include="js\timer.js" />
     <Content Include="licencieringstest.aspx" />
-    <Content Include="js\responsive_grid.js" />
     <Content Include="js\screensize.js" />
     <Content Include="start1.aspx" />
     <Content Include="startButtons.js" />
