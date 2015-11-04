@@ -22,8 +22,8 @@ namespace Uppg_4_Dry_Jos_Star
 
         private void SetUpPage()  //request.querystring[username]
         {
-            //string userName = Request.QueryString["userName"];
-            string userName = "tomKar";
+            string userName = Request.QueryString["userName"];
+            //string userName = "aliBas";
             lblUserName.Text = userName;
             GetTeamMembers(userName);
         }
@@ -98,22 +98,20 @@ namespace Uppg_4_Dry_Jos_Star
             int notToDoTest = allTeamMembers - toDoTestCount;
 
             Chart1.Series["series"].Points.AddXY(toDoTestCount.ToString(), toDoTestCount);
-            Chart1.Series["series"].Points.AddY(notToDoTest);
+            Chart1.Series["series"].Points.AddXY(notToDoTest.ToString(), notToDoTest);
             Chart1.Series[0].Points[0].Color = Color.Red;
             Chart1.Series[0].Points[1].Color = Color.LightGreen;
-            Chart1.Series[0].Points[1]["Exploded"] = "true";
 
             Chart1.Titles["title"].Font = new System.Drawing.Font("Trebuchet MS", 10, System.Drawing.FontStyle.Bold);
         }
 
-        protected void Button1_Click(object sender, EventArgs e)
+        protected void Button1_Click(object sender, EventArgs e) //request.querystring[username]
         {
             string userName = Request.QueryString["userName"];
-            Response.Redirect("~/licencieringstest.aspx"); 
-
+            Response.Redirect("~/licencieringstest.aspx?userName=" + userName); 
         }
 
-        protected void Button2_Click(object sender, EventArgs e)
+        protected void Button2_Click(object sender, EventArgs e) //request.querystring[username]
         {
             string userName = Request.QueryString["userName"];
             Response.Redirect("~/adminStats.aspx?userName=" + userName);
