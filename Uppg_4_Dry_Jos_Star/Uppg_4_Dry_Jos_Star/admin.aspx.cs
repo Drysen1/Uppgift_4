@@ -22,7 +22,8 @@ namespace Uppg_4_Dry_Jos_Star
 
         private void SetUpPage()  //request.querystring[username]
         {
-            string userName = Request.QueryString["userName"];
+            //string userName = Request.QueryString["userName"];
+            string userName = "tomKar";
             lblUserName.Text = userName;
             GetTeamMembers(userName);
         }
@@ -54,110 +55,41 @@ namespace Uppg_4_Dry_Jos_Star
             {
                 Person toDoTest = new Person();
 
-                if(pair.Count(x =>x.TestType == "LST") > 1) //if there are more than 1 LST test we need to check if at least one is passed
-                {
-                    toDoTest = CheckPersonMultipleTest(pair, toDoTest, "LST");
-                    if (toDoTest.FirstName != null)
-                    {
-                        toDoTest.TestWaiting = "ÅKU";
-                        personsWithUndoneTests.Add(toDoTest);
-                    }
-                    else if (toDoTest.TestGrade != "Godkänd") //person has failed all attempts
-                    {
-                        var query = pair.OrderByDescending(x => x.TestDate); //I want the failed attempt closest in time
-                        toDoTest = query.ElementAt(0);
-                        toDoTest.TestWaiting = "LST";
-                        personsWithUndoneTests.Add(toDoTest);
-                    }
-                }
-                else if (pair.Count(x => x.TestType == "ÅKU") > 1) //if there are more than 1 ÅKU test we need to check if at least one is passed
-                {
-                    toDoTest = CheckPersonMultipleTest(pair, toDoTest, "ÅKU");
-                    if (toDoTest.FirstName != null)
-                    {
-                        toDoTest.TestWaiting = "ÅKU";
-                        personsWithUndoneTests.Add(toDoTest);
-                    }
-                    else if(toDoTest.TestGrade != "Godkänd") //person has failed all attempts
-                    {
-                        var query = pair.OrderByDescending(x => x.TestDate); //I want the failed attempt closest in time
-                        toDoTest = query.ElementAt(0);
-                        toDoTest.TestWaiting = "ÅKU";
-                        personsWithUndoneTests.Add(toDoTest);
-                    }
-                }
-                else if (pair.Count() == 2) // if there are one of each type, LST will always be "Godkänd"
-                {
-                    foreach (Person p in pair)
-                    {
-                        if (p.TestType == "ÅKU" && p.TestGrade == "Underkänd")
-                        {
-                            toDoTest = p;
-                            toDoTest.TestWaiting = "ÅKU";
-                            personsWithUndoneTests.Add(toDoTest);
-                        }
-                        else if (p.TestType == "ÅKU" && p.TestGrade == "Godkänd") 
-                        {
-                            DateTime passedTestDate = DateTime.Parse(p.TestDate);
-                            if (passedTestDate.AddYears(1) < DateTime.Now) //due for a new ÅKU?
-                            {
-                                toDoTest = p;
-                                toDoTest.TestWaiting = "ÅKU";
-                                personsWithUndoneTests.Add(toDoTest);
-                            }
-                        }
-                    }
-                }
-                else  //will always be one
-                {
-                    Person p = pair.ElementAt(0);
+                var ordered = pair.OrderByDescending(x => x.TestDate); //we want the last test, regardless how many there are in total
+                Person lastTest = ordered.ElementAt(0); 
 
-                    if (p.TestDate == String.Empty)
+                if (lastTest.TestDate == String.Empty)
+                {
+                    toDoTest = lastTest;
+                    toDoTest.TestWaiting = "LST";
+                    personsWithUndoneTests.Add(toDoTest);
+                }
+                else if (lastTest.TestType == "LST" && lastTest.TestGrade == "Underkänd")
+                {
+                    toDoTest = lastTest;
+                    toDoTest.TestWaiting = "LST";
+                    personsWithUndoneTests.Add(toDoTest);
+                }
+                else if (lastTest.TestType == "ÅKU" && lastTest.TestGrade == "Underkänd")
+                {
+                    toDoTest = lastTest;
+                    toDoTest.TestWaiting = "ÅKU";
+                    personsWithUndoneTests.Add(toDoTest);
+                }
+                else //is date due for ÅKU
+                {
+                    DateTime passedTestDate = DateTime.Parse(lastTest.TestDate);
+                    if (passedTestDate.AddYears(1) < DateTime.Now)
                     {
-                        toDoTest = p;
-                        toDoTest.TestWaiting = "LST";
+                        toDoTest = lastTest;
+                        toDoTest.TestWaiting = "ÅKU";
                         personsWithUndoneTests.Add(toDoTest);
-                    }
-                    else if (p.TestType == "LST" && p.TestGrade == "Underkänd")
-                    {
-                        toDoTest = p;
-                        toDoTest.TestWaiting = "LST";
-                        personsWithUndoneTests.Add(toDoTest);
-                    }
-                    else if (p.TestType == "LST" && p.TestGrade == "Godkänd") //is date due for ÅKU
-                    {
-                        DateTime passedTestDate = DateTime.Parse(p.TestDate);
-                        if (passedTestDate.AddYears(1) < DateTime.Now)
-                        {
-                            toDoTest = p;
-                            toDoTest.TestWaiting = "ÅKU";
-                            personsWithUndoneTests.Add(toDoTest);
-                        }
                     }
                 }
             }   
             return personsWithUndoneTests;
         }
-
-        private Person CheckPersonMultipleTest(IGrouping<string, Person> pair, Person toDoTest, string testType)
-        {
-            var result = pair.Where(x => x.TestType == testType && x.TestGrade == "Godkänd").OrderByDescending(x => x.TestDate);
-
-            if (result.Any()) // same as using if (Count!=0), count is however not availible with linq queryresult
-            {
-                toDoTest.TestGrade = "Godkänd";
-
-                Person p = result.ElementAt(0); //always want the element closest in time
-                DateTime testDate = DateTime.Parse(p.TestDate);
-                
-                if (testDate.AddYears(1) < DateTime.Now) //check if date is due for ÅKU test
-                {
-                    toDoTest = p;
-                }
-            }
-            return toDoTest;
-        }
-
+       
         private void PopulateChart(List<Person> personsWithUndoneTests, List<Person> allMembers)
         {
             var queryResult = allMembers.GroupBy(x => x.UserName);

@@ -29,12 +29,10 @@
         </div>
         <div class="halfBox" id="center-team">
             <h3 class="home-h3">Medarbetare</h3>
-            <br/>
-            <p class="home-text"></p>
-            <div style="text-align:center;">
+            <div class="fullBox" style="margin-top:30px">
                 <asp:Chart ID="Chart1" runat="server" Width="300" Height="300">
                     <Titles>
-                        <asp:Title Name="title" Text="Teammedlemmar med test att utföra"></asp:Title>
+                        <asp:Title Name="title" Text="Teammedlemmar med test att utföra" Alignment="TopLeft"></asp:Title>
                     </Titles>
                     <Series>
                         <asp:Series Name="series" ChartType="Pie"></asp:Series>
@@ -48,10 +46,7 @@
         </div>
         <div class="halfBox" id="center-stats">
             <h3 class="home-h3">Statistik</h3>
-            <p class="home-text">&nbsp;</p>
-            <p class="home-text">&nbsp;</p> 
-            <br />
-            <br />           
+            <img src="img/statsImage.jpg" style="margin: 70px 0 34px 20px" />
             <asp:Button ID="Button2" runat="server" Text="Se statistik" CssClass="my-button button-80" OnClick="Button2_Click" />
         </div>
     </div>
