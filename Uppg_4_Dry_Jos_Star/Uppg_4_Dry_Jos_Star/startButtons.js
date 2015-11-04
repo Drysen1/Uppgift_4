@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
-    alert("Laddat!");
-    var text = $("h1").Text();
-    alert("Texten borde vara här ----> " + text);
+    //alert("Laddat!");
+    //var text = $("h1").Text();
+    //alert("Texten borde vara här ----> " + text);
     //if (text == "Inte godkänd") {
     //    alert("Inte godkännnnndddd");
     //}

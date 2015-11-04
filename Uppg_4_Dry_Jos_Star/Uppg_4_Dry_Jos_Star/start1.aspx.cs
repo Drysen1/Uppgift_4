@@ -143,6 +143,8 @@ namespace Uppg_4_Dry_Jos_Star
                     toDoTest = "1";
                     btnStartTest.Enabled = true;
                     btnGoToOldTest.Enabled = false;
+                    btnGoToOldTest.Style.Add("background", "#66c7f1");
+                    btnGoToOldTest.Style.Add("cursor", "not-allowed");
                     return toDoTest;
                 }
                 else
@@ -151,7 +153,11 @@ namespace Uppg_4_Dry_Jos_Star
                     lblNextTestDate.Text = nextTestDate.ToString("yyyy-MM-dd");
                     toDoTest = "1";
                     btnStartTest.Enabled = false;
+                    btnStartTest.Style.Add("background", "#66c7f1");
+                    btnStartTest.Style.Add("cursor", "not-allowed");
                     btnGoToOldTest.Enabled = false;
+                    btnGoToOldTest.Style.Add("background", "#66c7f1");
+                    btnGoToOldTest.Style.Add("cursor", "not-allowed");
                     return toDoTest;
                 }
             }
@@ -170,6 +176,8 @@ namespace Uppg_4_Dry_Jos_Star
                     lblNextTestDate.Text = nextTestDate.ToString("yyyy-MM-dd");
                     toDoTest = "0";
                     btnStartTest.Enabled = false;
+                    btnStartTest.Style.Add("background", "#66c7f1");
+                    btnStartTest.Style.Add("cursor", "not-allowed");
                     return toDoTest;
                 }
             }
