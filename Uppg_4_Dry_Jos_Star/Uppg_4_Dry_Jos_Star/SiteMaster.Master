@@ -70,7 +70,7 @@
               <li><a id="adminButton" runat="server" href="admin.aspx" onserverclick="adminButton_ServerClick">ADMINPANEL</a></li>                                                                  
             </ul>
             <ul class="main-navbar right">
-              <li><a href='logout.aspx'>LOGGA UT</a></li>                               
+              <li><a href='#'>LOGGA UT</a></li>                               
             </ul>
             
             <a href="#open-menu" class="open-menu-link">☰ MENY</a>
@@ -79,7 +79,7 @@
                 <li><a  href="#">☰ STÄNG MENY</a></li>
                 <li><a class="active" href='start1.aspx'>START</a></li>
                 <li><a id="a1" runat="server" href='admin.aspx' onserverclick="adminButton_ServerClick">ADMINPANEL</a></li>      
-                <li><a href="logout.aspx">LOGGA UT</a></li>                                 
+                <li><a href="#">LOGGA UT</a></li>                                 
               </ul>
             </div>
         </div>
