@@ -16,29 +16,35 @@
         <h1>STATISTIK</h1>
     </div>
     <div class="fullBox">
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+            <ContentTemplate>
+                <div class="fullBox dropDown-Box">
+                    <div class="quarterBox">
+                        <p class="home-text">
+                            <asp:Label ID="Label1" runat="server">Välj typ av prov:</asp:Label>
+                            <asp:DropDownList  ID="pickTestType" CssClass="DropDown" runat="server" AutoPostBack="True" OnSelectedIndexChanged="pickTestType_SelectedIndexChanged"></asp:DropDownList>
+                        </p>
+                    </div>
 
-        <div class="fullBox dropDown-Box">
-            <div class="quarterBox">
-                <p class="home-text">
-                    <asp:Label ID="Label1" runat="server">Välj typ av prov:</asp:Label>
-                    <asp:DropDownList  ID="pickTestType" CssClass="DropDown" runat="server" AutoPostBack="True" OnSelectedIndexChanged="pickTestType_SelectedIndexChanged"></asp:DropDownList>
-                </p>
-            </div>
+                    <div class="sevenFiveBox" >
+                        <p class="home-text">
+                            <asp:Label ID="Label2" runat="server">Välj kategori:</asp:Label>            
+                            <asp:DropDownList ID="pickTestCategory" CssClass="DropDown DropDown-75" runat="server" AutoPostBack="True" OnSelectedIndexChanged="pickTestCategory_SelectedIndexChanged"></asp:DropDownList>
+                        </p>
+                    </div>
+                </div>
 
-            <div class="sevenFiveBox" >
-                <p class="home-text">
-                    <asp:Label ID="Label2" runat="server">Välj kategori:</asp:Label>            
-                    <asp:DropDownList ID="pickTestCategory" CssClass="DropDown DropDown-75" runat="server" AutoPostBack="True" OnSelectedIndexChanged="pickTestCategory_SelectedIndexChanged"></asp:DropDownList>
-                </p>
-            </div>
-        </div>
+                <div id="gridCategory" class="fullBox">
+                    <h3 id="header" runat="server"></h3>
+                    <asp:GridView ID="gViewStatsCategory" runat="server" OnRowDataBound="gViewStatsCategory_RowDataBound" RowStyle-Wrap="false" CssClass="Grid">
 
-        <div id="gridCategory" class="fullBox">
-            <h3 id="header" runat="server"></h3>
-            <asp:GridView ID="gViewStatsCategory" runat="server" OnRowDataBound="gViewStatsCategory_RowDataBound" RowStyle-Wrap="false" CssClass="Grid">
+                    </asp:GridView>
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
 
-            </asp:GridView>
-        </div>
+
         <div class="fullBox chart-box" id="page-title">
             <h2 class="home-h2">STAPELDIAGRAM</h2>
         </div>

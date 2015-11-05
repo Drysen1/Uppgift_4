@@ -11,24 +11,30 @@
             });
         });
     </script>
-
+    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     <div class="fullBox" id="page-title">
         <h1>ÖVERSIKT</h1>
     </div>
-    <div class="fullBox" id="body-content">
-        <p class="home-text">
-            Filtrera: <asp:DropDownList ID="DropDownList1" runat="server" CssClass="DropDown" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
-        </p>
-        <p class="home-text">
-            <br />
-            LST = Licensieringstest
-            <br />
-            ÅKU = Årligt kunskapsprov
-        </p>
-        <br />
-        <asp:GridView ID="GridView1" CssClass="lst-grid" runat="server" OnRowDataBound="GridView1_RowDataBound">
-        </asp:GridView>
-        <br />
-    </div>
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <ContentTemplate>
+            <div class="fullBox" id="body-content">
+                <p class="home-text">
+                    Filtrera: <asp:DropDownList ID="DropDownList1" runat="server" CssClass="DropDown" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                </p>
+                <p class="home-text">
+                    <br />
+                    LST = Licensieringstest
+                    <br />
+                    ÅKU = Årligt kunskapsprov
+                </p>
+                <br />
+                <asp:GridView ID="GridView1" CssClass="lst-grid" runat="server" OnRowDataBound="GridView1_RowDataBound">
+                </asp:GridView>
+                <br />
+            </div>
+        </ContentTemplate>
+
+    </asp:UpdatePanel>
+
 </asp:Content>
 
