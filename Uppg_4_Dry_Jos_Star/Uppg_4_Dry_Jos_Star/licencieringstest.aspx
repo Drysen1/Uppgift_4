@@ -20,7 +20,6 @@
             Filtrera: <asp:DropDownList ID="DropDownList1" runat="server" CssClass="DropDown" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
         </p>
         <p class="home-text">
-            Personer som har ett test att genomföra
             <br />
             LST = Licensieringstest
             <br />
