@@ -174,6 +174,7 @@ namespace Uppg_4_Dry_Jos_Star
             {
                 string userName = GetUserName();
                 List<Person> team = GetTeamMembers(userName);
+                team = team.Where(x => x.TestGrade != null).ToList();
                 visibleTestWaitingColumn = false;
                 FillGrid(team);
             }

@@ -35,7 +35,7 @@
             <h3 class="home-h3" >PROVSTATUS</h3>
             <p class="home-text">Du har för närvarande <asp:Label ID="lbltestToDo" runat="server" Text="Label"></asp:Label> prov att genomföra.</p>
             <p class="home-text">Prov kan tidigast genomföras: <asp:Label ID="lblNextTestDate" runat="server" Text="Label"></asp:Label></p>
-            <p class="home-text">Provtyp att göra: <asp:Label ID="lblTestType" runat="server" Text="Label"></asp:Label></p>
+            <p class="home-text">Provtyp att göra: <asp:Label ID="lblTestType" runat="server" Text=""></asp:Label></p>
             <br />
             <asp:Button title="Klicka här för att starta ditt test. Har du inget test att göra är knappen avstängd." ID="btnStartTest" runat="server" Text="STARTA PROV" CssClass="my-button button-80" OnClick="Button1_Click" />
         </div>
@@ -43,7 +43,7 @@
             <h3 class="home-h3">DITT SENASTE PROV</h3>
             <p class="home-text">Provresultat: <asp:Label ID="lblresult" runat="server" Text="Label"></asp:Label></p>
             <p class="home-text">Provdatum: <asp:Label ID="lbldate" runat="server" Text="Label"></asp:Label></p>  
-            <p class="home-text">Provtyp: <asp:Label ID="lblTestTypeDone" runat="server" Text="Label"></asp:Label></p>
+            <p class="home-text">Provtyp: <asp:Label ID="lblTestTypeDone" runat="server" Text=""></asp:Label></p>
             <br />
             <asp:Button title="Du kan bara se prov som du är godkänd på" ID="btnGoToOldTest" runat="server" Text="SE SENASTE PROVET" CssClass="my-button button-80"  OnClick="Button2_Click" />
         </div>
