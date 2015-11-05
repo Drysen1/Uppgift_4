@@ -23,20 +23,6 @@
       <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
       <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>      
 
-                 <!-- Script för att testa att rätt sträng tas ut
-                      finns kvar för att det tar lång tid ibland att ladda in så under tiden
-                     sidan laddas kan man göra nåt annat och så när det är färdigt laddat får
-                     man en alert box -->
-      <script type="text/javascript">
-
-          $(document).ready(function () {
-              var url = window.location.pathname;
-              var substr = url.split('/');
-              var urlaspx = substr[substr.length - 1];
-              //alert(urlaspx);
-
-          });
-      </script>
         <!-- Script för att highligta rätt meny val -->
       <script type="text/javascript">
           $(document).ready(function () {

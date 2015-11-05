@@ -20,7 +20,7 @@ window.onload = function () {
 }
 
 function countDown() {
-    var countdown = 0.2 * 60 * 1000;
+    var countdown = 30 * 60 * 1000;
     var timerId = setInterval(countDownTimer, 1000);
 
     function countDownTimer() {
