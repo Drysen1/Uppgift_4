@@ -83,6 +83,7 @@
     <Content Include="img\btn_correct.png" />
     <Content Include="img\btn_incorrect.png" />
     <Content Include="img\statsImage.jpg" />
+    <Content Include="img\statspic.jpg" />
     <Content Include="js\jquery.responsivetable.js" />
     <Content Include="js\timer.js" />
     <Content Include="licencieringstest.aspx" />
