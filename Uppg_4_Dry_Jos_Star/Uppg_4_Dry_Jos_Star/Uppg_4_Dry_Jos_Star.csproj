@@ -87,8 +87,8 @@
     <Content Include="js\timer.js" />
     <Content Include="licencieringstest.aspx" />
     <Content Include="js\screensize.js" />
+    <Content Include="logout.aspx" />
     <Content Include="start1.aspx" />
-    <Content Include="startButtons.js" />
     <Content Include="test.aspx" />
     <Content Include="UserOldTest.aspx" />
     <Content Include="xml\questions.xml">
@@ -166,6 +166,13 @@
     </Compile>
     <Compile Include="licencieringstest.aspx.designer.cs">
       <DependentUpon>licencieringstest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="logout.aspx.cs">
+      <DependentUpon>logout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="logout.aspx.designer.cs">
+      <DependentUpon>logout.aspx</DependentUpon>
     </Compile>
     <Compile Include="Person.cs" />
     <Compile Include="TestMaster.Master.cs">

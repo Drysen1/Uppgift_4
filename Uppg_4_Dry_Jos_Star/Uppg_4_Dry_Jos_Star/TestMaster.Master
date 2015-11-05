@@ -23,20 +23,6 @@
       <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
       <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>      
 
-                 <!-- Script för att testa att rätt sträng tas ut
-                      finns kvar för att det tar lång tid ibland att ladda in så under tiden
-                     sidan laddas kan man göra nåt annat och så när det är färdigt laddat får
-                     man en alert box -->
-      <script type="text/javascript">
-
-          $(document).ready(function () {
-              var url = window.location.pathname;
-              var substr = url.split('/');
-              var urlaspx = substr[substr.length - 1];
-              //alert(urlaspx);
-
-          });
-      </script>
         <!-- Script för att highligta rätt meny val -->
       <script type="text/javascript">
           $(document).ready(function () {
@@ -62,7 +48,7 @@
       <div class="content">
         <div class="contentRow">
             <ul class="main-navbar">
-              <li><a class="active" href='default.aspx'>HEM</a></li>
+              <li><a class="active" href='start1.aspx'>HEM</a></li>
               <li><a id="adminButton" runat="server" href="#" onserverclick="adminButton_ServerClick">ADMINPANEL</a></li>                                                                  
             </ul>
             <ul class="main-navbar right">
@@ -73,7 +59,7 @@
             <div class="responsive-navbar-holder" id="open-menu">
               <ul class="responsive-navbar">
                 <li><a  href="#">☰ STÄNG MENY</a></li>
-                <li><a class="active" href='index.html'>HEM</a></li>
+                <li><a class="active" href='start1.aspx'>HEM</a></li>
                 <li><a id="a1" runat="server" href='admin.aspx'>ADMINPANEL</a></li>      
                 <li><a href="logout.aspx">LOGGA UT</a></li>                                 
               </ul>
