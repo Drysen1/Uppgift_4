@@ -238,7 +238,7 @@ h3 {
 .main-navbar {
 	list-style: none;
 	display: block;
-	 float: left; 
+    float: left; 
 }
 
 .main-navbar > li {
@@ -575,7 +575,7 @@ h3 {
 }
 
 .mail-links:hover {
-	color: #DB4C4C;
+	color: #66c7f1;
 }
 
 
@@ -586,7 +586,7 @@ h3 {
 	margin-bottom: 0.3em;
 }
 .phone-links:hover {
-	color: #DB4C4C;
+	color: #66c7f1;
 }
 
 /*****************************************************

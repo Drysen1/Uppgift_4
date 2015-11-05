@@ -53,7 +53,7 @@
             
             <ul class="main-navbar">
               <li><a class="active" href='start1.aspx'>START</a></li>
-              <li><a href="#" id="adminButton" runat="server" onserverclick="adminButton_ServerClick">ADMINPANEL</a></li>                                                                  
+              <li><a href="admin.aspx" id="adminButton" runat="server" onserverclick="adminButton_ServerClick">ADMINPANEL</a></li>                                                                  
             </ul>
             <ul class="main-navbar right">
               <li><a href='logout.aspx'>LOGGA UT</a></li>                               
@@ -64,7 +64,7 @@
               <ul class="responsive-navbar">
                 <li><a  href="#">☰ STÄNG MENY</a></li>
                 <li><a class="active" href='start1.aspx'>START</a></li>
-                <li><a href='#' id="a1" runat="server" onserverclick="adminButton_ServerClick">ADMINPANEL</a></li>      
+                <li><a href='admin.aspx' id="a1" runat="server" onserverclick="adminButton_ServerClick">ADMINPANEL</a></li>      
                 <li><a href="logout.aspx">LOGGA UT</a></li>                                 
               </ul>
             </div>

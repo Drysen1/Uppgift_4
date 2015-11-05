@@ -49,7 +49,7 @@
         <div class="contentRow">
             <ul class="main-navbar">
               <li><a class="active" href='start1.aspx'>HEM</a></li>
-              <li><a id="adminButton" runat="server" href="#" onserverclick="adminButton_ServerClick">ADMINPANEL</a></li>                                                                  
+              <li><a id="adminButton" runat="server" href="admin.aspx" onserverclick="adminButton_ServerClick">ADMINPANEL</a></li>                                                                  
             </ul>
             <ul class="main-navbar right">
               <li><a href='logout.aspx'>LOGGA UT</a></li>                               

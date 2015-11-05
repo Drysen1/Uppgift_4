@@ -34,6 +34,7 @@ function countDown() {
         else {
             $("#timer").html(min + " : " + sec);
         }
+        if(min > 1 && min < 5)
         if (min < 1) {
             $(".timer-holder").css("background", "red");
         }
