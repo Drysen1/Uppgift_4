@@ -10,7 +10,7 @@
     <div class="fullBox">
         <div class="fullBox" >
             <h2 class="home-h2">Välkommen <asp:Label ID="lblUserName" runat="server" Text="Label"></asp:Label></h2>
-            <p class="home-text">Välkommen till administationsdelen av JE Bankens kompetensportal. <br/> På denna sida kan du som provledare se när personerna i ditt team gjort Licenceringstestet och det årliga ÅKU.
+            <p class="home-text">Välkommen till administrationsdelen av JE Bankens kompetensportal. <br/> På denna sida kan du som provledare se när personerna i ditt team gjort Licenceringstestet och det årliga ÅKU.
                
                 <br />
             </p>
