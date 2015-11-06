@@ -161,7 +161,7 @@ namespace Uppg_4_Dry_Jos_Star
                                     "FROM testoccasion t JOIN person p ON t.id_user = p.id "+
                                     "WHERE testtype = @testType AND id_testadmin = "+
                                     "(SELECT id FROM person WHERE username = @userName) " +
-                                    "ORDER BY date DESC ";
+                                    "ORDER BY lastname, date DESC ";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                     {
