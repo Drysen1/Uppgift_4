@@ -3,15 +3,7 @@
     <title>STATISTIK</title>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-<script src="js/jquery.responsivetable.js"></script>
-<script src="js/screensize.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('table').responsiveTable({
-                staticColumns: 0
-            });
-        });
-    </script>
+
     <div class="fullBox" id="page-title">
         <h1>STATISTIK</h1>
     </div>
@@ -19,6 +11,22 @@
         <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
             <ContentTemplate>
+            <script src="js/jquery.responsivetable.js"></script>
+            <script src="js/screensize.js"></script>
+            <script>
+                $(document).ready(function () {
+                    $('table').responsiveTable({
+                        staticColumns: 0
+                    });
+                });
+                var prm = Sys.WebForms.PageRequestManager.getInstance();
+
+                prm.add_endRequest(function () {
+                    $('table').responsiveTable({
+                        staticColumns: 0
+                    });
+                });
+            </script>
                 <div class="fullBox dropDown-Box">
                     <div class="quarterBox">
                         <p class="home-text">
