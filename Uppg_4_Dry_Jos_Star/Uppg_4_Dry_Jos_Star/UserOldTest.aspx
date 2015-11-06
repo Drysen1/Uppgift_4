@@ -5,15 +5,19 @@
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+    <!-- CONTENT START ======================================================================= -->
     <div class="fullBox" id="page-title">        
         <h1>DITT SENASTE PROV</h1>
     </div>
     <div class="fullBox" id="page-title">        
         <h3 class="home-h3">SENASTE PROV FÖR: <asp:Label ID="lblUserName" runat="server" Text="Label"></asp:Label></h3>
     </div>
+
+    <!-- PIE CHARTS ======================================================================= -->
     <div id="bodyContent" class="fullBox" runat="server">
-        <div id="finalResult" style="margin-top: 20px;" class="fullBox" runat="server">
-            <div class="quarterBox" style="text-align: center; border: 1px solid black;">
+        <div id="finalResult" class="fullBox result-box" runat="server">
+            <div class="quarterBox">
                 <asp:Chart ID="totalChart" CssClass="home-img" runat="server" Width="300" Height="300">
                     <Titles>
                         <asp:Title Text=""></asp:Title>
@@ -27,7 +31,7 @@
                 </asp:Chart>
                 <asp:Label Style="font-weight: bold" ID="resultTotal" runat="server" Text="Label"></asp:Label>
             </div>
-            <div class="quarterBox" style="text-align: center;">
+            <div class="quarterBox center-text">
                 <asp:Chart  ID="categoryChart1" CssClass="home-img" runat="server" Width="300" Height="300">
                     <Titles>
                         <asp:Title Text=""></asp:Title>
@@ -41,7 +45,7 @@
                 </asp:Chart>
                 <asp:Label ID="resultCategory1" runat="server" Text="Label"></asp:Label>
             </div>
-            <div class="quarterBox" style="text-align: center;">
+            <div class="quarterBox center-text">
                 <asp:Chart ID="categoryChart2" CssClass="home-img" runat="server" Width="300" Height="300">
                     <Titles>
                         <asp:Title Text=""></asp:Title>
@@ -55,7 +59,7 @@
                 </asp:Chart>
                 <asp:Label ID="resultCategory2" runat="server" Text="Label"></asp:Label>
             </div>
-            <div class="quarterBox" style="text-align: center;">
+            <div class="quarterBox center-text">
                 <asp:Chart ID="categoryChart3" CssClass="home-img" runat="server" Width="300" Height="300">
                     <Titles>
                         <asp:Title Text=""></asp:Title>
@@ -69,42 +73,46 @@
                 </asp:Chart>
                 <asp:Label ID="resultCategory3" runat="server" Text="Label"></asp:Label>
             </div>
-            <div class="fullBox" style="margin-top: 20px">
-            <asp:Label style="margin-right: 10px; font-weight:bold; font-size: 1.2em;" ID="testPassed" runat="server" >Provresultat:</asp:Label>
-            <asp:Image style="vertical-align:middle;" ID="yesNoImg"  runat="server"/>
+
+            <div class="fullBox">
+                <h3 class="category-h3"><asp:Label ID="testPassed" runat="server" >Provresultat:</asp:Label> <asp:Image  ID="yesNoImg"  runat="server"/></h3>
+            </div>
         </div>
-        </div>
+        
+        <!-- REPEATERS ======================================================================= -->
         <div id="repeaters" class="fullBox" runat="server"> 
             <asp:Repeater ID="Repeater1" runat="server" OnItemDataBound="Repeater1_ItemDataBound">
                 <HeaderTemplate>
-                    <div id="category_container" style="border: 1px solid black; margin: 20px 0;">
-                        <asp:Label ID="categoryText" Style="font-size: 30px; font-weight: bold;" runat="server"></asp:Label>
+                    <div id="category_container" class="fullBox" >
+                        <div class="fullBox" id="page-title">
+                            <h3 class="category-h3"><asp:Label ID="categoryText" runat="server"></asp:Label></h3>
+                        </div>
                 </HeaderTemplate>
                 <ItemTemplate>
-                    <div style="margin: 20px 0;">
-                        <asp:Label ID="questionId" Style="font-weight: bold;" Text='<%# Eval("AnswerOrder") %>' runat="server"></asp:Label>
-                        <asp:Label ID="question" Style="font-weight: bold;" Text='<%# Eval("Text") %>' runat="server"></asp:Label>
-                        <asp:Image ID="questionImage" ImageUrl='<%# Eval("AnswerImageUrl") %>' runat="server" />
-                        <div style="margin: 5px 0 10px 0;">
-                            <asp:Label ID="numOfcorrect" Style="font-style: italic;" Text='<%# Eval("NumOfCorrect") %>' runat="server"></asp:Label>
+                        <div class="fullBox">
+                            <div class="fullBox">
+                                <h4 class="category-h4">
+                                    <asp:Label ID="questionId" Text='<%# Eval("AnswerOrder") %>' runat="server"></asp:Label>
+                                    <asp:Label ID="question" Text='<%# Eval("Text") %>' runat="server"></asp:Label>
+                                    <asp:Image ID="questionImage" ImageUrl='<%# Eval("AnswerImageUrl") %>' runat="server" />
+                                </h4>
+                            </div>
+                        <div class="fullBox">
+                             <p class="num-text"><asp:Label ID="numOfcorrect" Text='<%# Eval("NumOfCorrect") %>' runat="server"></asp:Label></p>
                         </div>
-                        <div>
+                        <div class="fullBox">
                             <asp:Image ID="questionPicture" ImageUrl='<%# Eval("QuestionPictureUrl") %>' runat="server" />
                         </div>
-                        <table>
-                            <tr>
-                                <td>
-                                    <asp:CheckBox ID="cBox1" class='<%# Eval("CssClasses[0]") %>' runat="server" Text='<%# Eval("Answers[0]") %>' /></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <asp:CheckBox ID="cBox2" class='<%# Eval("CssClasses[1]") %>' runat="server" Text='<%# Eval("Answers[1]") %>' /></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <asp:CheckBox ID="CBox3" class='<%# Eval("CssClasses[2]") %>' runat="server" Text='<%# Eval("Answers[2]") %>' /></td>
-                            </tr>
-                        </table>
+                        <div class="fullBox checkbox-style">
+                            <asp:CheckBox ID="cBox1" class='<%# Eval("CssClasses[0]") %>' runat="server" Text='<%# Eval("Answers[0]") %>' />
+
+                        </div>
+                        <div class="fullBox checkbox-style">
+                            <asp:CheckBox ID="cBox2" class='<%# Eval("CssClasses[1]") %>' runat="server" Text='<%# Eval("Answers[1]") %>' />
+                        </div>
+                        <div class="fullBox checkbox-style">
+                            <asp:CheckBox ID="CBox3" class='<%# Eval("CssClasses[2]") %>' runat="server" Text='<%# Eval("Answers[2]") %>' />
+                        </div>
                     </div>
                 </ItemTemplate>
                 <FooterTemplate>
@@ -112,67 +120,79 @@
                 </FooterTemplate>
 
             </asp:Repeater>
+
             <asp:Repeater ID="Repeater2" runat="server" OnItemDataBound="Repeater2_ItemDataBound">
                 <HeaderTemplate>
-                    <div id="category_container" style="border:1px solid black; margin: 20px 0;">
-                        <asp:Label ID="categoryText" style="font-size: 30px; font-weight: bold;" runat="server"></asp:Label>
+                    <div id="category_container" class="fullBox" >
+                        <div class="fullBox" id="page-title">
+                            <h3 class="category-h3"><asp:Label ID="categoryText" runat="server"></asp:Label></h3>
+                        </div>
                 </HeaderTemplate>
                 <ItemTemplate>
-                        <div style="margin:20px 0;">
-                            <asp:Label ID="questionId" style="font-weight:bold;" Text=<%# Eval("AnswerOrder") %> runat="server"></asp:Label>
-                            <asp:Label ID="question" style="font-weight:bold;" Text=<%# Eval("Text") %> runat="server"></asp:Label>
-                            <asp:Image ID="questionImage" ImageUrl=<%# Eval("AnswerImageUrl") %> runat="server" />
-                            <div style="margin: 5px 0 10px 0;">
-                                <asp:Label ID="numOfcorrect" style="font-style: italic;" Text=<%# Eval("NumOfCorrect") %> runat="server"></asp:Label>
+                        <div class="fullBox">
+                            <div class="fullBox">
+                                <h4 class="category-h4">
+                                    <asp:Label ID="questionId" Text='<%# Eval("AnswerOrder") %>' runat="server"></asp:Label>
+                                    <asp:Label ID="question" Text='<%# Eval("Text") %>' runat="server"></asp:Label>
+                                    <asp:Image ID="questionImage" ImageUrl='<%# Eval("AnswerImageUrl") %>' runat="server" />
+                                </h4>
                             </div>
-                            <div>
-                                <asp:Image ID="questionPicture" ImageUrl=<%# Eval("QuestionPictureUrl") %> runat="server" />
-                            </div>
-                            <table>
-                                <tr>
-                                    <td><asp:CheckBox ID="cBox1" class=<%# Eval("CssClasses[0]") %> runat="server" Text=<%# Eval("Answers[0]") %> /></td>
-                                </tr> 
-                                <tr>
-                                    <td><asp:CheckBox ID="cBox2" class=<%# Eval("CssClasses[1]") %> runat="server" Text=<%# Eval("Answers[1]") %> /></td>
-                                </tr> 
-                                <tr>
-                                    <td><asp:CheckBox ID="CBox3" class=<%# Eval("CssClasses[2]") %> runat="server" Text=<%# Eval("Answers[2]") %> /></td>
-                                </tr> 
-                            </table>
+                        <div class="fullBox">
+                             <p class="num-text"><asp:Label ID="numOfcorrect" Text='<%# Eval("NumOfCorrect") %>' runat="server"></asp:Label></p>
                         </div>
+                        <div class="fullBox">
+                            <asp:Image ID="questionPicture" ImageUrl='<%# Eval("QuestionPictureUrl") %>' runat="server" />
+                        </div>
+                        <div class="fullBox checkbox-style">
+                            <asp:CheckBox ID="cBox1" class='<%# Eval("CssClasses[0]") %>' runat="server" Text='<%# Eval("Answers[0]") %>' />
+
+                        </div>
+                        <div class="fullBox checkbox-style">
+                            <asp:CheckBox ID="cBox2" class='<%# Eval("CssClasses[1]") %>' runat="server" Text='<%# Eval("Answers[1]") %>' />
+                        </div>
+                        <div class="fullBox checkbox-style">
+                            <asp:CheckBox ID="CBox3" class='<%# Eval("CssClasses[2]") %>' runat="server" Text='<%# Eval("Answers[2]") %>' />
+                        </div>
+                    </div>
                 </ItemTemplate>
                 <FooterTemplate>
                     </div>
                 </FooterTemplate>
             </asp:Repeater>
+
             <asp:Repeater ID="Repeater3" runat="server" OnItemDataBound="Repeater3_ItemDataBound">
                 <HeaderTemplate>
-                    <div id="category_container" style="border:1px solid black; margin: 20px 0;">
-                        <asp:Label ID="categoryText" style="font-size: 30px; font-weight: bold;" runat="server"></asp:Label>
+                    <div id="category_container" class="fullBox" >
+                        <div class="fullBox" id="page-title">
+                            <h3 class="category-h3"><asp:Label ID="categoryText" runat="server"></asp:Label></h3>
+                        </div>
                 </HeaderTemplate>
                 <ItemTemplate>
-                        <div style="margin:20px 0;">
-                            <asp:Label ID="questionId" style="font-weight:bold;" Text=<%# Eval("AnswerOrder") %> runat="server"></asp:Label>
-                            <asp:Label ID="question" style="font-weight:bold;" Text=<%# Eval("Text") %> runat="server"></asp:Label>
-                            <asp:Image ID="questionImage" ImageUrl=<%# Eval("AnswerImageUrl") %> runat="server" />
-                            <div style="margin: 5px 0 10px 0;">
-                                <asp:Label ID="numOfcorrect" style="font-style: italic;" Text=<%# Eval("NumOfCorrect") %> runat="server"></asp:Label>
+                        <div class="fullBox">
+                            <div class="fullBox">
+                                <h4 class="category-h4">
+                                    <asp:Label ID="questionId" Text='<%# Eval("AnswerOrder") %>' runat="server"></asp:Label>
+                                    <asp:Label ID="question" Text='<%# Eval("Text") %>' runat="server"></asp:Label>
+                                    <asp:Image ID="questionImage" ImageUrl='<%# Eval("AnswerImageUrl") %>' runat="server" />
+                                </h4>
                             </div>
-                            <div>
-                                <asp:Image ID="questionPicture" ImageUrl=<%# Eval("QuestionPictureUrl") %> runat="server" />
-                            </div>
-                            <table>
-                                <tr>
-                                    <td><asp:CheckBox ID="cBox1" class=<%# Eval("CssClasses[0]") %> runat="server" Text=<%# Eval("Answers[0]") %> /></td>
-                                </tr> 
-                                <tr>
-                                    <td><asp:CheckBox ID="cBox2" class=<%# Eval("CssClasses[1]") %> runat="server" Text=<%# Eval("Answers[1]") %> /></td>
-                                </tr> 
-                                <tr>
-                                    <td><asp:CheckBox ID="CBox3" class=<%# Eval("CssClasses[2]") %> runat="server" Text=<%# Eval("Answers[2]") %> /></td>
-                                </tr> 
-                            </table>
+                        <div class="fullBox">
+                             <p class="num-text"><asp:Label ID="numOfcorrect" Text='<%# Eval("NumOfCorrect") %>' runat="server"></asp:Label></p>
                         </div>
+                        <div class="fullBox">
+                            <asp:Image ID="questionPicture" ImageUrl='<%# Eval("QuestionPictureUrl") %>' runat="server" />
+                        </div>
+                        <div class="fullBox checkbox-style">
+                            <asp:CheckBox ID="cBox1" class='<%# Eval("CssClasses[0]") %>' runat="server" Text='<%# Eval("Answers[0]") %>' />
+
+                        </div>
+                        <div class="fullBox checkbox-style">
+                            <asp:CheckBox ID="cBox2" class='<%# Eval("CssClasses[1]") %>' runat="server" Text='<%# Eval("Answers[1]") %>' />
+                        </div>
+                        <div class="fullBox checkbox-style">
+                            <asp:CheckBox ID="CBox3" class='<%# Eval("CssClasses[2]") %>' runat="server" Text='<%# Eval("Answers[2]") %>' />
+                        </div>
+                    </div>
                 </ItemTemplate>
                 <FooterTemplate>
                     </div>
